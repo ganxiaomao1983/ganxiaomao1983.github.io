@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Roborock Deutschland – Intelligente Reinigung für Dein Zuhause</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.6); opacity: 0.4; }
+    }
+    @keyframes rotateSlow {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+    @keyframes rotateSlow2 {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(-360deg); }
+    }
+    .card-hover {
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 56px rgba(22, 93, 255, 0.11) !important;
+    }
+    .grad {
+      background: linear-gradient(130deg, #165dff 0%, #36c2cf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-warm {
+      background: linear-gradient(130deg, #165dff 0%, #ff7849 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#f5f7ff;color:#0d1f3c;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden;">
+
+
+<!-- ══ FLOATING CTA BAR ══ -->
+<div id="floating-cta" style="position:fixed;bottom:0;left:0;right:0;z-index:999;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.16,1,0.3,1),opacity 0.4s ease;opacity:0;pointer-events:none;">
+  <div style="background:rgba(255,255,255,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(22,93,255,0.12);padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 -6px 30px rgba(22,93,255,0.09);">
+    <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0;">
+      <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#165dff,#36c2cf);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🤖</div>
+      <div>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:#8a9cc0;margin:0;">Roborock Deutschland</p>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:600;color:#0d1f3c;margin:0;">Jetzt entdecken &amp; bis zu 210 € sparen</p>
+      </div>
+    </div>
+    <a href="https://de.roborock.com/pages/roborock-store" target="_blank" rel="noopener"
+      style="flex-shrink:0;display:inline-block;padding:0.65rem 1.8rem;background:linear-gradient(135deg,#165dff,#36c2cf);color:#fff;font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-radius:100px;white-space:nowrap;box-shadow:0 4px 16px rgba(22,93,255,0.28);">
+      Zum Shop →
+    </a>
+  </div>
+  <div style="height:3px;background:#eef0f8;">
+    <div id="scroll-progress" style="height:100%;background:linear-gradient(to right,#165dff,#36c2cf);width:0%;transition:width 0.1s linear;"></div>
+  </div>
+</div>
+
+
+<!-- ══ HERO ══ -->
+<header style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden;background:linear-gradient(160deg,#eef2ff 0%,#f8faff 45%,#fff8f4 100%);">
+
+  <!-- Soft background blobs -->
+  <div style="position:absolute;top:-10%;left:-8%;width:55vw;height:55vw;max-width:700px;max-height:700px;background:radial-gradient(circle,rgba(22,93,255,0.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-10%;right:-8%;width:50vw;height:50vw;max-width:650px;max-height:650px;background:radial-gradient(circle,rgba(255,120,73,0.08) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;top:38%;left:62%;width:30vw;height:30vw;max-width:380px;max-height:380px;background:radial-gradient(circle,rgba(54,194,207,0.06) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+  <!-- Orbiting rings -->
+  <div style="position:absolute;top:50%;left:50%;width:min(82vw,580px);height:min(82vw,580px);border-radius:50%;border:1px dashed rgba(22,93,255,0.07);animation:rotateSlow 44s linear infinite;pointer-events:none;"></div>
+  <div style="position:absolute;top:50%;left:50%;width:min(64vw,450px);height:min(64vw,450px);border-radius:50%;border:1px dashed rgba(54,194,207,0.08);animation:rotateSlow2 30s linear infinite;pointer-events:none;"></div>
+
+  <!-- Floating accent dots -->
+  <div style="position:absolute;top:18%;left:13%;width:8px;height:8px;border-radius:50%;background:#165dff;opacity:0.25;animation:pulseDot 2.8s ease-in-out infinite;"></div>
+  <div style="position:absolute;top:28%;right:14%;width:6px;height:6px;border-radius:50%;background:#ff7849;opacity:0.35;animation:pulseDot 3.5s ease-in-out infinite 0.9s;"></div>
+  <div style="position:absolute;bottom:26%;left:19%;width:5px;height:5px;border-radius:50%;background:#36c2cf;opacity:0.45;animation:pulseDot 4.1s ease-in-out infinite 1.6s;"></div>
+
+  <div style="position:relative;z-index:1;padding:2rem 1.5rem;max-width:820px;animation:fadeUp 0.9s ease both;">
+
+    <!-- Live badge -->
+    <div style="display:inline-flex;align-items:center;gap:0.55rem;background:rgba(22,93,255,0.07);border:1.5px solid rgba(22,93,255,0.14);padding:0.38rem 1.1rem;border-radius:100px;margin-bottom:2rem;">
+      <span style="width:7px;height:7px;background:#165dff;border-radius:50%;display:inline-block;animation:pulseDot 2s infinite;flex-shrink:0;"></span>
+      <span style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#165dff;font-weight:600;">Offizieller Roborock Store · Deutschland</span>
+    </div>
+
+    <h1 style="font-family:'Outfit',sans-serif;font-size:clamp(3rem,8.5vw,7rem);line-height:1.0;letter-spacing:-0.03em;margin:0 0 1.6rem;font-weight:800;color:#0d1f3c;">
+      Dein Zuhause<br/>
+      <span class="grad">intelligent sauber.</span>
+    </h1>
+
+    <p style="font-size:1.1rem;font-weight:400;max-width:560px;margin:0 auto 2.5rem;color:#5a72a0;line-height:1.85;">
+      Roborock verbindet <strong style="color:#0d1f3c;font-weight:600;">KI-Navigation</strong>, branchenführende Saugkraft und vollautomatische Pflege – für mehr Zeit mit dem, was wirklich zählt.
+    </p>
+
+    <!-- Micro stats row -->
+    <div style="display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0.5rem 2rem;margin-bottom:2.8rem;">
+      <div style="display:flex;align-items:center;gap:0.4rem;">
+        <span style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:#165dff;">170+</span>
+        <span style="font-size:0.8rem;color:#8a9cc0;">Länder</span>
+      </div>
+      <div style="width:1px;height:18px;background:#dde4f0;"></div>
+      <div style="display:flex;align-items:center;gap:0.4rem;">
+        <span style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:#165dff;">36.000 Pa</span>
+        <span style="font-size:0.8rem;color:#8a9cc0;">Saugkraft</span>
+      </div>
+      <div style="width:1px;height:18px;background:#dde4f0;"></div>
+      <div style="display:flex;align-items:center;gap:0.4rem;">
+        <span style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:#165dff;">Seit 2014</span>
+        <span style="font-size:0.8rem;color:#8a9cc0;">Innovation</span>
+      </div>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#b0bdd8;">Entdecke die neue Generation ↓</p>
+  </div>
+
+  <!-- Scroll cue -->
+  <div style="position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:1;">
+    <div style="width:1.5px;height:44px;background:linear-gradient(to bottom,rgba(22,93,255,0.45),transparent);border-radius:1px;margin:0 auto;"></div>
+  </div>
+</header>
+
+
+<!-- ░░ IMAGE PLACEHOLDER 1 ░░ -->
+<div style="width:100%;aspect-ratio:21/7;background:linear-gradient(135deg,#f0f4ff 0%,#fef9f6 100%);display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(22,93,255,0.06);border-bottom:1px solid rgba(22,93,255,0.06);position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 100px,rgba(22,93,255,0.015) 100px,rgba(22,93,255,0.015) 101px);"></div>
+  <div style="text-align:center;z-index:1;">
+    <div style="width:52px;height:52px;border-radius:16px;background:rgba(22,93,255,0.07);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 0.7rem;">📷</div>
+    <img src="https://i.postimg.cc/sX49YdG4/roborock-1.png" width="100%;" />
+  </div>
+</div>
+
+
+<!-- ══ INTRO ══ -->
+<section style="max-width:1000px;margin:0 auto;padding:7rem 2rem 5rem;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4rem;align-items:center;">
+    <div>
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.2rem;">
+        <div style="width:28px;height:2px;background:linear-gradient(to right,#165dff,#36c2cf);border-radius:1px;"></div>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#165dff;margin:0;font-weight:600;">Was ist Roborock?</p>
+      </div>
+      <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;line-height:1.15;color:#0d1f3c;margin:0 0 1.6rem;">Mehr als ein Roboter –<br/><span class="grad-warm">ein neues Lebensgefühl.</span></h2>
+      <p style="font-size:0.97rem;color:#5a72a0;line-height:1.85;margin:0 0 1.2rem;">Gegründet 2014, heute in über 170 Ländern vertraut: Roborock steht für Saugroboter, die wirklich mitdenken. Hochentwickelte Sensorik, KI-Navigation und vollautomatische Stationen übernehmen Deinen Alltag.</p>
+      <p style="font-size:0.97rem;color:#5a72a0;line-height:1.85;margin:0;">Im <strong style="color:#0d1f3c;font-weight:600;">offiziellen Deutschland Store</strong> kaufst Du direkt beim Hersteller: volle Garantie, Punkte sammeln und exklusive Early-Bird-Preise inklusive.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="background:#fff;border-radius:20px;padding:1.5rem 1.8rem;box-shadow:0 4px 24px rgba(22,93,255,0.07);border:1px solid rgba(22,93,255,0.07);display:flex;align-items:center;gap:1.2rem;" class="card-hover">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#eef2ff,#dce8ff);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🌍</div>
+        <div>
+          <p style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:#165dff;margin:0;line-height:1.1;">170+</p>
+          <p style="font-size:0.8rem;color:#8a9cc0;margin:0;">Länder weltweit</p>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:1.5rem 1.8rem;box-shadow:0 4px 24px rgba(255,120,73,0.07);border:1px solid rgba(255,120,73,0.08);display:flex;align-items:center;gap:1.2rem;" class="card-hover">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#fff4ef,#ffe5d8);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">⚡</div>
+        <div>
+          <p style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:#ff7849;margin:0;line-height:1.1;">36.000 Pa</p>
+          <p style="font-size:0.8rem;color:#8a9cc0;margin:0;">Maximale Saugkraft</p>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:1.5rem 1.8rem;box-shadow:0 4px 24px rgba(54,194,207,0.07);border:1px solid rgba(54,194,207,0.1);display:flex;align-items:center;gap:1.2rem;" class="card-hover">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#edfafb,#d0f4f7);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🤖</div>
+        <div>
+          <p style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:#36c2cf;margin:0;line-height:1.1;">300+</p>
+          <p style="font-size:0.8rem;color:#8a9cc0;margin:0;">Erkannte Hindernistypen (KI)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ TECH FEATURES ══ -->
+<section style="background:#fff;border-top:1px solid #edf0f8;border-bottom:1px solid #edf0f8;padding:6rem 2rem;">
+  <div style="max-width:1060px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem;">
+        <div style="width:24px;height:2px;background:linear-gradient(to right,transparent,#165dff);border-radius:1px;"></div>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#165dff;margin:0;font-weight:600;">Kerntechnologien</p>
+        <div style="width:24px;height:2px;background:linear-gradient(to left,transparent,#165dff);border-radius:1px;"></div>
+      </div>
+      <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:800;color:#0d1f3c;margin:0;">Technologie, die man spürt.</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+      <div style="background:linear-gradient(145deg,#f6f9ff,#eef4ff);border-radius:24px;padding:2.2rem;border:1px solid rgba(22,93,255,0.08);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#165dff,#36c2cf);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(22,93,255,0.22);">🧭</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">PreciSense® LiDAR</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">Millimetergenaue Raumkartierung in Echtzeit. Der Roboter kennt jede Ecke – kein Fleck wird vergessen.</p>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#fff8f4,#fff2ec);border-radius:24px;padding:2.2rem;border:1px solid rgba(255,120,73,0.1);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#ff7849,#ffb347);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(255,120,73,0.22);">⚡</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">HyperForce® Saugkraft</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">Bis zu 36.000 Pa – mehr als genug für Tierhaare, feinen Staub und hartnäckige Krümel auf jedem Untergrund.</p>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#f2fcfd,#e6f8fa);border-radius:24px;padding:2.2rem;border:1px solid rgba(54,194,207,0.12);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#36c2cf,#0099a8);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(54,194,207,0.25);">🦾</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">AdaptiLift™ Chassis</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">Überwindet Türschwellen bis 8,79 cm durch dynamisches Anheben – kein Raum bleibt unzugänglich.</p>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#f6f9ff,#eef4ff);border-radius:24px;padding:2.2rem;border:1px solid rgba(22,93,255,0.08);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#5b8fff,#165dff);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(22,93,255,0.22);">🌊</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">VibraRise® Wischsystem</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">Saugen und Wischen in einem Durchgang. Auf Teppich hebt der Mopp automatisch an – kein Nässefleck mehr.</p>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#fff8f4,#fff2ec);border-radius:24px;padding:2.2rem;border:1px solid rgba(255,120,73,0.1);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#ff7849,#e8503a);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(255,120,73,0.22);">🤖</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">StarSight™ System 2.0</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">3D-KI erkennt über 300 Objekte – von Spielzeug bis Haustierkot – und umfährt sie lautlos und zuverlässig.</p>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#f2fcfd,#e6f8fa);border-radius:24px;padding:2.2rem;border:1px solid rgba(54,194,207,0.12);" class="card-hover">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#36c2cf,#165dff);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.3rem;box-shadow:0 8px 20px rgba(54,194,207,0.22);">🏠</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#0d1f3c;margin:0 0 0.6rem;">RockDock® Station</h3>
+        <p style="font-size:0.88rem;color:#7a8fb5;line-height:1.75;margin:0;">Automatisch entleeren, Mopp waschen (75 °C), Wasser nachfüllen und laden – komplett wartungsfrei für Wochen.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ░░ IMAGE PLACEHOLDER 2 ░░ -->
+<div style="width:100%;aspect-ratio:21/7;background:linear-gradient(135deg,#f0f4ff 0%,#fdf9f6 100%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(22,93,255,0.05);position:relative;overflow:hidden;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:300%;background:radial-gradient(ellipse,rgba(22,93,255,0.04) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="text-align:center;z-index:1;">
+    <div style="width:52px;height:52px;border-radius:16px;background:rgba(22,93,255,0.06);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 0.7rem;">🔬</div>
+    <img src="https://i.postimg.cc/63fLrJ4G/roborock-2.png" width="100%;" />
+  </div>
+</div>
+
+
+<!-- ══ PRODUCT SERIES ══ -->
+<section style="max-width:1060px;margin:0 auto;padding:7rem 2rem;">
+  <div style="text-align:center;margin-bottom:4.5rem;">
+    <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem;">
+      <div style="width:24px;height:2px;background:linear-gradient(to right,transparent,#165dff);border-radius:1px;"></div>
+      <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#165dff;margin:0;font-weight:600;">Produktserien</p>
+      <div style="width:24px;height:2px;background:linear-gradient(to left,transparent,#165dff);border-radius:1px;"></div>
+    </div>
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:800;color:#0d1f3c;margin:0;">Für jedes Zuhause die richtige Wahl.</h2>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+    <!-- SAROS -->
+    <div style="background:#fff;border-radius:28px;padding:2.8rem;border:1.5px solid rgba(22,93,255,0.1);box-shadow:0 8px 40px rgba(22,93,255,0.06);position:relative;overflow:hidden;" class="card-hover">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(to right,#165dff,#36c2cf);border-radius:28px 28px 0 0;"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start;justify-content:space-between;">
+        <div style="flex:1;min-width:260px;">
+          <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem;flex-wrap:wrap;">
+            <span style="display:inline-block;padding:0.22rem 0.8rem;border-radius:100px;font-family:'Outfit',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:linear-gradient(135deg,#eef2ff,#dce8ff);color:#165dff;border:1px solid rgba(22,93,255,0.15);">🏆 Flaggschiff</span>
+            <span style="display:inline-block;padding:0.22rem 0.8rem;border-radius:100px;font-family:'Outfit',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:#f0fafb;color:#36c2cf;border:1px solid rgba(54,194,207,0.2);">Neu 2025</span>
+          </div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:#0d1f3c;margin:0 0 0.8rem;">Saros Serie</h3>
+          <p style="font-size:0.95rem;color:#5a72a0;line-height:1.8;max-width:560px;margin:0 0 1.5rem;">Der <strong style="color:#0d1f3c;">Saros 20</strong> definiert Reinigung neu: 36.000 Pa, AdaptiLift™ 3.0 überwindet Schwellen bis 8,79 cm – weltweit einmalig. Der <strong style="color:#0d1f3c;">Saros Z70</strong> geht noch weiter: Sein faltbarer OmniGrip™-Roboterarm hebt eigenständig Gegenstände vom Boden auf.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <span style="background:#f0f5ff;border:1px solid #d8e4ff;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#4a6bbf;font-weight:500;">36.000 Pa</span>
+            <span style="background:#f0f5ff;border:1px solid #d8e4ff;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#4a6bbf;font-weight:500;">AdaptiLift™ 3.0</span>
+            <span style="background:#f0f5ff;border:1px solid #d8e4ff;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#4a6bbf;font-weight:500;">OmniGrip™ Arm</span>
+            <span style="background:#f0f5ff;border:1px solid #d8e4ff;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#4a6bbf;font-weight:500;">StarSight™ 2.0</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <p style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#b0bdd8;margin:0 0 0.2rem;font-weight:500;">Saros 20 Early-Bird</p>
+          <p style="font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;color:#165dff;margin:0;line-height:1.1;">1.289 €</p>
+          <p style="font-size:0.8rem;color:#c0cce0;margin:0.2rem 0 0;text-decoration:line-through;">1.499 €</p>
+          <p style="font-size:0.78rem;color:#36c2cf;font-weight:600;margin:0.3rem 0 0;">Du sparst 210 €</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QREVO -->
+    <div style="background:#fff;border-radius:28px;padding:2.8rem;border:1.5px solid rgba(255,120,73,0.1);box-shadow:0 8px 40px rgba(255,120,73,0.05);position:relative;overflow:hidden;" class="card-hover">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(to right,#ff7849,#ffb347);border-radius:28px 28px 0 0;"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start;justify-content:space-between;">
+        <div style="flex:1;min-width:260px;">
+          <div style="margin-bottom:1.2rem;">
+            <span style="display:inline-block;padding:0.22rem 0.8rem;border-radius:100px;font-family:'Outfit',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:#fff5ef;color:#ff7849;border:1px solid rgba(255,120,73,0.2);">⭐ Premium</span>
+          </div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:#0d1f3c;margin:0 0 0.8rem;">Qrevo Serie</h3>
+          <p style="font-size:0.95rem;color:#5a72a0;line-height:1.8;max-width:560px;margin:0 0 1.5rem;">Der <strong style="color:#0d1f3c;">Qrevo CurvX</strong> ist Roborocks flachstes Modell – ideal für niedrige Möbel. Der <strong style="color:#0d1f3c;">Qrevo Curv 2 Flow</strong> überzeugt mit der SpiraFlow™-Wischwalze und 8-Punkt-Befeuchtung. Dual Anti-Tangle macht Tierhaare in der Walze zur Vergangenheit.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <span style="background:#fff8f4;border:1px solid #ffddd0;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#c06040;font-weight:500;">SpiraFlow™ Wischwalze</span>
+            <span style="background:#fff8f4;border:1px solid #ffddd0;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#c06040;font-weight:500;">Dual Anti-Tangle</span>
+            <span style="background:#fff8f4;border:1px solid #ffddd0;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;color:#c06040;font-weight:500;">75 °C Moppwaschung</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <p style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#b0bdd8;margin:0 0 0.2rem;font-weight:500;">Curv 2 Flow ab</p>
+          <p style="font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;color:#ff7849;margin:0;line-height:1.1;">749 €</p>
+          <p style="font-size:0.8rem;color:#c0cce0;margin:0.2rem 0 0;text-decoration:line-through;">899 €</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- F25 + ZEO -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+      <div style="background:#fff;border-radius:28px;padding:2.4rem;border:1.5px solid rgba(54,194,207,0.12);box-shadow:0 8px 40px rgba(54,194,207,0.05);position:relative;overflow:hidden;" class="card-hover">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(to right,#36c2cf,#0099a8);border-radius:28px 28px 0 0;"></div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#0d1f3c;margin:0 0 0.7rem;">F25 Nass-Trocken-Sauger</h3>
+        <p style="font-size:0.9rem;color:#5a72a0;line-height:1.8;margin:0 0 1.2rem;">Handgeführt, aber hochintelligent. Die 180° FlatReach™-Technologie erreicht unter die flachsten Möbel. Automatische Selbstreinigung nach jeder Nutzung.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          <span style="background:#f0fafb;border:1px solid #c8eef1;padding:0.2rem 0.65rem;border-radius:100px;font-size:0.72rem;color:#2a9aa8;font-weight:500;">180° FlatReach™</span>
+          <span style="background:#f0fafb;border:1px solid #c8eef1;padding:0.2rem 0.65rem;border-radius:100px;font-size:0.72rem;color:#2a9aa8;font-weight:500;">Selbstreinigung</span>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#f4f1ff,#ece6ff);border-radius:28px;padding:2.4rem;border:1.5px solid rgba(130,100,255,0.15);box-shadow:0 8px 40px rgba(130,100,255,0.06);position:relative;overflow:hidden;" class="card-hover">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(to right,#8264ff,#b39dff);border-radius:28px 28px 0 0;"></div>
+        <div style="display:inline-block;background:rgba(130,100,255,0.1);border:1px solid rgba(130,100,255,0.2);padding:0.18rem 0.7rem;border-radius:100px;margin-bottom:0.8rem;">
+          <span style="font-family:'Outfit',sans-serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:#8264ff;font-weight:600;">Neu 2025</span>
+        </div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#0d1f3c;margin:0 0 0.7rem;">Zeo Waschtrockner</h3>
+        <p style="font-size:0.9rem;color:#5a72a0;line-height:1.8;margin:0 0 1.2rem;">Roborock revolutioniert die Waschküche: Zeo-cycle® trocknet schonend bei nur 37 °C – Wolle inklusive. Auto-Dosierung &amp; Hygienezertifizierung.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          <span style="background:rgba(130,100,255,0.07);border:1px solid rgba(130,100,255,0.2);padding:0.2rem 0.65rem;border-radius:100px;font-size:0.72rem;color:#8264ff;font-weight:500;">37 °C Trocknung</span>
+          <span style="background:rgba(130,100,255,0.07);border:1px solid rgba(130,100,255,0.2);padding:0.2rem 0.65rem;border-radius:100px;font-size:0.72rem;color:#8264ff;font-weight:500;">Wollschonend</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ░░ IMAGE PLACEHOLDER 3 ░░ -->
+<div style="width:100%;aspect-ratio:21/7;background:linear-gradient(135deg,#fef9f6 0%,#f0f4ff 100%);display:flex;align-items:center;justify-content:center;border-top:1px solid #edf0f8;border-bottom:1px solid #edf0f8;position:relative;overflow:hidden;">
+  <div style="text-align:center;z-index:1;">
+    <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,120,73,0.08);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 0.7rem;">🏆</div>
+    <img src="https://i.postimg.cc/vBstxHTF/roborock-3.png" width="100%;" />
+  </div>
+</div>
+
+
+<!-- ══ SOCIAL PROOF ══ -->
+<section style="background:#fff;border-top:1px solid #edf0f8;padding:6rem 2rem;">
+  <div style="max-width:1060px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem;">
+        <div style="width:24px;height:2px;background:linear-gradient(to right,transparent,#ff7849);border-radius:1px;"></div>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#ff7849;margin:0;font-weight:600;">Kundenstimmen</p>
+        <div style="width:24px;height:2px;background:linear-gradient(to left,transparent,#ff7849);border-radius:1px;"></div>
+      </div>
+      <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:800;color:#0d1f3c;margin:0;">Was echte Nutzer sagen.</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+      <div style="background:linear-gradient(145deg,#f6f9ff,#edf4ff);border-radius:24px;padding:2rem;border:1px solid rgba(22,93,255,0.08);" class="card-hover">
+        <div style="display:flex;gap:0.15rem;margin-bottom:1rem;font-size:0.9rem;color:#ffc04a;">★★★★★</div>
+        <p style="font-size:0.92rem;color:#4a5e80;line-height:1.8;font-style:italic;margin:0 0 1.3rem;">"Der Roboter macht einfach seinen Job – ich spare dank ihm jede Menge Zeit. Aus diesen und anderen Gründen eine volle Punktzahl von mir."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#165dff,#36c2cf);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#fff;font-weight:700;flex-shrink:0;">LB</div>
+          <p style="font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;color:#0d1f3c;margin:0;">Lukasz B. <span style="color:#b0bdd8;font-weight:400;">· Deutschland</span></p>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#fff8f4,#fff2ec);border-radius:24px;padding:2rem;border:1px solid rgba(255,120,73,0.09);" class="card-hover">
+        <div style="display:flex;gap:0.15rem;margin-bottom:1rem;font-size:0.9rem;color:#ffc04a;">★★★★★</div>
+        <p style="font-size:0.92rem;color:#4a5e80;line-height:1.8;font-style:italic;margin:0 0 1.3rem;">"Ich bin begeistert, und es macht Freude beim Reinigen zuzuschauen! Reinigungserfolg 5 Sterne – App-Steuerung eigentlich selbsterklärend."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff7849,#ffb347);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#fff;font-weight:700;flex-shrink:0;">KA</div>
+          <p style="font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;color:#0d1f3c;margin:0;">Kirsten A. <span style="color:#b0bdd8;font-weight:400;">· Deutschland</span></p>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#f2fcfd,#e6f8fa);border-radius:24px;padding:2rem;border:1px solid rgba(54,194,207,0.1);" class="card-hover">
+        <div style="display:flex;gap:0.15rem;margin-bottom:1rem;font-size:0.9rem;color:#ffc04a;">★★★★★</div>
+        <p style="font-size:0.92rem;color:#4a5e80;line-height:1.8;font-style:italic;margin:0 0 1.3rem;">"Starke Saugkraft, automatische Moppflege, intelligente Navigation. Wer ein robustes, autonomes Reinigungssystem will, macht mit Roborock nichts falsch."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#36c2cf,#0099a8);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#fff;font-weight:700;flex-shrink:0;">MH</div>
+          <p style="font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;color:#0d1f3c;margin:0;">Martin H. <span style="color:#b0bdd8;font-weight:400;">· Deutschland</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ░░ IMAGE PLACEHOLDER 4 ░░ -->
+<div style="width:100%;aspect-ratio:21/7;background:linear-gradient(135deg,#fff8f4 0%,#f0f4ff 50%,#f2fcfd 100%);display:flex;align-items:center;justify-content:center;border-top:1px solid #edf0f8;border-bottom:1px solid #edf0f8;position:relative;overflow:hidden;">
+  <div style="text-align:center;z-index:1;">
+    <div style="width:52px;height:52px;border-radius:16px;background:rgba(54,194,207,0.09);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 0.7rem;">🏡</div>
+    <img src="https://i.postimg.cc/g2xDfT1Y/roborock-4.png" width="100%;" />
+  </div>
+</div>
+
+
+<!-- ══ STORE BENEFITS ══ -->
+<section style="background:linear-gradient(160deg,#f0f4ff 0%,#fff 55%,#fff8f4 100%);padding:6rem 2rem;">
+  <div style="max-width:1060px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem;">
+        <div style="width:24px;height:2px;background:linear-gradient(to right,transparent,#165dff);border-radius:1px;"></div>
+        <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#165dff;margin:0;font-weight:600;">Warum direkt kaufen?</p>
+        <div style="width:24px;height:2px;background:linear-gradient(to left,transparent,#165dff);border-radius:1px;"></div>
+      </div>
+      <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:800;color:#0d1f3c;margin:0;">Deine Vorteile im offiziellen Store.</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;">
+      <div style="background:#fff;border-radius:24px;padding:2rem;border:1px solid #edf0f8;text-align:center;box-shadow:0 4px 20px rgba(22,93,255,0.05);" class="card-hover">
+        <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#eef2ff,#dce8ff);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;">🔐</div>
+        <h4 style="font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#0d1f3c;margin:0 0 0.5rem;">Offizielle Garantie</h4>
+        <p style="font-size:0.83rem;color:#7a8fb5;line-height:1.65;margin:0;">Voller Hersteller-Service direkt von Roborock Deutschland</p>
+      </div>
+      <div style="background:#fff;border-radius:24px;padding:2rem;border:1px solid #edf0f8;text-align:center;box-shadow:0 4px 20px rgba(255,120,73,0.05);" class="card-hover">
+        <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#fff4ef,#ffe5d8);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;">🎁</div>
+        <h4 style="font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#0d1f3c;margin:0 0 0.5rem;">Roborock Punkte</h4>
+        <p style="font-size:0.83rem;color:#7a8fb5;line-height:1.65;margin:0;">30 Punkte = 1 €. Sammle bei jedem Kauf und löse ein</p>
+      </div>
+      <div style="background:#fff;border-radius:24px;padding:2rem;border:1px solid #edf0f8;text-align:center;box-shadow:0 4px 20px rgba(54,194,207,0.05);" class="card-hover">
+        <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#edfafb,#d0f4f7);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;">👥</div>
+        <h4 style="font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#0d1f3c;margin:0 0 0.5rem;">Freunde empfehlen</h4>
+        <p style="font-size:0.83rem;color:#7a8fb5;line-height:1.65;margin:0;">Beide erhalten 8 % Rabatt auf die nächste Bestellung</p>
+      </div>
+      <div style="background:#fff;border-radius:24px;padding:2rem;border:1px solid #edf0f8;text-align:center;box-shadow:0 4px 20px rgba(130,100,255,0.05);" class="card-hover">
+        <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#f4f1ff,#ece6ff);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;">⚡</div>
+        <h4 style="font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#0d1f3c;margin:0 0 0.5rem;">Early-Bird-Aktionen</h4>
+        <p style="font-size:0.83rem;color:#7a8fb5;line-height:1.65;margin:0;">Exklusive Launch-Rabatte – nur direkt im Roborock Store</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ░░ IMAGE PLACEHOLDER 5 ░░ -->
+<div style="width:100%;aspect-ratio:21/7;background:linear-gradient(135deg,#f0f4ff 0%,#f2fcfd 50%,#f0f4ff 100%);display:flex;align-items:center;justify-content:center;border-top:1px solid #edf0f8;border-bottom:1px solid #edf0f8;position:relative;overflow:hidden;">
+  <div style="text-align:center;z-index:1;">
+    <div style="width:52px;height:52px;border-radius:16px;background:rgba(22,93,255,0.06);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 0.7rem;">📱</div>
+    <img src="https://i.postimg.cc/W3w6GLqk/roborock-5.png" width="100%;" />
+  </div>
+</div>
+
+
+<!-- ══ FINAL CTA ══ -->
+<section id="final-cta" style="position:relative;padding:9rem 2rem 8rem;text-align:center;overflow:hidden;background:linear-gradient(160deg,#eef2ff 0%,#fff 35%,#fff8f4 100%);">
+  <div style="position:absolute;top:-5%;left:-5%;width:45vw;height:45vw;max-width:500px;max-height:500px;background:radial-gradient(circle,rgba(22,93,255,0.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-5%;right:-5%;width:40vw;height:40vw;max-width:450px;max-height:450px;background:radial-gradient(circle,rgba(255,120,73,0.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:1;max-width:700px;margin:0 auto;">
+    <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:1.2rem;">
+      <div style="width:24px;height:2px;background:linear-gradient(to right,transparent,#165dff);border-radius:1px;"></div>
+      <p style="font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#165dff;margin:0;font-weight:600;">Jetzt loslegen</p>
+      <div style="width:24px;height:2px;background:linear-gradient(to left,transparent,#165dff);border-radius:1px;"></div>
+    </div>
+
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(2.4rem,6vw,5rem);font-weight:800;color:#0d1f3c;margin:0 0 1.4rem;line-height:1.05;letter-spacing:-0.02em;">
+      Weniger putzen.<br/>
+      <span class="grad-warm">Mehr leben.</span>
+    </h2>
+
+    <p style="font-size:1.05rem;color:#5a72a0;max-width:500px;margin:0 auto 2.2rem;line-height:1.85;">
+      Hol Dir die komplette Roborock-Produktwelt direkt beim Hersteller – mit Early-Bird-Preisen, offizieller Garantie und dem Roborock-Punkte&shy;programm.
+    </p>
+
+    <!-- Savings badge -->
+    <div style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;border:1.5px solid rgba(22,93,255,0.12);padding:0.6rem 1.4rem;border-radius:100px;margin-bottom:2.5rem;box-shadow:0 4px 16px rgba(22,93,255,0.08);">
+      <span style="font-size:0.9rem;">🎁</span>
+      <span style="font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:600;color:#165dff;">Saros 20 Early-Bird: <strong>210 € sparen</strong> · inkl. Zubehör-Set</span>
+    </div>
+
+    <br/>
+
+    <!-- ★ SINGLE PRIMARY CTA ★ -->
+    <a href="https://www.linkhaitao.com/index.php?mod=lhdeal&track=e5cdnKABNxJJXC3xoDtA0wABnJNPlCm_bj4HL7vAPpv51R62KC5TrRkqofAOLF5FhL_bLzSg_c_c&new=https%3A%2F%2Fde.roborock.com%2Fpages%2Froborock-store" target="_blank" rel="noopener"
+      style="display:inline-block;padding:1.15rem 3.4rem;background:linear-gradient(135deg,#165dff 0%,#36c2cf 100%);color:#fff;font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:0.08em;text-decoration:none;border-radius:100px;box-shadow:0 14px 40px rgba(22,93,255,0.28),0 4px 12px rgba(22,93,255,0.18);">
+      → Zum offiziellen Roborock Store
+    </a>
+
+    <!-- Trust line -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2rem;flex-wrap:wrap;">
+      <span style="font-size:0.78rem;color:#b0bdd8;display:flex;align-items:center;gap:0.3rem;"><span>🔐</span> Offizielle Garantie</span>
+      <span style="font-size:0.78rem;color:#b0bdd8;display:flex;align-items:center;gap:0.3rem;"><span>🚀</span> Schneller Versand</span>
+      <span style="font-size:0.78rem;color:#b0bdd8;display:flex;align-items:center;gap:0.3rem;"><span>↩️</span> 30 Tage Rückgabe</span>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:#c8d4e8;margin:2rem 0 0;">de.roborock.com · Offizieller Deutschland Store</p>
+  </div>
+</section>
+
+
+<!-- ░░ FOOTER ░░ -->
+<footer style="background:#eef2ff;border-top:1px solid #dde4f0;padding:2rem;text-align:center;">
+  <p style="font-family:'Outfit',sans-serif;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:#8a9cc0;margin:0;">
+    © 2026 · Marketingartikel über <a href="https://de.roborock.com/pages/roborock-store" style="color:#165dff;text-decoration:none;font-weight:600;">de.roborock.com</a> · Preisangaben ohne Gewähr – maßgeblich sind die Angaben auf der Roborock-Website.
+  </p>
+</footer>
+
+
+<script>
+  const floatingCta    = document.getElementById('floating-cta');
+  const scrollProgress = document.getElementById('scroll-progress');
+  const finalSection   = document.getElementById('final-cta');
+
+  function update() {
+    const scrollY = window.scrollY;
+    const docH    = document.documentElement.scrollHeight - window.innerHeight;
+    scrollProgress.style.width = (docH > 0 ? (scrollY / docH) * 100 : 0) + '%';
+
+    const shouldShow = scrollY > 120;
+    const nearEnd    = finalSection.getBoundingClientRect().top < window.innerHeight * 0.75;
+
+    if (shouldShow && !nearEnd) {
+      floatingCta.style.transform    = 'translateY(0)';
+      floatingCta.style.opacity      = '1';
+      floatingCta.style.pointerEvents = 'auto';
+    } else {
+      floatingCta.style.transform    = 'translateY(100%)';
+      floatingCta.style.opacity      = '0';
+      floatingCta.style.pointerEvents = 'none';
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+</script>
+</body>
+</html>
