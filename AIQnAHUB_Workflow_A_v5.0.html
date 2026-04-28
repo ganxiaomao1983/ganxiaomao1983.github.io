@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIQnAHUB Workflow A v5.0</title>
+<style>
+  :root {
+    --primary: #0052cc;
+    --primary-hover: #0043a6;
+    --secondary: #00b8d9;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --text: #333333;
+    --border: #dfe1e6;
+    --success: #00875a;
+    --success-light: #f3fdf9;
+    --success-border: #79e2c0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+  }
+  .container { max-width: 1000px; margin: 0 auto; }
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 6px rgba(0,82,204,0.08);
+  }
+  header h1 { color: var(--primary); margin: 0 0 6px 0; font-size: 1.8rem; }
+  header p { color: #5e6c84; margin: 0; font-size: 0.9rem; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header h2 { margin: 0; font-size: 1.25rem; color: #172b4d; }
+  .badge {
+    background: #e6effc;
+    color: var(--primary);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.88rem; color: #172b4d; }
+  input[type=text], select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: #fafbfc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type=text]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0,82,204,0.12);
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 0;
+  }
+  .checkbox-row input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+  .checkbox-row label { margin: 0; font-weight: 600; font-size: 0.88rem; color: #172b4d; cursor: pointer; }
+  textarea {
+    resize: vertical;
+    min-height: 150px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn-ok { background: var(--success) !important; }
+  .result-box {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+  .result-box > label { color: var(--success); }
+  .result-box textarea { border-color: var(--success-border); background: var(--success-light); }
+  .result-box textarea:focus { border-color: var(--success); box-shadow: 0 0 0 3px rgba(0,135,90,0.12); }
+  .alert {
+    background: #e6f7ff;
+    border-left: 4px solid var(--secondary);
+    border-radius: 0 5px 5px 0;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 0.88rem;
+    color: #003d5c;
+  }
+  .final-box {
+    background: #f0f5ff;
+    border: 1px solid #b3c8f7;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  .final-box > label { color: var(--primary); font-size: 0.95rem; display: block; font-weight: 700; margin-bottom: 8px; }
+  .final-box ol { margin: 0; padding-left: 1.4rem; font-size: 0.88rem; }
+  .final-box li { margin-bottom: 5px; }
+  .step-desc { color: #5e6c84; font-size: 0.9rem; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>&#x1F916; AIQnAHUB Workflow A &mdash; v5.0</h1>
+    <p>Original Article Generator &bull; E-E-A-T &bull; Auto URL Injection &bull; i-Lang SEO &bull; GEO &bull; Rank Math 100 &bull; Gutenberg Native</p>
+  </header>
+
+  <!-- GLOBAL VARIABLES -->
+  <div class="card">
+    <div class="card-header"><h2>&#x1F30D; Global Variables</h2><span class="badge">Set These First</span></div>
+    <div class="form-grid">
+      <div>
+        <label>Category</label>
+        <select id="g-cat" onchange="toggleLinkRow();gen()">
+          <option value="Troubleshoot">Troubleshoot</option>
+          <option value="Prompting">Prompting</option>
+          <option value="Resources-Review">Resources: Review</option>
+          <option value="Resources-Comparison">Resources: Comparison</option>
+          <option value="Resources-Alternative">Resources: Alternative</option>
+        </select>
+      </div>
+      <div>
+        <label>Main Keyword</label>
+        <input type="text" id="g-kw" placeholder="e.g., ChatGPT Error 429" oninput="gen()">
+      </div>
+      <div>
+        <label>Secondary Keywords <span style="font-weight:400;color:#5e6c84;">(comma-separated)</span></label>
+        <input type="text" id="g-kw2" placeholder="e.g., rate limit error, API quota exceeded" oninput="gen()">
+      </div>
+      <div>
+        <label>Target Domain</label>
+        <input type="text" id="g-dom" value="aiqnahub.com" oninput="gen()">
+      </div>
+      <div>
+        <label>Affiliate Product</label>
+        <input type="text" id="g-aff" value="None" oninput="gen()">
+      </div>
+      <div>
+        <label>Related Pillar URL</label>
+        <input type="text" id="g-pillar-url" placeholder="https://aiqnahub.com/category-hub/" oninput="gen()">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label>Internal Link Mode</label>
+        <select id="g-link-mode" onchange="toggleLinkRow();gen()">
+          <option value="existing">Link to Existing Article</option>
+          <option value="stub">Link to Stub (URL exists, no content yet)</option>
+          <option value="defer">Defer to Keyword Maps (no link now)</option>
+        </select>
+      </div>
+      <div id="ilink-row">
+        <label>Internal Link URL</label>
+        <input type="text" id="g-ilink" placeholder="https://aiqnahub.com/existing-article-slug/" oninput="gen()">
+      </div>
+      <div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="g-pillar" onchange="gen()">
+          <label for="g-pillar">&#x1F3DB; Is Pillar Content</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 0 -->
+  <div class="card">
+    <div class="card-header"><h2>&#x1F575;&#xFE0F; Step 0 &mdash; Deep Researcher</h2><span class="badge">Perplexity</span></div>
+    <p class="step-desc">Perplexity live-searches the web and returns <strong>real, verified URLs with Page Title confirmation</strong>. URLs flow automatically into Step 3 for citation injection.</p>
+    <label>Prompt &mdash; Copy &amp; Paste to Perplexity:</label>
+    <textarea id="p0" readonly></textarea>
+    <button class="btn" onclick="cp('p0',this)">&#x2398; Copy Prompt</button>
+    <div class="result-box">
+      <label>&#x2B07;&#xFE0F; Paste Perplexity output here (feeds Step 1, 2 &amp; 3):</label>
+      <textarea id="o0" placeholder="Paste the full Context Dump, Authority Vault with real URLs + Page Titles, and Fact Sheet here..." oninput="gen()"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card">
+    <div class="card-header"><h2>&#x1F3D7;&#xFE0F; Step 1 &mdash; Strategic Architect</h2><span class="badge">Perplexity</span></div>
+    <p class="step-desc">Designs the Article Blueprint with FORMAT SELECTOR, i-Lang 5-Layer structure, Featured Snippet targeting, and Gemini Imagen 3 visual strategy.</p>
+    <label>Prompt &mdash; Copy &amp; Paste to Perplexity:</label>
+    <textarea id="p1" readonly></textarea>
+    <button class="btn" onclick="cp('p1',this)">&#x2398; Copy Prompt</button>
+    <div class="result-box">
+      <label>&#x2B07;&#xFE0F; Paste Perplexity output here (feeds Step 2):</label>
+      <textarea id="o1" placeholder="Paste Article Blueprint here..." oninput="gen()"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card">
+    <div class="card-header"><h2>&#x270D;&#xFE0F; Step 2 &mdash; Senior Copywriter</h2><span class="badge">Claude / Gemini</span></div>
+    <p class="step-desc">Writes with E-E-A-T from real test scenarios. GEO Definition Block + Quick Answer Box. Rank Math compliant (2500+ words). URLs injected automatically in Step 3.</p>
+    <label>Prompt &mdash; Copy &amp; Paste to Claude or Gemini:</label>
+    <textarea id="p2" readonly></textarea>
+    <button class="btn" onclick="cp('p2',this)">&#x2398; Copy Prompt</button>
+    <div class="result-box">
+      <label>&#x2B07;&#xFE0F; Paste Markdown article here (feeds Step 3):</label>
+      <textarea id="o2" placeholder="Paste the full Markdown article here..." oninput="gen()"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card">
+    <div class="card-header"><h2>&#x1F4E6; Step 3 &mdash; SEO &amp; Gutenberg Packager</h2><span class="badge">Claude / Gemini</span></div>
+    <div class="alert"><strong>v5.0 Update:</strong> Auto URL Injection &bull; 4-Layer Schema (Primary + FAQPage + BreadcrumbList + Author Entity) &bull; Rank Math Compliance Checklist (11 items) &bull; Keyword Map Setup &bull; isPartOf for Pillar Content.</div>
+    <label>Prompt &mdash; Copy &amp; Paste to Claude or Gemini:</label>
+    <textarea id="p3" readonly style="min-height:340px;"></textarea>
+    <button class="btn" onclick="cp('p3',this)">&#x2398; Copy Prompt</button>
+    <div class="final-box">
+      <label>&#x1F680; Final Execution &mdash; 5 Steps:</label>
+      <ol>
+        <li><strong>Section 1 (SEO Metadata):</strong> Copy each field into Rank Math plugin fields (Title, Slug, Meta, Focus Keyword, Secondary Keywords, Tags).</li>
+        <li><strong>Section 2 (JSON-LD Schema):</strong> Paste all 4 schema blocks into a Custom HTML block at the bottom of the post.</li>
+        <li><strong>Section 3 (Gutenberg HTML):</strong> Open WordPress Code Editor, paste, then switch to Visual Editor to verify.</li>
+        <li><strong>Section 4 (Rank Math Checklist):</strong> Verify all 11 items PASS before publishing.</li>
+        <li><strong>Section 5 (Keyword Map):</strong> Add config to Rank Math &rarr; General Settings &rarr; Link Builder &rarr; Keyword Maps.</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+<script>
+// --- UTILITY ---
+function cp(id, btn) {
+  var el = document.getElementById(id);
+  el.select(); el.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(el.value);
+  var orig = btn.innerText;
+  btn.innerText = 'Copied!'; btn.classList.add('btn-ok');
+  setTimeout(function(){ btn.innerText = orig; btn.classList.remove('btn-ok'); }, 2000);
+}
+function v(id) { return document.getElementById(id).value || ''; }
+function cb(id) { return document.getElementById(id).checked; }
+
+// Slug: strip stop words, max 6 tokens
+function slug(kw) {
+  var stops = ['the','a','an','is','are','was','were','how','to','for','of','in','on','at','and','or','with','that','this'];
+  return kw.toLowerCase().split(/[^a-z0-9]+/)
+    .filter(function(w){ return w && !stops.includes(w); })
+    .slice(0, 6).join('-');
+}
+
+function toggleLinkRow() {
+  var mode = v('g-link-mode');
+  document.getElementById('ilink-row').style.display = (mode === 'defer') ? 'none' : 'block';
+}
+
+// --- MAIN GENERATOR ---
+function gen() {
+  var cat       = v('g-cat');
+  var kw        = v('g-kw')  || '[ENTER KEYWORD]';
+  var kw2       = v('g-kw2') || '';
+  var dom       = v('g-dom') || 'aiqnahub.com';
+  var aff       = v('g-aff') || 'None';
+  var pillarUrl = v('g-pillar-url') || '';
+  var lmode     = v('g-link-mode');
+  var ilink     = v('g-ilink') || '';
+  var isPillar  = cb('g-pillar');
+  var o0        = v('o0') || '[WAITING FOR STEP 0 OUTPUT]';
+  var o1        = v('o1') || '[WAITING FOR STEP 1 OUTPUT]';
+  var o2        = v('o2') || '[WAITING FOR STEP 2 OUTPUT]';
+  var sl        = slug(kw);
+
+  // ── STEP 0 ──────────────────────────────────────────────────────────────
+  var p0 = '# Role: AIQnAHub Deep Researcher & Entity Analyst\n'
+    + '**IDENTITY:** You are the Research Brain for Ice Gan. You have live web access. Analyze search intent, extract NLP entities, and retrieve real verified URLs via search.\n\n'
+    + '**INPUT VARIABLES:**\n'
+    + '1. Category: ' + cat + '\n'
+    + '2. Main Keyword: ' + kw + '\n'
+    + '3. Secondary Keywords: ' + (kw2 || 'None') + '\n'
+    + '4. Target Domain: ' + dom + '\n'
+    + '5. Affiliate Product: ' + aff + '\n\n'
+    + '---\n'
+    + '**PART 1: AUDIENCE PROFILING**\n'
+    + '* Who is searching? (Specific persona).\n'
+    + '* The Bleeding Neck Problem: immediate urgent frustration.\n'
+    + '* The Hidden Fear (e.g., fear of data loss, imposter syndrome).\n\n'
+    + '**PART 2: SEMANTIC & AUTHORITY DATA**\n'
+    + '* NLP Entities: List 10 specific semantic keywords Google expects for this topic.\n'
+    + '* Authority Sources: Use your live web search to find 3 real working URLs from official documentation, GitHub repos, or high-authority sources.\n'
+    + '  Output format strictly:\n'
+    + '  > 1. [Source Name] | [Full verified URL] | Page Title: [exact page title you retrieved]\n'
+    + '  > 2. [Source Name] | [Full verified URL] | Page Title: [exact page title you retrieved]\n'
+    + '  > 3. [Source Name] | [Full verified URL] | Page Title: [exact page title you retrieved]\n'
+    + '  RULE: Page Title is your verification anchor. If the title does not match the topic, mark as [UNVERIFIED]. DO NOT invent any URL.\n\n'
+    + '**PART 3: TECHNICAL FACT-GATHERING**\n'
+    + '* IF Troubleshoot: root cause analysis and exact numbered fix steps. Include any real error log or error message text if found.\n'
+    + '* IF Prompting: technique definition, Before/After prompt example, and measurable improvement metric.\n'
+    + '* IF Resources: pricing tiers, key features table, honest pros/cons, best-fit user profile.\n\n'
+    + '---\n'
+    + '**OUTPUT FORMAT (strict):**\n\n'
+    + '**Global Context:**\n'
+    + '> **Main Keyword:** ' + kw + '\n'
+    + '> **Secondary Keywords:** ' + (kw2 || 'None') + '\n'
+    + '> **Category:** ' + cat + '\n\n'
+    + '**Context Dump:**\n'
+    + '> **Target Audience:** [Persona]\n'
+    + '> **Core Pain Points:** [Problem] & [Hidden Fear]\n'
+    + '> **Semantic Entities:** [10 NLP keywords, comma-separated]\n\n'
+    + '**Authority Vault (Live URLs with Page Title verification):**\n'
+    + '> 1. [Source Name] | [Full URL] | Page Title: [title]\n'
+    + '> 2. [Source Name] | [Full URL] | Page Title: [title]\n'
+    + '> 3. [Source Name] | [Full URL] | Page Title: [title]\n\n'
+    + '**Fact Sheet:**\n'
+    + '* **The Answer:** [Core solution/fact]\n'
+    + '* **Steps:** [1. 2. 3...]\n'
+    + '* **Real Error Log (if available):** [paste verbatim or write NONE]\n'
+    + '* **Examples:** Bad: [x] / Good: [x]';
+  document.getElementById('p0').value = p0;
+
+  // ── STEP 1 ──────────────────────────────────────────────────────────────
+  var formatBlock = '### FORMAT SELECTOR (execute before Outline):\n';
+  if (cat === 'Troubleshoot') {
+    formatBlock += 'Category = Troubleshoot → Primary Format: Q&A\n'
+      + 'Required blocks: [Direct Answer H2 (40-60 words)] + [Numbered Step H3s] + [FAQPage section at end (min 4 Q&A)]\n';
+  } else if (cat === 'Prompting') {
+    formatBlock += 'Category = Prompting → Primary Format: Expert Guide\n'
+      + 'Required blocks: [Glossary Term Box after intro] + [Before/After Prompt Example in code blocks] + [FAQPage section at end (min 4 Q&A)]\n';
+  } else if (cat === 'Resources-Review') {
+    formatBlock += 'Category = Resources: Review → Primary Format: Product Review\n'
+      + 'Required blocks: [Verdict H2 first] + [Pros/Cons table] + [Who It\'s For H3] + [Rating out of 5 with justification]\n';
+  } else if (cat === 'Resources-Comparison') {
+    formatBlock += 'Category = Resources: Comparison → Primary Format: Comparison Guide\n'
+      + 'Required blocks: [Comparison Table (min 3 criteria)] + [Winner Verdict H2] + [FAQPage section at end]\n';
+  } else if (cat === 'Resources-Alternative') {
+    formatBlock += 'Category = Resources: Alternative → Primary Format: Alternative Guide\n'
+      + 'Required blocks: [Why Switch H2] + [Top 3 Alternatives table (Feature / Price / Best For)] + [Recommendation H2]\n';
+  }
+
+  var p1 = '# Role: AIQnAHub Strategic Architect\n'
+    + '**IDENTITY:** Blueprint Designer. Target Position Zero (Featured Snippet) and AI citation (GEO). Apply i-Lang 5-Layer structure and Gemini Imagen 3 visual strategy.\n\n'
+    + '**INPUT DATA (Step 0 output):**\n' + o0 + '\n\n'
+    + '---\n'
+    + formatBlock + '\n'
+    + '### i-Lang Structure Checklist (mandatory for ALL formats):\n'
+    + '- H1: Single entity + year + user benefit (max 65 chars)\n'
+    + '- H2s: Each maps to ONE search intent (question format preferred)\n'
+    + '- H3s: Must contain one actionable item OR one specific data point\n'
+    + '- First paragraph after H1: 40-60 word Definition Block (GEO extraction target)\n'
+    + '- Data point: Include at least ONE original or specific metric per article\n\n'
+    + '### Secondary Keyword Distribution:\n'
+    + 'Secondary Keywords: ' + (kw2 || 'None') + '\n'
+    + 'Rule: Each secondary keyword must appear in at least one H2 or H3 subheading naturally.\n\n'
+    + '### Visual Strategy (Gemini Imagen 3 — 3 image concepts):\n'
+    + '- NO Midjourney syntax. Natural language sentences only.\n'
+    + '- Include a specific quoted text string to render inside each image.\n'
+    + '- Place style description and negative constraints at END of each prompt.\n'
+    + '- Format:\n'
+    + '  * [IMG-HERO]: [Full description. Text in image: \'keyword\'. Style: clean flat illustration, white background, no clutter.]\n'
+    + '  * [IMG-1]: [Gemini Prompt: ...]\n'
+    + '  * [IMG-2]: [Gemini Prompt: ...]\n\n'
+    + (aff !== 'None' ? '### Affiliate Integration:\n'
+      + '- Include a natural tool-recommendation subsection for: ' + aff + '\n'
+      + '- Place after the solution section, not before.\n\n' : '')
+    + '---\n'
+    + '**OUTPUT FORMAT:**\n\n'
+    + '# Article Blueprint\n\n'
+    + '**1. Visual Strategy:**\n'
+    + '* [IMG-HERO]: ...\n'
+    + '* [IMG-1]: ...\n'
+    + '* [IMG-2]: ...\n\n'
+    + '**2. Article Outline:**\n'
+    + '## H1: [Title — single entity + year + user benefit, max 65 chars]\n'
+    + '* Hook: address the Hidden Fear immediately.\n'
+    + '* Definition Block (GEO): "' + kw + ' is [one-sentence definition]. [One practical example]."\n'
+    + '* Visual: [IMG-HERO]\n'
+    + '## H2: [Direct Answer / Quick Answer] (Featured Snippet target, 40-60 words)\n'
+    + '## H2: [Problem / Core Concept]\n'
+    + '* Visual: [IMG-1]\n'
+    + '... continue H2/H3 structure per FORMAT SELECTOR above\n'
+    + '## H2: Frequently Asked Questions\n'
+    + '* Q1: ... A1: ...\n'
+    + '* Q2: ... (min 4 Q&A pairs)';
+  document.getElementById('p1').value = p1;
+
+  // ── STEP 2 ──────────────────────────────────────────────────────────────
+  var ilinkRule = '';
+  if (lmode === 'existing' && ilink) {
+    ilinkRule = '- Internal Link Mode: EXISTING. Naturally link once to: ' + ilink + ' using contextually relevant anchor text.';
+  } else if (lmode === 'stub' && ilink) {
+    ilinkRule = '- Internal Link Mode: STUB. Link to: ' + ilink + ' with anchor text derived from the slug keywords. Add HTML comment after the link: <!-- stub: content pending -->';
+  } else {
+    ilinkRule = '- Internal Link Mode: DEFER. Do NOT add internal links. Use the target topic\'s keywords naturally in text for future Keyword Map pickup.';
+  }
+  var pillarLinkRule = pillarUrl
+    ? '- Pillar Link: Naturally add one link to the Pillar page: ' + pillarUrl + ' — use anchor text like "complete guide" or "full overview".'
+    : '- Pillar Link: None (no Pillar URL provided).';
+  var glossaryRule = (cat === 'Prompting')
+    ? '\n**Rule 8 — Glossary Term Box (Prompting only):**\n'
+      + '- For the main technique being explained, insert this block immediately after the intro:\n'
+      + '  > **[Term]** — [One-sentence definition]. [One practical example sentence].\n'
+      + '  Format as a wp:quote block (will be converted in Step 3).\n'
+    : '';
+
+  var p2 = '# Role: AIQnAHub Senior Copywriter (E-E-A-T Specialist)\n'
+    + '**IDENTITY:** You are Ice Gan, AI Tools Researcher and IT Veteran with 33 years of IT experience. Write as a practitioner guiding from real tested experience.\n\n'
+    + '**INPUT (Step 0 Context):**\n' + o0 + '\n\n'
+    + '**INPUT (Step 1 Blueprint):**\n' + o1 + '\n\n'
+    + '---\n'
+    + '**WRITING RULES:**\n\n'
+    + '**Rule 1 — E-E-A-T Experience Protocol:**\n'
+    + '- First-person voice: "I found that... In my tests... The mistake I see most is..."\n'
+    + '- Reference a REAL test scenario from the Fact Sheet provided in Step 0.\n'
+    + '- If a real error log is available in the Fact Sheet, reproduce it verbatim in a code block.\n'
+    + '- If no real log is available, use a clearly labeled illustrative example — add "(Illustrative example)" after the code block.\n'
+    + '- DO NOT invent specific model versions, dates, or API versions.\n\n'
+    + '**Rule 2 — Authority Citation Rule:**\n'
+    + '- Use source NAMES only in the article body. Format: [[REF: SourceName]]\n'
+    + '- Do NOT write URLs in the article. URLs will be injected automatically in Step 3.\n'
+    + '- Reference Authority Vault sources at least TWICE.\n\n'
+    + '**Rule 3 — Image Placeholders:**\n'
+    + '- Insert: > [IMAGE: IMG-HERO] at the correct blueprint position.\n'
+    + '- Insert: > [IMAGE: IMG-1] and > [IMAGE: IMG-2] similarly.\n'
+    + '- Do NOT write Gemini prompts in the article body.\n\n'
+    + '**Rule 4 — Formatting:**\n'
+    + '- Bold all NLP Semantic Entities on first use.\n'
+    + '- Keep every paragraph under 4 lines.\n'
+    + '- Use bullet lists for 3+ sequential items.\n\n'
+    + '**Rule 5 — Rank Math SEO Compliance:**\n'
+    + '- Target word count: 2500+ words minimum.\n'
+    + '- Place main keyword "' + kw + '" in the FIRST paragraph (within first 10% of text).\n'
+    + '- Include "' + kw + '" in at least 2 H2 or H3 subheadings naturally.\n'
+    + '- Keyword density target: approximately once every 100-150 words.\n'
+    + (kw2 ? '- Secondary keywords (' + kw2 + '): each must appear in at least one subheading.\n' : '') + '\n'
+    + '**Rule 6 — Internal Links:**\n'
+    + ilinkRule + '\n'
+    + pillarLinkRule + '\n\n'
+    + '**Rule 7 — GEO Optimization:**\n'
+    + '- Add one standalone Definition Block immediately after H1:\n'
+    + '  "' + kw + ' is [concise definition in one sentence]. [One practical example sentence]."\n'
+    + '  Format as a wp:quote block.\n'
+    + '- Include at least one data table or comparison (minimum 2-column).\n'
+    + '- Write a "Quick Answer" box (40-60 words) under the first H2 — must be liftable verbatim by AI assistants.\n'
+    + glossaryRule
+    + '\n**Action:** Write the full article in Markdown now. Do not truncate.';
+  document.getElementById('p2').value = p2;
+
+  // ── STEP 3 ──────────────────────────────────────────────────────────────
+  var isPartOf = (isPillar && pillarUrl)
+    ? '  "isPartOf": { "@type": "WebPage", "@id": "' + pillarUrl + '" },\n'
+    : '';
+
+  var p3 = '# Role: AIQnAHub Developer (SEO & Gutenberg Packager)\n'
+    + '**TASK:** Package the content into 5 strictly separated output sections.\n\n'
+    + '**INPUT (Markdown Article from Step 2):**\n' + o2 + '\n\n'
+    + '**INPUT (Authority Vault with Real URLs from Step 0):**\n' + o0 + '\n\n'
+    + '**KEYWORD:** ' + kw + '\n'
+    + '**SECONDARY KEYWORDS:** ' + (kw2 || 'None') + '\n'
+    + '**CATEGORY:** ' + cat + '\n'
+    + '**SLUG:** ' + sl + '\n'
+    + '**DOMAIN:** ' + dom + '\n'
+    + '**PILLAR URL:** ' + (pillarUrl || 'None') + '\n'
+    + '**IS PILLAR CONTENT:** ' + (isPillar ? 'YES' : 'NO') + '\n\n'
+    + '---\n'
+    + '## SECTION 1: SEO METADATA (paste into Rank Math)\n\n'
+    + '* SEO Title: [max 60 chars, compelling, keyword in first 50 chars]\n'
+    + '* Slug: ' + sl + '\n'
+    + '* Meta Description: [max 160 chars, starts with action verb, includes keyword]\n'
+    + '* Focus Keyword: ' + kw + '\n'
+    + '* Secondary Keywords: ' + (kw2 || 'None') + '\n'
+    + '* Tags: [5 comma-separated semantic tags — include main keyword + all secondary keywords]\n\n'
+    + '---\n'
+    + '## SECTION 2: GEO & JSON-LD SCHEMA (4 layers, all in one wp:html block)\n\n'
+    + '<!-- wp:html -->\n'
+    + '### Layer 1 — Primary Schema:\n'
+    + '- IF Category = Troubleshoot OR Prompting AND article contains steps: use HowTo schema\n'
+    + '- IF Category = Resources-Review: use Review schema (include ratingValue and bestRating)\n'
+    + '- ELSE: use TechArticle schema\n'
+    + '- Required fields in all cases:\n'
+    + '  "@context": "https://schema.org",\n'
+    + '  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://' + dom + '/' + sl + '" },\n'
+    + '  "headline": "[SEO Title]",\n'
+    + '  "description": "[Meta Description]",\n'
+    + '  "image": "https://' + dom + '/wp-content/uploads/' + sl + '-hero.jpg",\n'
+    + '  "author": { "@type": "Person", "name": "Ice Gan", "url": "https://' + dom + '/about" },\n'
+    + '  "publisher": { "@type": "Organization", "name": "AIQnAHUB", "url": "https://' + dom + '" },\n'
+    + '  "datePublished": "[YYYY-MM-DD]",\n'
+    + '  "dateModified": "[YYYY-MM-DD]"\n'
+    + isPartOf
+    + '\n### Layer 2 — FAQPage Schema (ALL articles, mandatory):\n'
+    + '- Extract min 4 Q&A pairs from the FAQPage H2 section of the article.\n'
+    + '- Output as separate <script type="application/ld+json"> block with "@type": "FAQPage".\n\n'
+    + '### Layer 3 — BreadcrumbList Schema (ALL articles, mandatory):\n'
+    + '- Output as separate <script type="application/ld+json"> block:\n'
+    + '{ "@context": "https://schema.org", "@type": "BreadcrumbList",\n'
+    + '  "itemListElement": [\n'
+    + '    {"@type":"ListItem","position":1,"name":"Home","item":"https://' + dom + '"},\n'
+    + '    {"@type":"ListItem","position":2,"name":"' + cat + '","item":"https://' + dom + '/' + slug(cat) + '"},\n'
+    + '    {"@type":"ListItem","position":3,"name":"[SEO Title]","item":"https://' + dom + '/' + sl + '"}\n'
+    + '  ] }\n\n'
+    + '### Layer 4 — Author Entity Schema (ALL articles, mandatory):\n'
+    + '- Output as separate <script type="application/ld+json"> block:\n'
+    + '{ "@context": "https://schema.org", "@type": "Person",\n'
+    + '  "name": "Ice Gan",\n'
+    + '  "url": "https://' + dom + '/about",\n'
+    + '  "jobTitle": "AI Tools Researcher & IT Veteran",\n'
+    + '  "knowsAbout": ["' + kw + '", "' + cat + '", "Prompt Engineering", "AI Tools"] }\n'
+    + '<!-- /wp:html -->\n\n'
+    + '---\n'
+    + '## SECTION 3: NATIVE GUTENBERG HTML\n\n'
+    + '**STEP A — CITATION URL INJECTION (do this FIRST):**\n'
+    + '1. Scan article for all [[REF: SourceName]] placeholders.\n'
+    + '2. Cross-reference each SourceName against Authority Vault URLs in Step 0 input above.\n'
+    + '3. Replace [[REF: SourceName]] with the matched real URL.\n'
+    + '4. If no match found, flag as [[REF: SourceName | URL_NOT_FOUND]] for manual review. DO NOT invent any URL.\n\n'
+    + '**STEP B — GUTENBERG SERIALIZATION RULES:**\n'
+    + '- Output ONLY WordPress Gutenberg block comment syntax.\n'
+    + '- DO NOT write inline styles (style=...).\n'
+    + '- DO NOT wrap output in markdown code fences.\n\n'
+    + 'HEADING H2:\n'
+    + '<!-- wp:heading {"level":2} -->\n'
+    + '<h2 class=\'wp-block-heading\'>[Title]</h2>\n'
+    + '<!-- /wp:heading -->\n\n'
+    + 'PARAGRAPH with citation:\n'
+    + '<!-- wp:paragraph -->\n'
+    + '<p>[Text] <span class=\'citation-source\'><a href=\'[REAL URL from Authority Vault]\' target=\'_blank\' rel=\'nofollow noopener noreferrer\'>[Source Name]</a></span></p>\n'
+    + '<!-- /wp:paragraph -->\n\n'
+    + 'DEFINITION BLOCK (from Rule 7 / Glossary Term Box):\n'
+    + '<!-- wp:quote {"className":"definition-block"} -->\n'
+    + '<blockquote class="wp-block-quote definition-block"><p>[Definition text]</p></blockquote>\n'
+    + '<!-- /wp:quote -->\n\n'
+    + 'QUICK ANSWER BOX (from Rule 7):\n'
+    + '<!-- wp:group {"className":"quick-answer-box"} -->\n'
+    + '<div class="wp-block-group quick-answer-box">\n'
+    + '<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Quick Answer</h3><!-- /wp:heading -->\n'
+    + '<!-- wp:paragraph --><p>[40-60 word answer]</p><!-- /wp:paragraph -->\n'
+    + '</div>\n'
+    + '<!-- /wp:group -->\n\n'
+    + 'CODE BLOCK:\n'
+    + '<!-- wp:code -->\n'
+    + '<pre class=\'wp-block-code\'><code>[code or error log]</code></pre>\n'
+    + '<!-- /wp:code -->\n\n'
+    + 'IMAGE BLOCK (convert > [IMAGE: IMG-HERO], > [IMAGE: IMG-1], > [IMAGE: IMG-2]):\n'
+    + 'Filename rule: IMG-HERO = ' + sl + '-hero.jpg | IMG-1 = ' + sl + '-01.jpg | IMG-2 = ' + sl + '-02.jpg\n'
+    + 'Gemini prompt goes in data-prompt attribute ONLY. Figcaption = short SEO description (max 8 words).\n'
+    + '<!-- wp:image {"align":"center","sizeSlug":"large"} -->\n'
+    + '<figure class=\'wp-block-image aligncenter size-large\'>\n'
+    + '<img src=\'https://placehold.co/1200x630/e8f0fe/0052cc?text=' + sl + '\' alt=\'[Alt text with keyword]\' data-prompt=\'[Full Gemini Imagen 3 prompt from Blueprint]\' />\n'
+    + '<figcaption class=\'wp-element-caption\'>[Short SEO description, max 8 words]</figcaption>\n'
+    + '</figure>\n'
+    + '<!-- /wp:image -->\n\n'
+    + (aff !== 'None'
+      ? 'CTA BUTTON (affiliate — ' + aff + '):\n'
+        + '<!-- wp:buttons -->\n'
+        + '<div class=\'wp-block-buttons\'><!-- wp:button {"className":"ai-hub-cta-btn"} -->\n'
+        + '<div class=\'wp-block-button ai-hub-cta-btn\'><a class=\'wp-block-button__link\' href=\'[AFFILIATE URL]\' target=\'_blank\' rel=\'sponsored noopener\'>[Button Text for ' + aff + ']</a></div>\n'
+        + '<!-- /wp:button --></div><!-- /wp:buttons -->\n\n'
+      : '')
+    + 'REFERENCES BOX (mandatory, at very end):\n'
+    + '<!-- wp:group -->\n'
+    + '<div class=\'wp-block-group article-references\'>\n'
+    + '<!-- wp:heading {"level":4} --><h4 class=\'wp-block-heading\'>References & Sources</h4><!-- /wp:heading -->\n'
+    + '<!-- wp:list --><ul class=\'wp-block-list\'>\n'
+    + '[For each Authority Vault source: <li><span class=\'citation-source\'><a href=\'[REAL URL]\' rel=\'nofollow noopener noreferrer\' target=\'_blank\'>[Source Name]</a></span></li>]\n'
+    + '</ul><!-- /wp:list -->\n'
+    + '</div><!-- /wp:group -->\n\n'
+    + '---\n'
+    + '## SECTION 4: RANK MATH COMPLIANCE CHECKLIST\n\n'
+    + 'Self-check the article output and fill this table:\n\n'
+    + '| Test | Required | Status |\n'
+    + '|------|---------|--------|\n'
+    + '| Keyword in SEO Title (first 50 chars) | ✅ | [PASS/FAIL] |\n'
+    + '| Keyword in Meta Description | ✅ | [PASS/FAIL] |\n'
+    + '| Keyword in first paragraph | ✅ | [PASS/FAIL] |\n'
+    + '| Keyword in ≥2 subheadings | ✅ | [PASS/FAIL] |\n'
+    + '| Word count ≥2500 | ✅ | [ESTIMATED COUNT] |\n'
+    + '| Internal link included | ✅ | [PASS/FAIL/DEFERRED] |\n'
+    + '| External link from Authority Vault | ✅ | [PASS/FAIL] |\n'
+    + '| Image alt text contains keyword | ✅ | [PASS/FAIL] |\n'
+    + '| FAQPage schema generated | ✅ | [PASS/FAIL] |\n'
+    + '| BreadcrumbList schema generated | ✅ | [PASS/FAIL] |\n'
+    + '| Author Entity schema generated | ✅ | [PASS/FAIL] |\n\n'
+    + '---\n'
+    + '## SECTION 5: KEYWORD MAP SETUP (for Rank Math Link Builder)\n\n'
+    + 'Keyword Map Config:\n'
+    + '- Target URL: https://' + dom + '/' + sl + '\n'
+    + '- Trigger Keywords: ' + kw + (kw2 ? ', ' + kw2 : '') + '\n'
+    + '- Suggested Max Links per Post: 2\n'
+    + '- Auto-Link on Publish: YES\n'
+    + '- Apply to existing posts: YES (run after publishing)\n\n'
+    + 'EXECUTION: Complete Step A URL injection first, then output Sections 1 through 5 clearly separated.';
+  document.getElementById('p3').value = p3;
+}
+
+window.onload = function(){ toggleLinkRow(); gen(); };
+</script>
+</body>
+</html>
