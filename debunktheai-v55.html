@@ -1,0 +1,1062 @@
+<!-- DebunkTheAI Workflow Engine V5.5 — WordPress Fragment -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  #dta-root * { box-sizing: border-box; }
+  #dta-root { font-family: 'Sora', sans-serif; }
+  .dta-mono { font-family: 'JetBrains Mono', monospace; }
+  .dta-tab { transition: all .15s ease; border-bottom: 2px solid transparent; }
+  .dta-tab.active { border-bottom-color: #f97316; color: #f97316; }
+  .dta-tab:not(.active):hover { color: #d4d4d8; }
+  .dta-step-btn { transition: all .15s ease; }
+  .dta-step-btn:hover { filter: brightness(1.15); }
+  .dta-copy-btn { transition: all .2s; }
+  .dta-copy-btn.copied { background: #166534 !important; border-color: #16a34a !important; }
+  .dta-field { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0; border-radius: 6px; padding: 10px 14px; width: 100%; outline: none; transition: border-color .15s; }
+  .dta-field:focus { border-color: #f97316; }
+  .dta-field::placeholder { color: #52525b; }
+  .dta-prompt-out { background: #0d0d0d; border: 1px solid rgba(255,255,255,0.08); color: #a1a1aa; border-radius: 6px; padding: 14px; width: 100%; min-height: 160px; resize: vertical; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; }
+  .dta-paste-area { background: #111113; border: 1px dashed rgba(249,115,22,0.3); color: #d4d4d8; border-radius: 6px; padding: 14px; width: 100%; min-height: 120px; resize: vertical; font-size: 13px; line-height: 1.5; }
+  .dta-paste-area::placeholder { color: #3f3f46; }
+  .dta-section { background: #141416; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .dta-step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .dta-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .dta-badge-pending { background: #27272a; color: #71717a; border: 1px solid #3f3f46; }
+  .dta-badge-active { background: #431407; color: #fb923c; border: 1px solid #f97316; }
+  .dta-badge-done { background: #14532d; color: #4ade80; border: 1px solid #16a34a; }
+  .dta-label { font-size: 12px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .06em; }
+  .dta-progress { display: flex; gap: 6px; align-items: center; }
+  .dta-progress-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dta-tip { font-size: 11px; color: #52525b; font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+  .mode-panel { display: none; }
+  .mode-panel.active { display: block; }
+  select.dta-field option { background: #1c1c1e; color: #e0e0e0; }
+  /* scrollbar */
+  #dta-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+  #dta-root ::-webkit-scrollbar-track { background: #0d0d0d; }
+  #dta-root ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+</style>
+
+<div id="dta-root" class="bg-zinc-950 min-h-screen">
+
+  <!-- ── HEADER ── -->
+  <div class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center text-sm font-bold text-black">D</div>
+        <span class="text-white font-bold tracking-tight">DebunkTheAI</span>
+        <span class="text-zinc-600 text-sm dta-mono">v5.5</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-zinc-500 text-xs">GEO / Language</span>
+        <select id="geo-select" class="dta-field" style="width:auto;font-size:13px;padding:6px 10px;" onchange="state.global.target_geo_language=this.value">
+          <option>Global / English</option>
+          <option>US / English</option>
+          <option>UK / English</option>
+          <option>CA / English</option>
+          <option>AU / English</option>
+          <option>DE / German</option>
+          <option>FR / French</option>
+          <option>JP / Japanese</option>
+          <option>CN / Chinese (Simplified)</option>
+          <option>BR / Portuguese</option>
+          <option>ES / Spanish</option>
+          <option>IN / English (India)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TABS ── -->
+  <div class="border-b border-white/5 px-6">
+    <div class="max-w-6xl mx-auto flex gap-0">
+      <button class="dta-tab active px-5 py-3 text-sm font-semibold text-zinc-400" onclick="switchMode('A',this)">
+        <span class="text-orange-500 mr-1.5">A</span> Teardowns
+      </button>
+      <button class="dta-tab px-5 py-3 text-sm font-semibold text-zinc-400" onclick="switchMode('B',this)">
+        <span class="text-orange-500 mr-1.5">B</span> Battle Reports
+      </button>
+      <button class="dta-tab px-5 py-3 text-sm font-semibold text-zinc-400" onclick="switchMode('C',this)">
+        <span class="text-orange-500 mr-1.5">C</span> Debugger
+      </button>
+      <button class="dta-tab px-5 py-3 text-sm font-semibold text-zinc-400" onclick="switchMode('D',this)">
+        <span class="text-orange-500 mr-1.5">D</span> Escape Routes
+      </button>
+    </div>
+  </div>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="max-w-6xl mx-auto px-6 py-8">
+
+    <!-- ═══════════════════════════════════════════════
+         MODE A — TEARDOWNS
+    ═══════════════════════════════════════════════ -->
+    <div id="panel-A" class="mode-panel active">
+      <div class="mb-6">
+        <h2 class="text-white text-xl font-bold">Forensic Teardown</h2>
+        <p class="text-zinc-500 text-sm mt-1">Deep-dive exposé — Claim vs Reality, hidden pricing, BS Meter Scorecard.</p>
+      </div>
+
+      <!-- FIELDS -->
+      <div class="dta-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div class="dta-label">Software / Product Name</div>
+            <input id="a-software-name" class="dta-field" type="text" placeholder="e.g. Notion" oninput="state.modeA.software_name=this.value">
+          </div>
+          <div>
+            <div class="dta-label">Official URL</div>
+            <input id="a-official-url" class="dta-field" type="text" placeholder="https://notion.so" oninput="state.modeA.official_url=this.value">
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div id="a-badge-1" class="dta-badge dta-badge-active">1</div>
+          <div>
+            <div class="text-white text-sm font-semibold">Forensic Research Prompt</div>
+            <div class="text-zinc-500 text-xs">Generate → Copy → Paste to AI → Get result → Paste below</div>
+          </div>
+        </div>
+        <button class="dta-step-btn bg-orange-500 hover:bg-orange-600 text-black text-sm font-bold px-5 py-2.5 rounded-lg mb-4" onclick="genA1()">⚡ Generate Step 1 Prompt</button>
+        <div class="dta-label">Generated Prompt</div>
+        <textarea id="a-step1-prompt" class="dta-prompt-out mb-3" readonly placeholder="Prompt will appear here..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('a-step1-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste AI Research Result Here</div>
+        <textarea id="a-step1-result" class="dta-paste-area" placeholder="Paste the AI's research output here before generating Step 2..." oninput="state.modeA.step1_output=this.value"></textarea>
+        <div class="dta-tip">✦ Required for Step 2 cascade injection</div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div id="a-badge-2" class="dta-badge dta-badge-pending">2</div>
+          <div>
+            <div class="text-white text-sm font-semibold">Article Generation Prompt</div>
+            <div class="text-zinc-500 text-xs">Full HTML article with Dark Box CSS, BS Meter, storytelling hook</div>
+          </div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genA2()">⚡ Generate Step 2 Prompt</button>
+        <div class="dta-label">Generated Prompt</div>
+        <textarea id="a-step2-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 1 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('a-step2-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste Generated HTML Article Here</div>
+        <textarea id="a-step2-html" class="dta-paste-area" placeholder="Paste the AI's HTML article output here for Step 3/4..." oninput="state.modeA.step2_html=this.value"></textarea>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div id="a-badge-3" class="dta-badge dta-badge-pending">3</div>
+          <div>
+            <div class="text-white text-sm font-semibold">SEO Extraction Prompt</div>
+            <div class="text-zinc-500 text-xs">Auto-derives keywords, title, slug, meta, Schema JSON-LD</div>
+          </div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genA3()">⚡ Generate Step 3 Prompt</button>
+        <textarea id="a-step3-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 2 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('a-step3-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div id="a-badge-4" class="dta-badge dta-badge-pending">4</div>
+          <div>
+            <div class="text-white text-sm font-semibold">GDN Ad Copy Prompt</div>
+            <div class="text-zinc-500 text-xs">5× short titles, 1× long title, 3× descriptions — policy-compliant</div>
+          </div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genA4()">⚡ Generate Step 4 Prompt</button>
+        <textarea id="a-step4-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 2 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('a-step4-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         MODE B — BATTLE REPORTS (Best Alternatives / vs)
+    ═══════════════════════════════════════════════ -->
+    <div id="panel-B" class="mode-panel">
+      <div class="mb-6">
+        <h2 class="text-white text-xl font-bold">Battle Report</h2>
+        <p class="text-zinc-500 text-sm mt-1">Best alternatives / head-to-head — team budget wasted, vendor lock-in exposed.</p>
+      </div>
+      <div class="dta-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div class="dta-label">Main Product (Target)</div>
+            <input id="b-main-product" class="dta-field" type="text" placeholder="e.g. Salesforce" oninput="state.modeB.main_product=this.value">
+          </div>
+          <div>
+            <div class="dta-label">Main Product URL</div>
+            <input id="b-main-product-url" class="dta-field" type="text" placeholder="https://salesforce.com" oninput="state.modeB.main_product_url=this.value">
+          </div>
+          <div class="md:col-span-2">
+            <div class="dta-label">Related Mode A Teardown Link <span class="text-zinc-600">(Optional — for internal linking)</span></div>
+            <input id="b-related-link" class="dta-field" type="text" placeholder="https://yourdomain.com/salesforce-teardown/" oninput="state.modeB.related_mode_a_link=this.value">
+            <div class="dta-tip">✦ If provided, the article will forensically cite this teardown in the body and CTA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-active">1</div>
+          <div><div class="text-white text-sm font-semibold">Competitive Research Prompt</div><div class="text-zinc-500 text-xs">Market landscape, competitor strengths, pricing gaps</div></div>
+        </div>
+        <button class="dta-step-btn bg-orange-500 hover:bg-orange-600 text-black text-sm font-bold px-5 py-2.5 rounded-lg mb-4" onclick="genB1()">⚡ Generate Step 1 Prompt</button>
+        <textarea id="b-step1-prompt" class="dta-prompt-out mb-3" readonly placeholder="Prompt will appear here..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('b-step1-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste AI Research Result Here</div>
+        <textarea id="b-step1-result" class="dta-paste-area" placeholder="Paste the AI's competitive research output here..." oninput="state.modeB.step1_output=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-pending">2</div>
+          <div><div class="text-white text-sm font-semibold">Battle Report Article Prompt</div><div class="text-zinc-500 text-xs">Team-wasted-budget hook, comparison table, forensic links</div></div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genB2()">⚡ Generate Step 2 Prompt</button>
+        <textarea id="b-step2-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 1 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('b-step2-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste Generated HTML Article Here</div>
+        <textarea id="b-step2-html" class="dta-paste-area" placeholder="Paste the HTML output..." oninput="state.modeB.step2_html=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">3</div><div><div class="text-white text-sm font-semibold">SEO Extraction Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genB3()">⚡ Generate Step 3 Prompt</button>
+        <textarea id="b-step3-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('b-step3-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">4</div><div><div class="text-white text-sm font-semibold">GDN Ad Copy Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genB4()">⚡ Generate Step 4 Prompt</button>
+        <textarea id="b-step4-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('b-step4-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         MODE C — DEBUGGER
+    ═══════════════════════════════════════════════ -->
+    <div id="panel-C" class="mode-panel">
+      <div class="mb-6">
+        <h2 class="text-white text-xl font-bold">Bug Autopsy Report</h2>
+        <p class="text-zinc-500 text-sm mt-1">Incident Report → Corporate BS → Autopsy → Patch → Verdict. Intercepts pain-driven search queries.</p>
+      </div>
+      <div class="dta-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div class="dta-label">Target Software (Buggy Product)</div>
+            <input id="c-target-software" class="dta-field" type="text" placeholder="e.g. Jira" oninput="state.modeC.target_software=this.value">
+          </div>
+          <div>
+            <div class="dta-label">Verified Alternative Product</div>
+            <input id="c-alternative-product" class="dta-field" type="text" placeholder="e.g. Linear" oninput="state.modeC.alternative_product=this.value">
+          </div>
+          <div class="md:col-span-2">
+            <div class="dta-label">Related Mode A Teardown Link <span class="text-zinc-600">(Optional)</span></div>
+            <input id="c-related-link" class="dta-field" type="text" placeholder="https://yourdomain.com/jira-teardown/" oninput="state.modeC.related_mode_a_link=this.value">
+            <div class="dta-tip">✦ If Bug severity is HIGH, article will cite this as "architectural flaw evidence"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-active">1</div>
+          <div><div class="text-white text-sm font-semibold">Bug Hunting Prompt</div><div class="text-zinc-500 text-xs">Reddit/StackOverflow crash archaeology, Pathology Report</div></div>
+        </div>
+        <button class="dta-step-btn bg-orange-500 hover:bg-orange-600 text-black text-sm font-bold px-5 py-2.5 rounded-lg mb-4" onclick="genC1()">⚡ Generate Step 1 Prompt</button>
+        <textarea id="c-step1-prompt" class="dta-prompt-out mb-3" readonly placeholder="Prompt will appear here..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('c-step1-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste AI Pathology Report Here</div>
+        <textarea id="c-step1-result" class="dta-paste-area" placeholder="Paste the bug report / pathology output..." oninput="state.modeC.step1_output=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-pending">2</div>
+          <div><div class="text-white text-sm font-semibold">Autopsy Article Prompt</div><div class="text-zinc-500 text-xs">2AM developer hook, forensic code blocks, patch guide, diagnostic verdict</div></div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genC2()">⚡ Generate Step 2 Prompt</button>
+        <textarea id="c-step2-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 1 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('c-step2-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste Generated HTML Article Here</div>
+        <textarea id="c-step2-html" class="dta-paste-area" placeholder="Paste the HTML output..." oninput="state.modeC.step2_html=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">3</div><div><div class="text-white text-sm font-semibold">SEO Extraction Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genC3()">⚡ Generate Step 3 Prompt</button>
+        <textarea id="c-step3-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('c-step3-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">4</div><div><div class="text-white text-sm font-semibold">GDN Ad Copy Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genC4()">⚡ Generate Step 4 Prompt</button>
+        <textarea id="c-step4-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('c-step4-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         MODE D — ESCAPE ROUTES (Migration Guides)
+    ═══════════════════════════════════════════════ -->
+    <div id="panel-D" class="mode-panel">
+      <div class="mb-6">
+        <h2 class="text-white text-xl font-bold">Escape Route Guide</h2>
+        <p class="text-zinc-500 text-sm mt-1">Step-by-step migration / cancellation guide. Every step gets an image placeholder.</p>
+      </div>
+      <div class="dta-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <div class="dta-label">Core Product (Being Escaped)</div>
+            <input id="d-core-product" class="dta-field" type="text" placeholder="e.g. Adobe Creative Cloud" oninput="state.modeD.core_product=this.value">
+          </div>
+          <div>
+            <div class="dta-label">Related Mode A Teardown Link <span class="text-zinc-600">(Optional)</span></div>
+            <input id="d-related-link" class="dta-field" type="text" placeholder="https://yourdomain.com/adobe-teardown/" oninput="state.modeD.related_mode_a_link=this.value">
+            <div class="dta-tip">✦ Cited as "why you're leaving" anchor in intro and final CTA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-active">1</div>
+          <div><div class="text-white text-sm font-semibold">Migration Research Prompt</div><div class="text-zinc-500 text-xs">Export paths, data portability, cancellation traps, alternatives roster</div></div>
+        </div>
+        <button class="dta-step-btn bg-orange-500 hover:bg-orange-600 text-black text-sm font-bold px-5 py-2.5 rounded-lg mb-4" onclick="genD1()">⚡ Generate Step 1 Prompt</button>
+        <textarea id="d-step1-prompt" class="dta-prompt-out mb-3" readonly placeholder="Prompt will appear here..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('d-step1-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste AI Migration Research Here</div>
+        <textarea id="d-step1-result" class="dta-paste-area" placeholder="Paste the migration research output..." oninput="state.modeD.step1_output=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header">
+          <div class="dta-badge dta-badge-pending">2</div>
+          <div><div class="text-white text-sm font-semibold">Escape Guide Article Prompt</div><div class="text-zinc-500 text-xs">Repetitive-labour hook, numbered steps, 1 image per step, internal link CTA</div></div>
+        </div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genD2()">⚡ Generate Step 2 Prompt</button>
+        <textarea id="d-step2-prompt" class="dta-prompt-out mb-3" readonly placeholder="Complete Step 1 first..."></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400 mb-6" onclick="copyEl('d-step2-prompt',this)">⎘ Copy Prompt</button>
+        <div class="dta-label">↳ Paste Generated HTML Article Here</div>
+        <textarea id="d-step2-html" class="dta-paste-area" placeholder="Paste the HTML output..." oninput="state.modeD.step2_html=this.value"></textarea>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">3</div><div><div class="text-white text-sm font-semibold">SEO Extraction Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genD3()">⚡ Generate Step 3 Prompt</button>
+        <textarea id="d-step3-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('d-step3-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+
+      <div class="dta-section">
+        <div class="dta-step-header"><div class="dta-badge dta-badge-pending">4</div><div><div class="text-white text-sm font-semibold">GDN Ad Copy Prompt</div></div></div>
+        <button class="dta-step-btn bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg mb-4 border border-zinc-700" onclick="genD4()">⚡ Generate Step 4 Prompt</button>
+        <textarea id="d-step4-prompt" class="dta-prompt-out mb-3" readonly></textarea>
+        <button class="dta-copy-btn text-xs font-semibold px-4 py-2 rounded border border-zinc-700 text-zinc-400" onclick="copyEl('d-step4-prompt',this)">⎘ Copy Prompt</button>
+      </div>
+    </div>
+
+  </div><!-- /max-w -->
+
+  <!-- ── FOOTER ── -->
+  <div class="border-t border-white/5 px-6 py-4 mt-8">
+    <div class="max-w-6xl mx-auto flex items-center justify-between text-zinc-600 text-xs dta-mono">
+      <span>DebunkTheAI Workflow Engine · V5.5 Ultra Full Edition</span>
+      <span>Rules: Dark Box · Cascade · Storytelling · RULE 1–5 enforced</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+const state = {
+  global: { target_geo_language: 'Global / English' },
+  modeA: { software_name: '', official_url: '', step1_output: '', step2_html: '' },
+  modeB: { main_product: '', main_product_url: '', related_mode_a_link: '', step1_output: '', step2_html: '' },
+  modeC: { target_software: '', alternative_product: '', related_mode_a_link: '', step1_output: '', step2_html: '' },
+  modeD: { core_product: '', related_mode_a_link: '', step1_output: '', step2_html: '' }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════════════ */
+const DARK_BOX_CSS = `<style>
+:root {
+  --dta-bg: #0d0d0d; --dta-surface: #141416; --dta-text: #e0e0e0;
+  --dta-accent: #ff4500; --dta-blue: #00d4ff; --dta-green: #00ff41;
+  --dta-border: rgba(255,255,255,0.1);
+}
+.dta-main-wrapper {
+  background-color: var(--dta-bg) !important;
+  color: var(--dta-text) !important;
+  padding: 40px; border: 1px solid var(--dta-border);
+  font-family: 'Inter', sans-serif; max-width: 900px; margin: 0 auto;
+}
+.dta-main-wrapper * { box-sizing: border-box; }
+.dta-main-wrapper h1, .dta-main-wrapper h2, .dta-main-wrapper h3 { color: #ffffff !important; line-height: 1.3; }
+.dta-main-wrapper h1 { font-size: 2rem; font-weight: 800; border-bottom: 2px solid var(--dta-accent); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.dta-main-wrapper h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; color: #ffffff !important; }
+.dta-main-wrapper h3 { font-size: 1.15rem; font-weight: 600; margin-top: 1.5rem; color: #cccccc !important; }
+.dta-main-wrapper p { line-height: 1.75; margin-bottom: 1rem; color: var(--dta-text) !important; }
+.dta-main-wrapper a { color: var(--dta-blue) !important; text-decoration: underline; }
+.dta-main-wrapper ul, .dta-main-wrapper ol { padding-left: 1.5rem; margin-bottom: 1rem; color: var(--dta-text) !important; }
+.dta-main-wrapper li { margin-bottom: 0.5rem; line-height: 1.7; }
+.dta-img { width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid var(--dta-border); display: block; }
+.dta-verdict-box { background: var(--dta-surface) !important; border: 1px solid var(--dta-accent); border-left: 4px solid var(--dta-accent); padding: 1.5rem; border-radius: 4px; margin: 2rem 0; color: var(--dta-text) !important; }
+.dta-verdict-box strong { color: var(--dta-accent) !important; }
+.dta-cta { display: inline-block; background: var(--dta-accent) !important; color: #fff !important; padding: 14px 28px; border-radius: 4px; font-weight: 700; text-decoration: none !important; margin: 1rem 0; cursor: pointer; }
+.dta-code { background: #0a0a0a; border: 1px solid var(--dta-green); color: var(--dta-green) !important; font-family: 'JetBrains Mono', monospace; padding: 1rem; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; margin: 1rem 0; font-size: 13px; }
+.dta-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.dta-table th { background: var(--dta-surface) !important; color: var(--dta-accent) !important; padding: 0.75rem; text-align: left; border: 1px solid var(--dta-border); font-weight: 600; }
+.dta-table td { padding: 0.75rem; border: 1px solid var(--dta-border); color: var(--dta-text) !important; vertical-align: top; }
+.dta-table tr:nth-child(even) td { background: rgba(255,255,255,0.02) !important; }
+.dta-meter-section { margin: 2rem 0; background: var(--dta-surface) !important; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dta-border); }
+.dta-meter-row { margin-bottom: 1rem; }
+.dta-meter-label { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; color: var(--dta-text) !important; }
+.dta-meter-label span:last-child { color: var(--dta-accent) !important; font-weight: 700; }
+.dta-meter-bar-wrap { background: #1a1a1a; border-radius: 4px; height: 8px; }
+.dta-meter-bar { height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--dta-accent), #ff8c00); transition: width 1.2s ease; }
+.dta-callout { background: rgba(0,212,255,0.06) !important; border: 1px solid var(--dta-blue); padding: 1rem 1.25rem; border-radius: 4px; margin: 1.5rem 0; color: var(--dta-text) !important; font-size: 14px; }
+.dta-callout::before { content: "⚠ "; color: var(--dta-blue) !important; font-weight: 700; }
+.dta-step-num { display: inline-block; background: var(--dta-accent); color: #000 !important; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; margin-right: 8px; font-size: 13px; }
+</style>`;
+
+const IMG_PLACEHOLDER = (alt, name, prompt, recommend) =>
+  `<img src="/wp-content/uploads/placeholder.jpg" class="dta-img" alt="${alt}" name="${name}" data-prompt="${prompt}" data-recommend="${recommend}" />`;
+
+/* ═══════════════════════════════════════════════════════════
+   UI HELPERS
+═══════════════════════════════════════════════════════════ */
+function switchMode(m, btn) {
+  document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dta-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + m).classList.add('active');
+  btn.classList.add('active');
+}
+
+function copyEl(id, btn) {
+  const el = document.getElementById(id);
+  if (!el || !el.value.trim()) return;
+  navigator.clipboard.writeText(el.value).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⎘ Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function setField(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+function getGeo() { return state.global.target_geo_language; }
+
+/* ═══════════════════════════════════════════════════════════
+   SEO STEP (shared)
+═══════════════════════════════════════════════════════════ */
+function buildSEOPrompt(htmlContent, product, schemaType = 'Review') {
+  return `You are an expert SEO strategist. Analyze the HTML article below and extract/generate the following SEO package.
+
+HTML ARTICLE:
+---
+${htmlContent || '[PASTE ARTICLE HTML HERE — must complete Step 2 first]'}
+---
+
+DELIVERABLES — output in this EXACT labeled format, nothing else:
+
+PRIMARY_KEYWORD: [1 primary keyword phrase, naturally derived from content]
+TITLE_TAG: [Max 60 characters. Must contain primary keyword. No clickbait superlatives.]
+URL_SLUG: [lowercase-hyphenated, max 6 words, contains primary keyword]
+META_DESCRIPTION: [Max 155 characters. Includes primary keyword. Value proposition clear. No quotes.]
+FOCUS_KEYPHRASE: [Exact primary keyword for Yoast/RankMath]
+SECONDARY_KEYWORDS: [3 secondary keyword phrases, comma-separated]
+
+SCHEMA_JSON_LD:
+[Complete JSON-LD block — Schema type: ${schemaType}. Include all required fields. Wrap in <script type="application/ld+json"> tags.]
+
+INTERNAL_LINK_SUGGESTIONS: [3 suggested anchor texts + target slugs based on content topics]
+
+Target Geography/Language: ${getGeo()}
+Product: ${product}`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GDN STEP (shared)
+═══════════════════════════════════════════════════════════ */
+function buildGDNPrompt(htmlContent, product) {
+  return `You are a Google Display Network copywriter. Generate ad copy for the article below, passing ALL 4 policy checks before output.
+
+ARTICLE CONTEXT:
+${htmlContent ? htmlContent.substring(0, 800) + '...' : '[PASTE ARTICLE HTML HERE — must complete Step 2 first]'}
+
+PRODUCT: ${product}
+TARGET: ${getGeo()}
+
+━━━ POLICY AUDIT (apply silently before writing) ━━━
+[Policy 1] No superlatives: "best", "#1", "amazing", "guaranteed"
+[Policy 2] No false urgency: "limited time", "act now", "only X left"
+[Policy 3] No unverifiable claims: revenue numbers, % improvements without citation
+[Policy 4] No misleading price framing: "free" must be genuinely free
+
+━━━ DELIVERABLES ━━━
+
+SHORT_TITLES (5 variations — MAX 30 CHARACTERS EACH):
+1. [title] [char count]
+2. [title] [char count]
+3. [title] [char count]
+4. [title] [char count]
+5. [title] [char count]
+
+LONG_TITLE (1 variation — MAX 90 CHARACTERS):
+[title] [char count]
+
+DESCRIPTIONS (3 variations — MAX 90 CHARACTERS EACH):
+1. [description] [char count]
+2. [description] [char count]
+3. [description] [char count]
+
+POLICY_AUDIT_RESULT: [PASS or list violations]
+
+OUTPUT FORMAT: Label each section clearly. Include character counts in brackets after each line.`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODE A GENERATORS
+═══════════════════════════════════════════════════════════ */
+function genA1() {
+  const s = state.modeA;
+  if (!s.software_name) { alert('Please enter Software Name first.'); return; }
+  const prompt = `You are a forensic investigative journalist specializing in SaaS and AI product exposés. Conduct deep research on ${s.software_name}${s.official_url ? ' (Official URL: ' + s.official_url + ')' : ''}.
+
+OUTPUT FORMAT — use these EXACT headers, no extra text:
+
+## FOUNDER_PROFILE
+[Founder/CEO background, previous ventures (with outcomes), notable red flags, funding history]
+
+## CORE_CLAIMS
+[5 specific marketing claims extracted from their website — quote them directly]
+
+## CLAIM_VS_REALITY
+[For each claim: | Claim | Evidence Supporting | Counterevidence | Verdict |
+Format as a table]
+
+## PRICING_AUTOPSY
+[List ALL pricing tiers. Surface: annual lock-in terms, credit card required, overage costs, feature gating details, cancellation fees, data export restrictions]
+
+## STREET_EVIDENCE
+[5 distinct complaint PATTERNS sourced from Reddit, G2, Capterra, Trustpilot, AppSumo. Format: SOURCE | PATTERN | FREQUENCY (rare/common/widespread)]
+
+## BS_METER_SCORES
+D1 - Pricing Transparency: [score 1-10] | [one-line evidence]
+D2 - Feature Reality: [score 1-10] | [one-line evidence]
+D3 - Support Quality: [score 1-10] | [one-line evidence]
+D4 - Scalability Truth: [score 1-10] | [one-line evidence]
+D5 - Exit Costs: [score 1-10] | [one-line evidence]
+
+## QUICK_VERDICT
+[Single brutal sentence. Maximum 25 words. No hedging.]
+
+## HOOK_MATERIAL
+[One specific billing/pricing nightmare anecdote (real or composite) suitable as an article opening. DO NOT mention the product name in the first sentence.]
+
+Target Geography/Language: ${getGeo()}`;
+
+  setField('a-step1-prompt', prompt);
+  document.getElementById('a-badge-1').className = 'dta-badge dta-badge-active';
+}
+
+function genA2() {
+  const s = state.modeA;
+  if (!s.software_name) { alert('Please enter Software Name first.'); return; }
+
+  const img1 = IMG_PLACEHOLDER(
+    `${s.software_name} pricing page screenshot`,
+    `${s.software_name.toLowerCase().replace(/\s+/g,'-')}-pricing`,
+    `style:tech-noir, ${s.software_name} SaaS pricing table UI, dark theme, red warning highlights, 1200x675px`,
+    `1.Official screenshot, 2.AI-generated pricing mockup, 3.Wayback Machine archive, 4.YouTube review screenshot`
+  );
+  const img2 = IMG_PLACEHOLDER(
+    `${s.software_name} user complaints dashboard`,
+    `${s.software_name.toLowerCase().replace(/\s+/g,'-')}-complaints`,
+    `style:tech-noir, Reddit/G2 review interface collage, dark overlay, orange accent callouts, 1200x675px`,
+    `1.Composite screenshot montage, 2.AI-generated review mockup, 3.G2 embed screenshot, 4.YouTube review thumbnail`
+  );
+  const img3 = IMG_PLACEHOLDER(
+    `${s.software_name} hidden fees breakdown`,
+    `${s.software_name.toLowerCase().replace(/\s+/g,'-')}-hidden-fees`,
+    `style:tech-noir, invoice/bill document dark background, red overage markers, forensic annotation style, 1200x675px`,
+    `1.Annotated screenshot of billing page, 2.AI-generated dark invoice graphic, 3.Third-party review, 4.YouTube billing walkthrough`
+  );
+
+  const prompt = `You are a Tech-Noir investigative journalist writing for DebunkTheAI. Using the research data below, generate a COMPLETE HTML article fragment.
+
+━━━ RESEARCH DATA ━━━
+${s.step1_output || '[RESEARCH DATA — paste Step 1 output into the field above before generating]'}
+
+━━━ PRODUCT ━━━
+Name: ${s.software_name}
+URL: ${s.official_url || 'N/A'}
+Target: ${getGeo()}
+
+━━━ MANDATORY CSS (paste VERBATIM at the very top of your output) ━━━
+${DARK_BOX_CSS}
+
+━━━ ARTICLE STRUCTURE (follow in exact order) ━━━
+
+1. Open with: <div class="dta-main-wrapper">
+
+2. STORYTELLING HOOK — MANDATORY RULES:
+   ✗ NEVER start with "${s.software_name}" as the first word
+   ✓ Open with the billing nightmare / invoice shock from HOOK_MATERIAL in research
+   ✓ Drag the reader in before naming the product (2–3 sentences minimum)
+
+3. H1 headline — contains primary SEO keyword, max 65 characters
+
+4. QUICK VERDICT BOX:
+   <div class="dta-verdict-box"><strong>Quick Verdict:</strong> [2-sentence brutal summary]</div>
+
+5. CTA BUTTON 1:
+   <a href="${s.official_url || '#'}" class="dta-cta" rel="nofollow noopener" target="_blank">→ See ${s.software_name} Current Pricing</a>
+
+6. IMAGE 1:
+${img1}
+
+7. CLAIM VS REALITY SECTION — H2 + table with class="dta-table"
+   Columns: Claim | Their Words | The Reality | Verdict ✓/✗
+
+8. IMAGE 2:
+${img2}
+
+9. BS METER SCORECARD — H2 + div class="dta-meter-section"
+   For each D1–D5 dimension from research scores:
+   <div class="dta-meter-row">
+     <div class="dta-meter-label"><span>[Dimension Name]</span><span>[score]/10</span></div>
+     <div class="dta-meter-bar-wrap"><div class="dta-meter-bar" style="width:[score×10]%"></div></div>
+     <p style="font-size:13px;color:#a0a0a0;margin-top:4px;">[one-line evidence]</p>
+   </div>
+
+10. HIDDEN COSTS SECTION — H2, detailed breakdown from PRICING_AUTOPSY
+
+11. STREET EVIDENCE SECTION — H2, formatted complaint patterns from STREET_EVIDENCE
+
+12. IMAGE 3:
+${img3}
+
+13. FINAL VERDICT — H2
+    250-300 word brutally honest conclusion. Who should use it, who should avoid it.
+
+14. CTA BUTTON 2:
+    <a href="${s.official_url || '#'}" class="dta-cta" rel="nofollow noopener" target="_blank">→ Verify ${s.software_name} Pricing Before You Commit</a>
+
+15. Close with: </div>
+
+━━━ HARD RULES ━━━
+• Minimum 1,000 words of body content
+• ALL colors via CSS variables with !important — NEVER inline white or light backgrounds
+• Background MUST remain #0d0d0d — never inherit from WordPress theme
+• Images: use EXACTLY the three <img> blocks provided above verbatim
+• Pure HTML only — no Markdown, no backtick fences in output
+• Internal links: if research mentions relevant products, link naturally in body text`;
+
+  setField('a-step2-prompt', prompt);
+  document.getElementById('a-badge-2').className = 'dta-badge dta-badge-active';
+  document.getElementById('a-badge-1').className = 'dta-badge dta-badge-done';
+}
+
+function genA3() {
+  setField('a-step3-prompt', buildSEOPrompt(state.modeA.step2_html, state.modeA.software_name, 'Review'));
+  document.getElementById('a-badge-3').className = 'dta-badge dta-badge-active';
+  document.getElementById('a-badge-2').className = 'dta-badge dta-badge-done';
+}
+
+function genA4() {
+  setField('a-step4-prompt', buildGDNPrompt(state.modeA.step2_html, state.modeA.software_name));
+  document.getElementById('a-badge-4').className = 'dta-badge dta-badge-active';
+  document.getElementById('a-badge-3').className = 'dta-badge dta-badge-done';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODE B GENERATORS
+═══════════════════════════════════════════════════════════ */
+function genB1() {
+  const s = state.modeB;
+  if (!s.main_product) { alert('Please enter Main Product first.'); return; }
+  const prompt = `You are a competitive intelligence analyst. Research ${s.main_product} and its top alternatives for a Battle Report article.
+
+## MARKET_POSITION
+[${s.main_product}'s market share, primary use cases, target customer segment, revenue model]
+
+## PRICING_PAIN_POINTS
+[${s.main_product}'s pricing tiers, documented overage charges, scaling cost examples, lock-in clauses]
+
+## ALTERNATIVES_ROSTER
+[7 verified alternatives. Format as table: Name | Pricing Start | Key Strength vs ${s.main_product} | Key Weakness | Best For]
+
+## TEAM_WASTE_EVIDENCE
+[3 documented case studies or Reddit/LinkedIn threads of teams overpaying for ${s.main_product}. Include source links where possible.]
+
+## FEATURE_GAP_MATRIX
+[10 features. For each: ${s.main_product} status vs 3 top alternatives. Use: ✓ Full / △ Partial / ✗ Missing]
+
+## SWITCHING_COSTS
+[Data migration effort, learning curve estimate, integration rebuilding cost, realistic timeline]
+
+## HOOK_MATERIAL
+[A team-budget-wasted story opener. Max 3 sentences. Do NOT name ${s.main_product} in sentence 1.]
+
+Target: ${getGeo()}`;
+
+  setField('b-step1-prompt', prompt);
+}
+
+function genB2() {
+  const s = state.modeB;
+  if (!s.main_product) { alert('Please enter Main Product first.'); return; }
+
+  const relatedBlock = s.related_mode_a_link
+    ? `\n━━━ FORENSIC EVIDENCE INTERNAL LINK (MANDATORY) ━━━
+Link: ${s.related_mode_a_link}
+RULE: This link MUST appear naturally in the article body as forensic evidence AND in the CTA section.
+Body example: "As our forensic teardown confirmed, [${s.main_product}]'s pricing architecture has a documented pattern of..." → link "forensic teardown"
+CTA example: "Before deciding, read our full forensic teardown: [Deep Dive into ${s.main_product}](${s.related_mode_a_link})"` : '';
+
+  const img1 = IMG_PLACEHOLDER(
+    `${s.main_product} pricing comparison chart`,
+    `${s.main_product.toLowerCase().replace(/\s+/g,'-')}-vs-alternatives`,
+    `style:tech-noir, SaaS pricing comparison chart dark background, orange column highlights, 1200x675px`,
+    `1.Custom chart screenshot, 2.AI-generated comparison graphic, 3.Third-party review embed, 4.YouTube comparison video thumbnail`
+  );
+  const img2 = IMG_PLACEHOLDER(
+    `${s.main_product} feature matrix`,
+    `${s.main_product.toLowerCase().replace(/\s+/g,'-')}-feature-matrix`,
+    `style:tech-noir, feature comparison matrix dark UI, green checkmarks red X marks, 1200x675px`,
+    `1.Custom table screenshot, 2.AI-generated matrix graphic, 3.G2 comparison screenshot, 4.YouTube demo thumbnail`
+  );
+  const img3 = IMG_PLACEHOLDER(
+    `Best alternatives to ${s.main_product}`,
+    `best-alternatives-${s.main_product.toLowerCase().replace(/\s+/g,'-')}`,
+    `style:tech-noir, alternative software logos dark grid layout, cyan accent borders, 1200x675px`,
+    `1.Official logos collage, 2.AI-generated logo grid, 3.Product Hunt screenshots, 4.YouTube review thumbnails`
+  );
+
+  const prompt = `You are a Tech-Noir competitive analyst writing for DebunkTheAI. Generate a COMPLETE HTML Battle Report using the research below.
+
+━━━ RESEARCH DATA ━━━
+${s.step1_output || '[RESEARCH DATA — paste Step 1 output first]'}
+
+━━━ PRODUCT ━━━
+Name: ${s.main_product}
+URL: ${s.main_product_url || 'N/A'}
+Target: ${getGeo()}
+${relatedBlock}
+
+━━━ MANDATORY CSS (verbatim at top) ━━━
+${DARK_BOX_CSS}
+
+━━━ ARTICLE STRUCTURE ━━━
+
+1. Open with: <div class="dta-main-wrapper">
+
+2. STORYTELLING HOOK — MANDATORY:
+   ✗ Never start with "${s.main_product}"
+   ✓ Use HOOK_MATERIAL: team budget waste, renewal shock, vendor lock-in moment
+   ✓ 2–3 sentences before naming the product
+
+3. H1: "X Alternatives [Year]: Honest Battle Report After [N] Hours of Research" style
+
+4. QUICK VERDICT BOX (.dta-verdict-box)
+
+5. CTA 1: Primary action button → ${s.main_product_url || '#'}
+
+6. IMAGE 1:
+${img1}
+
+7. PRICING PAIN POINTS — H2, detailed breakdown
+
+8. ALTERNATIVES TABLE — class="dta-table", full ALTERNATIVES_ROSTER from research
+
+9. IMAGE 2:
+${img2}
+
+10. FEATURE GAP MATRIX — H2 + table
+
+11. SWITCHING COSTS — H2 (realistic, data-backed)
+
+12. TOP 3 PICKS — H2 (ranked, with reasoning)
+
+13. IMAGE 3:
+${img3}
+
+14. FINAL VERDICT — H2 (who this battle report is for)
+${s.related_mode_a_link ? `\n15. FORENSIC EVIDENCE CTA — link to teardown: ${s.related_mode_a_link}\n` : ''}
+15. CTA 2: Final button
+
+16. Close: </div>
+
+━━━ HARD RULES ━━━
+• Dark Box: all backgrounds #0d0d0d, no white inheritance
+• Minimum 1,200 words
+• Pure HTML, no Markdown
+• ${s.related_mode_a_link ? 'Internal link MUST appear in body + CTA — non-negotiable' : 'No related link provided — skip internal link injection'}`;
+
+  setField('b-step2-prompt', prompt);
+}
+
+function genB3() {
+  setField('b-step3-prompt', buildSEOPrompt(state.modeB.step2_html, state.modeB.main_product, 'ItemList'));
+}
+function genB4() {
+  setField('b-step4-prompt', buildGDNPrompt(state.modeB.step2_html, state.modeB.main_product));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODE C GENERATORS
+═══════════════════════════════════════════════════════════ */
+function genC1() {
+  const s = state.modeC;
+  if (!s.target_software) { alert('Please enter Target Software first.'); return; }
+  const prompt = `You are a software forensic pathologist. Conduct deep bug archaeology on ${s.target_software} for a Diagnostic Autopsy Report.
+
+## INCIDENT_REGISTRY
+[10 documented bug reports / crashes from Reddit (r/programming, product subreddits), Stack Overflow, GitHub Issues, Hacker News. Format: INCIDENT_ID | PLATFORM | DATE | BUG_DESCRIPTION | SEVERITY (Critical/High/Medium) | OFFICIAL_RESPONSE]
+
+## CORPORATE_BS_LOG
+[${s.target_software}'s official responses to bug reports. Include: PR language used, promises made, actual resolution timeline, "known issue" deflections]
+
+## PATHOLOGY_REPORT
+[Root cause analysis of the 3 most severe/common bugs. Format: BUG_NAME | TRIGGER_CONDITION | AFFECTED_VERSIONS | WORKAROUND | OFFICIAL_FIX_STATUS]
+
+## SEVERITY_VERDICT
+[Overall severity: CRITICAL / HIGH / MODERATE / LOW + one-paragraph clinical justification]
+
+## PATCH_MATRIX
+[For each bug: WORKAROUND | COMMUNITY_FIX | OFFICIAL_FIX | TIME_TO_FIX]
+
+## ARCHITECTURAL_NOTES
+[Are these surface bugs or systemic architectural flaws? Technical assessment.]
+
+## HOOK_MATERIAL
+[A 2AM developer panic scenario related to this bug. Do NOT name ${s.target_software} in sentence 1.]
+
+Target: ${getGeo()}`;
+
+  setField('c-step1-prompt', prompt);
+}
+
+function genC2() {
+  const s = state.modeC;
+  if (!s.target_software) { alert('Please enter Target Software first.'); return; }
+
+  const isArchitectural = true; // conservative — always include if link present
+  const relatedBlock = s.related_mode_a_link
+    ? `\n━━━ FORENSIC ARCHITECTURE LINK (MANDATORY) ━━━
+Link: ${s.related_mode_a_link}
+RULE: If ARCHITECTURAL_NOTES or SEVERITY_VERDICT indicates systemic/architectural issues, MUST include:
+In Autopsy section: "Our autopsy confirms this is an architectural flaw, not an isolated bug. We analyzed the superior design logic of ${s.alternative_product || 'the alternative'} here: <a href="${s.related_mode_a_link}" class="dta-link">Deep Architectural Analysis →</a>"
+In Final Verdict CTA: link as "verified forensic evidence"` : '';
+
+  const img1 = IMG_PLACEHOLDER(
+    `${s.target_software} error message screenshot`,
+    `${s.target_software.toLowerCase().replace(/\s+/g,'-')}-error`,
+    `style:tech-noir, terminal error output dark screen, red error text glowing green cursor, 1200x675px`,
+    `1.Real error screenshot (anonymized), 2.AI-generated terminal mockup, 3.Stack Overflow thread screenshot, 4.YouTube debug video thumbnail`
+  );
+  const img2 = IMG_PLACEHOLDER(
+    `${s.target_software} bug architecture diagram`,
+    `${s.target_software.toLowerCase().replace(/\s+/g,'-')}-architecture`,
+    `style:tech-noir, system architecture diagram dark background, red highlighted failure points, forensic annotation, 1200x675px`,
+    `1.Custom architecture diagram, 2.AI-generated system diagram, 3.Official docs screenshot, 4.YouTube deep-dive thumbnail`
+  );
+
+  const prompt = `You are a Tech-Noir forensic engineer writing a Bug Autopsy Report for DebunkTheAI. Generate a COMPLETE HTML diagnostic article.
+
+━━━ PATHOLOGY DATA ━━━
+${s.step1_output || '[PATHOLOGY DATA — paste Step 1 output first]'}
+
+━━━ CASE ━━━
+Product: ${s.target_software}
+Verified Alternative: ${s.alternative_product || 'Not specified'}
+Target: ${getGeo()}
+${relatedBlock}
+
+━━━ MANDATORY CSS (verbatim at top) ━━━
+${DARK_BOX_CSS}
+
+━━━ ARTICLE STRUCTURE (diagnostic narrative flow) ━━━
+
+1. Open: <div class="dta-main-wrapper">
+
+2. STORYTELLING HOOK — MANDATORY:
+   ✗ Never open with "${s.target_software}"
+   ✓ Use HOOK_MATERIAL: 2AM developer panic, production down, sprint deadline obliterated
+   ✓ Visceral, specific, technical atmosphere. 3–4 sentences.
+
+3. H1: "[Software] Bug Report [Year]: Incident Report, Root Cause & Patches" style
+
+4. INCIDENT REPORT — H2
+   Severity badge, affected versions, first reported date, current status
+
+5. IMAGE 1 (screenshot/error):
+${img1}
+
+6. CORPORATE BS — H2 ("What They Said vs What They Did")
+   Table: Promise | Reality | Time Elapsed
+
+7. THE AUTOPSY — H2 ("Root Cause Analysis")
+   For top 3 bugs from PATHOLOGY_REPORT — use .dta-code blocks for any code examples
+   ${s.related_mode_a_link ? '⚠ If ARCHITECTURAL_NOTES shows systemic issues: MUST include forensic architecture link here' : ''}
+
+8. IMAGE 2 (architecture):
+${img2}
+
+9. THE PATCH — H2 ("Verified Fixes & Workarounds")
+   Step-by-step workarounds with code blocks (.dta-code, green text)
+   Community fixes cited with sources
+   ${s.alternative_product ? 'Mention ' + s.alternative_product + ' as the architectural alternative: "If you need a system that was designed without this constraint..."' : ''}
+
+10. DIAGNOSTIC VERDICT — H2
+    Clinical conclusion: Surface bug or architectural flaw?
+    ${s.related_mode_a_link ? 'Include forensic evidence link: "Our full teardown of ' + s.target_software + ': [link]"' : ''}
+
+11. CTA: Link to official docs or verified fix
+
+12. Close: </div>
+
+━━━ HARD RULES ━━━
+• Dark Box mandatory — code blocks MUST use --dta-green on #0a0a0a
+• Diagnostic, clinical tone throughout — no fluff
+• 2 image placeholders minimum, used at positions above
+• Pure HTML, no Markdown
+• Minimum 900 words`;
+
+  setField('c-step2-prompt', prompt);
+}
+
+function genC3() {
+  setField('c-step3-prompt', buildSEOPrompt(state.modeC.step2_html, state.modeC.target_software, 'HowTo'));
+}
+function genC4() {
+  setField('c-step4-prompt', buildGDNPrompt(state.modeC.step2_html, state.modeC.target_software));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODE D GENERATORS
+═══════════════════════════════════════════════════════════ */
+function genD1() {
+  const s = state.modeD;
+  if (!s.core_product) { alert('Please enter Core Product first.'); return; }
+  const prompt = `You are a software migration specialist. Research how to escape / migrate away from ${s.core_product}.
+
+## MIGRATION_PATHS
+[All viable ways to export data from ${s.core_product}: file formats, API exports, third-party tools, manual methods. Note any restrictions or paywalls on exports.]
+
+## CANCELLATION_TRAPS
+[Documented cancellation obstacles: automatic renewal clauses, refund policies, data deletion timelines, retention tactic scripts, hidden exit fees]
+
+## ALTERNATIVES_SHORTLIST
+[5 verified alternatives with: Name | Migration Effort (1-5) | Data Import Support | Pricing Start | Best For]
+
+## STEP_BY_STEP_PATHS
+[For the 3 most common migration scenarios: step-by-step process from ${s.core_product} exit to alternative setup. Each scenario: 4-7 numbered steps.]
+
+## DATA_RISKS
+[What data gets deleted/lost if you cancel without proper export. Timeline for data deletion post-cancellation.]
+
+## HOOK_MATERIAL
+[A repetitive-labour / trapped-subscription story. Do NOT name ${s.core_product} in sentence 1. Show the pain of being locked in.]
+
+Target: ${getGeo()}`;
+
+  setField('d-step1-prompt', prompt);
+}
+
+function genD2() {
+  const s = state.modeD;
+  if (!s.core_product) { alert('Please enter Core Product first.'); return; }
+
+  const relatedBlock = s.related_mode_a_link
+    ? `\n━━━ ESCAPE MOTIVATION LINK (MANDATORY) ━━━
+Link: ${s.related_mode_a_link}
+RULE: In the article intro (after hook), MUST include: "If you're not sure whether escaping is worth the effort, our forensic analysis of ${s.core_product} answers that: <a href="${s.related_mode_a_link}">Full ${s.core_product} Teardown →</a>"
+Also repeat in Final CTA section.` : '';
+
+  const prompt = `You are a Tech-Noir migration guide writer for DebunkTheAI. Generate a COMPLETE HTML Escape Route Guide.
+
+━━━ MIGRATION RESEARCH ━━━
+${s.step1_output || '[MIGRATION RESEARCH — paste Step 1 output first]'}
+
+━━━ PRODUCT ━━━
+Product Being Escaped: ${s.core_product}
+Target: ${getGeo()}
+${relatedBlock}
+
+━━━ MANDATORY CSS (verbatim at top) ━━━
+${DARK_BOX_CSS}
+
+━━━ ARTICLE STRUCTURE ━━━
+
+1. Open: <div class="dta-main-wrapper">
+
+2. STORYTELLING HOOK — MANDATORY:
+   ✗ Never open with "${s.core_product}"
+   ✓ Use HOOK_MATERIAL: trapped subscription, repetitive manual labour, monthly dread
+   ✓ 3 sentences minimum before naming the product
+
+3. H1: "How to Cancel / Migrate from [Product] in [Year]: Complete Step-by-Step Guide" style
+
+4. QUICK VERDICT BOX (.dta-verdict-box) — difficulty rating + time estimate
+
+${s.related_mode_a_link ? `5. ESCAPE MOTIVATION LINK — <p>Before proceeding: <a href="${s.related_mode_a_link}">Read our forensic teardown to confirm this move is right for you →</a></p>` : ''}
+
+5. CANCELLATION TRAPS WARNING (.dta-callout) — top 3 traps to know BEFORE starting
+
+6. BEFORE YOU CANCEL CHECKLIST — H2, numbered list of pre-migration steps
+
+7. MIGRATION SCENARIOS — H2
+   For each scenario from STEP_BY_STEP_PATHS:
+   H3 scenario title
+   Numbered steps with <span class="dta-step-num">[N]</span> prefix
+   ⚠ After EACH step: one IMAGE PLACEHOLDER (format below)
+   <img src="/wp-content/uploads/placeholder.jpg" class="dta-img" alt="Step [N]: [action description]" name="${s.core_product.toLowerCase().replace(/\s+/g,'-')}-step-[N]" data-prompt="style:tech-noir, screenshot of [action], dark UI, step annotation overlay, 1200x675px" data-recommend="1.Screen recording still, 2.AI-generated UI mockup, 3.Official docs screenshot, 4.YouTube walkthrough thumbnail" />
+
+8. DATA RISKS — H2 (.dta-callout style warning box)
+
+9. ALTERNATIVES COMPARISON — H2, table from ALTERNATIVES_SHORTLIST
+
+10. FINAL VERDICT — H2
+    Who this guide helped, honest difficulty assessment
+    ${s.related_mode_a_link ? '<p>For the full investigation into why people are leaving: <a href="' + s.related_mode_a_link + '">Our ' + s.core_product + ' Forensic Teardown →</a></p>' : ''}
+
+11. CTA button
+
+12. Close: </div>
+
+━━━ HARD RULES ━━━
+• IMAGE after EVERY step (minimum 4 images total, one per migration step)
+• Steps must be actionable and specific — no vague advice
+• Dark Box mandatory
+• Pure HTML, no Markdown`;
+
+  setField('d-step2-prompt', prompt);
+}
+
+function genD3() {
+  setField('d-step3-prompt', buildSEOPrompt(state.modeD.step2_html, state.modeD.core_product, 'HowTo'));
+}
+function genD4() {
+  setField('d-step4-prompt', buildGDNPrompt(state.modeD.step2_html, state.modeD.core_product));
+}
+</script>
