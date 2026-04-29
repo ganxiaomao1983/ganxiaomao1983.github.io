@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>联盟营销工作流 V34.0 — 差异化策略版</title>
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:#0c0c0e;color:#d4d4d8;font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.6;min-height:100vh;padding:16px}
+textarea,input,select{font-family:'JetBrains Mono','Fira Code',monospace;background:#0a0a0c;border:1px solid #27272a;border-radius:6px;color:#d4d4d8;outline:none;transition:border-color .15s}
+textarea:focus,input:focus,select:focus{border-color:#3f3f46}
+textarea{resize:vertical;line-height:1.55}
+button{cursor:pointer;font-family:inherit}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:#0c0c0e}
+::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#52525b}
+
+/* ── Layout ── */
+.wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+/* ── Header ── */
+.hdr{border-bottom:1px solid #1c1c1e;padding-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hdr-title{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.hdr-title span{color:#6366f1}
+.hdr-sub{font-size:10px;color:#52525b;font-family:monospace;margin-top:3px}
+.hdr-tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+/* ── Tool Badges ── */
+.tb{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.tb-perp{background:#0d1b2a;border-color:#1e40af;color:#93c5fd}
+.tb-chat{background:#0d1f0d;border-color:#166534;color:#86efac}
+.tb-cld{background:#1e0a1e;border-color:#7e22ce;color:#d8b4fe}
+.tb-gem{background:#1a1000;border-color:#92400e;color:#fcd34d}
+
+/* ── Banner ── */
+.banner{border-radius:8px;padding:8px 14px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:8px;border:1px solid;transition:all .3s}
+.bn-indie{background:#0f1520;border-color:#1d4ed8;color:#93c5fd}
+.bn-amz{background:#1a0f00;border-color:#d97706;color:#fcd34d}
+
+/* ── Global Variables Card ── */
+.gv{background:#111114;border:1px solid #1c1c1e;border-radius:10px;padding:14px;border-left:3px solid #6366f1;position:sticky;top:0;z-index:100}
+.gv-title{font-size:11px;font-weight:700;color:#a1a1aa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.gv-note{font-size:10px;color:#22d3ee;margin-bottom:10px;background:#061218;border:1px solid #164e63;border-radius:4px;padding:5px 8px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.fl{display:flex;flex-direction:column;gap:3px}
+.lbl{font-size:10px;color:#71717a;font-weight:600}
+.lbl-hi{color:#f87171}
+.lbl-am{color:#fbbf24}
+.lbl-lang{color:#a78bfa}
+.lbl-tpl{color:#22d3ee}
+.lbl-sty{color:#f472b6}
+input.fi,select.fi{width:100%;padding:5px 8px;font-size:11px}
+.amz-only{display:none}
+body.amz .amz-only{display:flex}
+
+/* ── Step Cards ── */
+.card{background:#111114;border:1px solid #1c1c1e;border-radius:10px;padding:14px;position:relative}
+.card-hdr{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.step-num{font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;background:#1c1c1e;color:#a1a1aa;margin-right:2px;font-family:monospace}
+.card-title{font-size:12px;font-weight:700;color:#e4e4e7;flex:1}
+.badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;border:1px solid;vertical-align:middle}
+.bg-fix{background:#0d1a0d;border-color:#166534;color:#6ee7b7}
+.bg-new{background:#0d0d1a;border-color:#4338ca;color:#a5b4fc}
+.amz-badge{display:none;background:#1c0f00;border-color:#d97706;color:#fcd34d;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;border:1px solid}
+body.amz .amz-badge{display:inline}
+
+.pa{width:100%;padding:8px;font-size:11px;border-radius:6px}
+.rbox{margin-top:8px;padding:8px;background:#0a0c10;border:1px dashed #27272a;border-radius:6px}
+.rl{font-size:10px;color:#6b7280;margin-bottom:4px;display:block;font-family:monospace}
+
+/* ── Copy Button ── */
+.cp{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;border:1px solid;transition:all .15s;z-index:10}
+.cp-0{background:#1c0a0a;border-color:#dc2626;color:#fca5a5}
+.cp-0:hover{background:#dc2626;color:#fff}
+.cp-p{background:#0d1520;border-color:#2563eb;color:#93c5fd}
+.cp-p:hover{background:#2563eb;color:#fff}
+.cp-cl{background:#1a0a1a;border-color:#7c3aed;color:#c4b5fd}
+.cp-cl:hover{background:#7c3aed;color:#fff}
+.cp-ok{background:#065f46!important;border-color:#059669!important;color:#6ee7b7!important}
+
+/* ── Step accent borders ── */
+.s-perp{border-left:3px solid #2563eb}
+.s-chat{border-left:3px solid #16a34a}
+.s-cld{border-left:3px solid #7c3aed}
+.s-cld-b{border-left:3px solid #9333ea}
+
+/* ── Tool workflow map ── */
+.tool-map{background:#0d0d10;border:1px solid #1c1c1e;border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tm-col{border-radius:7px;padding:10px;border:1px solid}
+.tm-perp{background:#060e1a;border-color:#1e3a8a}
+.tm-chat{background:#060f06;border-color:#14532d}
+.tm-cld{background:#0d060f;border-color:#581c87}
+.tm-gem{background:#100a00;border-color:#78350f}
+.tm-head{font-size:11px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.tm-step{font-size:10px;color:#71717a;padding:2px 0;border-bottom:1px solid #1c1c1e;margin-bottom:2px}
+.tm-step:last-child{border-bottom:none;margin-bottom:0}
+@media(max-width:700px){.tool-map{grid-template-columns:1fr 1fr}}
+
+/* ── Split badge ── */
+.sp-badge{display:inline-block;padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:#1e1040;color:#c4b5fd;border:1px solid #7c3aed;margin-left:4px}
+.warn-box{background:#150a00;border:1px solid #92400e;border-radius:6px;padding:7px 10px;font-size:10px;color:#fcd34d;margin-bottom:8px}
+.ok-box{background:#020f06;border:1px solid #166534;border-radius:6px;padding:7px 10px;font-size:10px;color:#86efac;margin-bottom:8px}
+.relay-box{background:#060b14;border:1px dashed #1e3a8a;border-radius:8px;padding:10px;margin-top:8px}
+.relay-lbl{font-size:10px;font-weight:700;color:#60a5fa;margin-bottom:4px;display:block}
+
+/* ── Gemini note box ── */
+.gem-box{background:#0f0a00;border:1px solid #92400e;border-radius:8px;padding:10px;margin-top:0}
+.gem-box-title{font-size:11px;font-weight:700;color:#fbbf24;margin-bottom:5px}
+.gem-step{font-size:10px;color:#d97706;padding:2px 0;padding-left:12px;position:relative}
+.gem-step::before{content:"→";position:absolute;left:0;color:#92400e}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ── Header ── -->
+<header class="hdr">
+  <div>
+    <div class="hdr-title">联盟营销工作流 <span>V34.0</span> <span style="color:#a1a1aa;font-size:13px;font-weight:400">差异化策略版</span></div>
+    <div class="hdr-sub">仅用您已订阅的4个AI · Perplexity / ChatGPT / Claude / Gemini · T1/T2/T3三模板 · 四视觉风格 · 三层漏斗用户声音采集 · 痛点匹配验证</div>
+  </div>
+  <div class="hdr-tools">
+    <span class="tb tb-perp">🔍 Perplexity</span>
+    <span class="tb tb-chat">💬 ChatGPT</span>
+    <span class="tb tb-cld">🟣 Claude</span>
+    <span class="tb tb-gem">✨ Gemini</span>
+  </div>
+</header>
+
+<!-- ── Tool Distribution Map ── -->
+<div class="tool-map">
+  <div class="tm-col tm-perp">
+    <div class="tm-head" style="color:#93c5fd">🔍 Perplexity</div>
+    <div class="tm-step">Step 0 · 产品情报深扫</div>
+    <div class="tm-step">三层漏斗用户声音采集</div>
+    <div class="tm-step">痛点匹配验证（✅/⚠️/❌）</div>
+    <div class="tm-step">联网搜索 + 价格 + XML</div>
+  </div>
+  <div class="tm-col tm-chat">
+    <div class="tm-head" style="color:#86efac">💬 ChatGPT</div>
+    <div class="tm-step">Step 1 · 关键词清洗+意图</div>
+    <div class="tm-step">Step 2 · 否定词+竞品截流</div>
+    <div class="tm-step">Step 4 · 广告素材+Sitelink</div>
+    <div class="tm-step">Step 5 · Day-0熔断基线</div>
+  </div>
+  <div class="tm-col tm-cld">
+    <div class="tm-head" style="color:#d8b4fe">🟣 Claude</div>
+    <div class="tm-step">Step 3A · 落地页上半段</div>
+    <div class="tm-step">Step 3B · 落地页下半段</div>
+    <div class="tm-step">强制完整HTML文件输出</div>
+    <div class="tm-step" style="color:#4b5563">（最强长文本生成）</div>
+  </div>
+  <div class="tm-col tm-gem">
+    <div class="tm-head" style="color:#fcd34d">✨ Gemini</div>
+    <div class="tm-step">落地页配图生成</div>
+    <div class="tm-step">读取data-prompt字段</div>
+    <div class="tm-step">Gemini Imagen输出</div>
+    <div class="tm-step" style="color:#4b5563">（替代Midjourney）</div>
+  </div>
+</div>
+
+<!-- ── Gemini Usage Note ── -->
+<div class="gem-box">
+  <div class="gem-box-title">✨ Gemini 如何参与工作流（配图生成）</div>
+  <div class="gem-step">Claude 生成的落地页 HTML 中，每张图片都有 <code style="color:#fbbf24">data-prompt="..."</code> 属性，内含完整英文图片描述</div>
+  <div class="gem-step">复制 data-prompt 的内容 → 粘贴到 <strong>Gemini (gemini.google.com)</strong> 的图片生成功能（Imagen）</div>
+  <div class="gem-step">下载生成图片 → 替换 HTML 中的 <code style="color:#fbbf24">src=""</code> 为本地路径或图床URL，或 Base64 嵌入</div>
+  <div class="gem-step">若您有 Google AI Studio 访问权限，也可用 API 批量生成所有图片</div>
+</div>
+
+<!-- ── Mode Banner ── -->
+<div class="banner bn-indie" id="banner">
+  <span id="bico">🌐</span><span id="btxt">当前模式：独立站模式</span>
+</div>
+
+<!-- ── Global Variables ── -->
+<section class="gv">
+  <div class="gv-title">全局变量</div>
+  <div class="gv-note">【V34新增】发送 Step 0 前请先选择落地页结构模板和视觉风格，这是实现差异化的关键输入。</div>
+  <div class="fgrid">
+    <div class="fl" style="grid-column:span 2">
+      <label class="lbl">精确标的 URL</label>
+      <input class="fi" id="gUrl" placeholder="https://nordvpn.com 或 amazon.com/dp/B0XXX" oninput="R()">
+    </div>
+    <div class="fl">
+      <label class="lbl">产品/品牌名</label>
+      <input class="fi" id="gBrand" placeholder="NordVPN / aosu" oninput="R()">
+    </div>
+    <div class="fl">
+      <label class="lbl">目标国家(货币)</label>
+      <input class="fi" id="gCountry" placeholder="US (USD)" oninput="R()">
+    </div>
+    <div class="fl">
+      <label class="lbl lbl-lang">★ 广告投放语言</label>
+      <input class="fi" id="gLang" placeholder="English" style="border-color:#581c87;color:#c4b5fd" oninput="R()">
+    </div>
+    <div class="fl">
+      <label class="lbl lbl-hi">★ 佣金CPA(不可篡改)</label>
+      <input class="fi" id="gCPA" placeholder="$45 或 40%" style="border-color:#7f1d1d;color:#fca5a5" oninput="R()">
+    </div>
+    <div class="fl">
+      <label class="lbl">推广类型</label>
+      <select class="fi" id="gType" onchange="R()">
+        <option value="point">单品 (抓售价)</option>
+        <option value="surface">全站 (抓AOV)</option>
+      </select>
+    </div>
+    <div class="fl">
+      <label class="lbl lbl-am">★ 推广模式</label>
+      <select class="fi" id="gMode" style="border-color:#92400e;color:#fcd34d" onchange="R()">
+        <option value="indie">🌐 独立站</option>
+        <option value="amazon">🟠 亚马逊联盟</option>
+      </select>
+    </div>
+    <div class="fl amz-only">
+      <label class="lbl lbl-am">Amazon ASIN</label>
+      <input class="fi" id="gASIN" placeholder="B0CNRDG796" style="border-color:#92400e;font-family:monospace" oninput="R()">
+    </div>
+    <div class="fl amz-only">
+      <label class="lbl">竞品(选填)</label>
+      <input class="fi" id="gComp" placeholder="ExpressVPN" oninput="R()">
+    </div>
+    <!-- V34新增：落地页结构模板选择器 -->
+    <div class="fl">
+      <label class="lbl lbl-tpl">★ 落地页结构模板</label>
+      <select class="fi" id="gTemplate" style="border-color:#164e63;color:#22d3ee" onchange="R()">
+        <option value="T1">T1 · 深度测评型（强意图词）</option>
+        <option value="T2">T2 · 叙事Advertorial型（泛意图词）</option>
+        <option value="T3">T3 · 对比裁判型（比较/竞品词）</option>
+      </select>
+    </div>
+    <!-- V34新增：视觉风格标签选择器 -->
+    <div class="fl">
+      <label class="lbl lbl-sty">视觉风格标签</label>
+      <select class="fi" id="gStyle" style="border-color:#831843;color:#f472b6" onchange="R()">
+        <option value="minimal">极简白底黑字（高端/科技）</option>
+        <option value="dark">深色系+荧光强调（数码/游戏）</option>
+        <option value="warm">暖色调生活化（家居/母婴/健康）</option>
+        <option value="editorial">报纸杂志排版（Advertorial专用）</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- ── Step 0 ── -->
+<section class="card s-perp" style="background:#08101a">
+  <button class="cp cp-0" onclick="C('p0',this)">COPY Step 0</button>
+  <div class="card-hdr">
+    <span class="step-num">0</span>
+    <span class="tb tb-perp" style="font-size:10px">🔍 Perplexity</span>
+    <span class="card-title">产品情报深扫 + 三层漏斗用户声音采集 + 痛点匹配验证 + XML</span>
+    <span class="badge bg-fix">★ seeds强制目标语言</span>
+    <span class="badge bg-new">联网搜索</span>
+    <span class="amz-badge">亚马逊专属</span>
+  </div>
+  <p id="s0desc" style="font-size:10px;color:#52525b;margin-bottom:6px"></p>
+  <textarea class="pa" id="p0" style="height:28rem;background:#06090e" readonly></textarea>
+  <div class="rbox">
+    <span class="rl">↓ 将Perplexity输出的 &lt;state_payload&gt; XML 粘贴于此（XML内部禁止注释）：</span>
+    <textarea class="pa" id="xmlIn" style="height:72px" placeholder="<state_payload>...</state_payload>" oninput="R()"></textarea>
+  </div>
+</section>
+
+<!-- ── 双列布局开始 ── -->
+<div class="grid2">
+<div style="display:flex;flex-direction:column;gap:12px">
+
+  <!-- Step 1 -->
+  <section class="card s-chat">
+    <button class="cp cp-p" onclick="C('p1',this)">COPY</button>
+    <div class="card-hdr">
+      <span class="step-num">1</span>
+      <span class="tb tb-chat" style="font-size:10px">💬 ChatGPT</span>
+      <span class="card-title">异构词表清洗 + 意图双轨分析</span>
+    </div>
+    <div style="font-size:10px;color:#ca8a04;background:#0f0a00;border:1px solid #78350f;border-radius:5px;padding:6px;margin-bottom:6px">
+      <strong>SEMRush/GKP导出指引：</strong>Volume &gt; 50, KD &lt; 60，按Volume降序，最多前200行粘贴给AI。
+    </div>
+    <textarea class="pa" id="p1" style="height:14rem" readonly></textarea>
+    <div class="rbox">
+      <span class="rl">↓ 选定方向后，将那组词（带标签）粘贴于此：</span>
+      <textarea class="pa" id="kwIn" style="height:52px" placeholder="核心主投词: keyword [泛意图-比较]&#10;word 1&#10;word 2" oninput="R()"></textarea>
+    </div>
+  </section>
+
+  <!-- Step 2 -->
+  <section class="card s-chat">
+    <button class="cp cp-p" onclick="C('p2',this)">COPY</button>
+    <div class="card-hdr">
+      <span class="step-num">2</span>
+      <span class="tb tb-chat" style="font-size:10px">💬 ChatGPT</span>
+      <span class="card-title">否定词库 + 竞品截流可行性</span>
+    </div>
+    <textarea class="pa" id="p2" style="height:8rem" readonly></textarea>
+  </section>
+
+  <!-- Step 4 -->
+  <section class="card s-chat">
+    <button class="cp cp-p" onclick="C('p4',this)">COPY</button>
+    <div class="card-hdr">
+      <span class="step-num">4</span>
+      <span class="tb tb-chat" style="font-size:10px">💬 ChatGPT</span>
+      <span class="card-title">广告素材 + Sitelink×6 + Callout + Snippet</span>
+      <span class="badge bg-new">落地页摘要注入·价格同步</span>
+    </div>
+    <textarea class="pa" id="p4" style="height:26rem" readonly></textarea>
+  </section>
+
+  <!-- Step 5 -->
+  <section class="card s-chat">
+    <button class="cp cp-p" onclick="C('p5',this)">COPY</button>
+    <div class="card-hdr">
+      <span class="step-num">5</span>
+      <span class="tb tb-chat" style="font-size:10px">💬 ChatGPT</span>
+      <span class="card-title">Day-0 熔断基线 & Portfolio封顶</span>
+    </div>
+    <textarea class="pa" id="p5" style="height:6rem" readonly></textarea>
+  </section>
+
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+
+  <!-- Step 3A -->
+  <section class="card s-cld">
+    <button class="cp cp-cl" onclick="C('p3a',this)">COPY 3A</button>
+    <div class="card-hdr">
+      <span class="step-num" style="background:#1e1040;color:#c4b5fd">3A</span>
+      <span class="tb tb-cld" style="font-size:10px">🟣 Claude</span>
+      <span class="card-title" style="color:#d8b4fe">落地页上半段：声明+Hero+价格+特性</span>
+      <span class="sp-badge">第1段/共2段</span>
+      <span class="amz-badge">亚马逊合规</span>
+    </div>
+    <div class="warn-box">
+      ⚠️ <strong>操作说明：</strong>先发3A，等Claude完全停止后，立即发3B（同一对话窗口）。3B末尾Claude会合并输出完整HTML可下载文件。<br>
+      📌 V34：Claude将根据结构模板（T1/T2/T3）和视觉风格自动调整架构，每次生成结果均不同。
+    </div>
+    <textarea class="pa" id="p3a" style="height:30rem" readonly></textarea>
+  </section>
+
+  <!-- Step 3B -->
+  <section class="card s-cld-b">
+    <button class="cp cp-cl" onclick="C('p3b',this)">COPY 3B</button>
+    <div class="card-hdr">
+      <span class="step-num" style="background:#280a3a;color:#d8b4fe">3B</span>
+      <span class="tb tb-cld" style="font-size:10px">🟣 Claude</span>
+      <span class="card-title" style="color:#c4b5fd">落地页下半段：评价+FAQ+页脚+JS+完整文件</span>
+      <span class="sp-badge">第2段/共2段</span>
+    </div>
+    <div class="ok-box">
+      ✅ <strong>3B末尾强制指令：</strong>Claude将3A+3B完整合并输出为一个连续代码块，直接保存为.html文件即可。
+    </div>
+    <textarea class="pa" id="p3b" style="height:26rem" readonly></textarea>
+    <div class="relay-box">
+      <span class="relay-lbl">★ 必填中继：从Claude 3B代码外汇报中提取落地页摘要 → 供Step 4使用</span>
+      <p style="font-size:10px;color:#374151;margin-bottom:5px">Claude 3B完成后会在代码外输出：H1标题 / 3条核心卖点 / CTA文案 / 价格文案 / 锚点列表</p>
+      <textarea class="pa" id="lpSum" style="height:60px;border-color:#1e3a8a;background:#06090e"
+        placeholder="H1: [标题]&#10;卖点: ... / ... / ...&#10;CTA: [按钮文案]&#10;价格: Was $109.90, Now $54.95, Save $54.95 (50% OFF)&#10;锚点: /#hero, /#features, /#pricing, /#reviews, /#faq, /#guarantee" oninput="R()"></textarea>
+    </div>
+    <div class="rbox" style="margin-top:6px">
+      <span class="rl" style="color:#7c3aed">↓ 仅填锚点ID列表（Step 4 Sitelink用）：</span>
+      <textarea class="pa" id="anchIn" style="height:30px;background:#0a0010" placeholder="/#hero, /#features, /#pricing, /#reviews, /#faq, /#guarantee" oninput="R()"></textarea>
+    </div>
+  </section>
+
+</div>
+</div><!-- ── end grid2 ── -->
+
+<footer style="text-align:center;font-size:10px;color:#27272a;font-family:monospace;padding:12px 0">
+  V34.0 · 差异化策略版 · T1/T2/T3三模板 · 四视觉风格 · 三层漏斗用户声音采集 · 痛点匹配验证 · Perplexity+ChatGPT+Claude+Gemini
+</footer>
+</div>
+
+<script>
+function g(id){return document.getElementById(id)}
+function gv(id){return (g(id)||{}).value||''}
+
+function R(){
+  var url      = gv('gUrl')||'[目标URL]';
+  var brand    = gv('gBrand')||'[品牌名]';
+  var country  = gv('gCountry')||'[目标市场]';
+  var lang     = gv('gLang')||'English';
+  var cpa      = gv('gCPA')||'[CPA]';
+  var type     = gv('gType');
+  var mode     = gv('gMode');
+  var asin     = gv('gASIN').trim();
+  var comp     = gv('gComp').trim();
+  var payload  = gv('xmlIn')||'<state_payload>[Step 0 XML未填入]</state_payload>';
+  var kwRaw    = gv('kwIn')||'[请粘贴Step 1输出的选定词组]';
+  var lpSum    = gv('lpSum')||'[从Claude 3B代码外汇报中提取落地页摘要（含价格文案）]';
+  var anchors  = gv('anchIn')||'[从3B汇报中获取的锚点ID列表]';
+  // V34新增变量
+  var template = gv('gTemplate') || 'T1';
+  var style    = gv('gStyle')    || 'minimal';
+
+  // parse keyword/intent
+  var fl    = kwRaw.split('\n')[0]||'';
+  var core  = fl.replace(/核心主投词[:：]/,'').split('[')[0].trim()||'[核心词]';
+  var intent= fl.indexOf('[泛意图')>-1?'泛意图(需对比)':(fl.indexOf('[强意图')>-1?'强意图(促下单)':'未指定');
+
+  // mode toggle
+  document.body.classList.toggle('amz', mode==='amazon');
+  var bn=g('banner'), bi=g('bico'), bt=g('btxt');
+  if(mode==='amazon'){
+    bn.className='banner bn-amz';
+    bi.innerText='🟠';
+    bt.innerText='亚马逊联盟模式 · 广告语言:'+lang+' · 推广链接:第三方广告联盟 · 原价/现价/折扣+时间戳';
+  } else {
+    bn.className='banner bn-indie';
+    bi.innerText='🌐';
+    bt.innerText='独立站模式 · 广告语言:'+lang+' · 展示真实原价/折后价/折扣';
+  }
+
+  var seedNote='【★语言强制约束】seeds字段必须使用【'+lang+'】语言输出（与目标市场'+country+'用户搜索语言一致）。严禁输出中文或其他语言的关键词。';
+  var hijack=comp?'查询"alternative to '+comp+'"月搜索量，>100则ENABLE，否则DISABLE。':'未提供竞品，输出DISABLE。';
+
+  // ───── STEP 0 (Perplexity) ─────
+  var p0='';
+  if(mode==='amazon'){
+    var pu='https://www.amazon.com/dp/'+(asin||'[ASIN]');
+    g('s0desc').innerText='Perplexity联网搜索 · 亚马逊模式 · 语言:'+lang+' · 抓取价格全字段+评价+seeds+三层漏斗用户声音+痛点匹配验证';
+    p0 ='【Perplexity指令：Amazon产品情报深扫 + 价格全字段抓取 + 多源用户声音采集】\n';
+    p0+='（请开启联网搜索模式）\n\n';
+    p0+='目标ASIN：'+(asin||'[ASIN]')+' | 商品页：'+pu+'\n';
+    p0+='品牌：'+(brand||'[品牌名]')+' | 市场：'+country+' | 广告投放语言：'+lang+' | 佣金CPA：'+cpa+'\n';
+    p0+=seedNote+'\n\n';
+    p0+='任务A：联网访问亚马逊商品页，完成以下全部任务\n\n';
+    p0+='1.【价格全字段抓取】访问 '+pu+'，抓取并换算为'+country+'货币：\n';
+    p0+='   price_list：List Price / 官方原价（划线价）\n';
+    p0+='   price_sale：当前售价（实际支付金额）\n';
+    p0+='   price_save：节省金额 = price_list - price_sale\n';
+    p0+='   discount_pct：折扣% = round((price_list-price_sale)/price_list×100)\n';
+    p0+='   ★ 如无明确List Price，用近30日历史最高价估算，字段末尾标注(estimated)。\n\n';
+    p0+='2.【CPA绝对继承】用price_sale和CPA('+cpa+')计算绝对佣金(final_cpa)。严禁自行推算。\n\n';
+    p0+='3.【产品核心特性】提取Bullet Points中3-5个核心卖点，每条一句话，使用【'+lang+'】。\n\n';
+    p0+='4.【用户痛点】提炼该品类用户3个最强烈购买痛点，使用【'+lang+'】。\n\n';
+    p0+='5.【Amazon真实评价】从Customer Reviews提取：\n';
+    p0+='   a. 总体星级评分（如4.5/5）和评价总数\n';
+    p0+='   b. 2条最具代表性正面评价摘录（保留原始语言，注明评论者用户名）\n\n';
+    p0+='6.【截流判断】'+hijack+'\n\n';
+    p0+='7.【宏观种子词】提取最核心品类，输出3个最宽泛根词(1-2词)。\n   '+seedNote+'\n\n';
+    p0+='【任务X：多源用户声音采集（依次执行）】\n\n';
+    p0+='来源1（本品差评）：访问 '+pu+'，提取1-2星评价中最高频的具体抱怨（需是具体场景描述，非泛化评价）\n';
+    p0+='来源2（竞品差评）：'+(comp?'搜索竞品"'+comp+'"的亚马逊1-2星评价，提取用户最不满意的点':'如已提供竞品名，搜索竞品的亚马逊1-2星评价，提取用户最不满意的点')+'\n';
+    p0+='来源3（Amazon Q&A区）：访问产品页Q&A区，提取买家最常见的真实疑虑\n';
+    p0+='来源4（Reddit品类）：搜索 "site:reddit.com [品类关键词] problems" 或 "[品类关键词] which one to buy reddit"\n';
+    p0+='来源5（兜底）：如以上均无结果，搜索 "[品类关键词] buying guide 2024 2025"\n\n';
+    p0+='【任务Y：痛点匹配验证】\n';
+    p0+='对采集到的每一条痛点，逐条对照产品的Amazon Bullet Points和产品描述，打标签：\n';
+    p0+='✅ Bullet Points或产品描述中有明确对应功能\n';
+    p0+='⚠️ 可合理推断能改善（如产品主打"超长续航"，可回应"电量不持久"的痛点）\n';
+    p0+='❌ 产品无法解决，或无任何功能对应（直接丢弃）\n';
+    p0+='只将 ✅ 和 ⚠️ 输出到XML。\n\n';
+    p0+='输出格式：极简纯净XML，标签内禁止注释，所有标签完全闭合：\n\n';
+    p0+='<state_payload>\n';
+    p0+='  <mode>amazon</mode>\n';
+    p0+='  <market>'+country+'</market>\n';
+    p0+='  <ad_language>'+lang+'</ad_language>\n';
+    p0+='  <asin>'+(asin||'[ASIN]')+'</asin>\n';
+    p0+='  <brand>'+(brand||'[品牌名]')+'</brand>\n';
+    p0+='  <url>'+pu+'</url>\n';
+    p0+='  <price_list>原价（'+country+'货币，或 estimated估算值）</price_list>\n';
+    p0+='  <price_sale>现价（'+country+'货币）</price_sale>\n';
+    p0+='  <price_save>节省金额（'+country+'货币）</price_save>\n';
+    p0+='  <discount_pct>折扣百分比（纯数字，如42）</discount_pct>\n';
+    p0+='  <final_cpa>绝对佣金（'+country+'货币）</final_cpa>\n';
+    p0+='  <product_name>商品标题核心简称（'+lang+'）</product_name>\n';
+    p0+='  <features>Feature1（'+lang+'）| Feature2 | Feature3 | Feature4 | Feature5</features>\n';
+    p0+='  <pain_points>Painpoint1（'+lang+'）| Painpoint2 | Painpoint3</pain_points>\n';
+    p0+='  <rating>X.X/5 stars (X,XXX ratings)</rating>\n';
+    p0+='  <social_proof>真实评论摘录1（用户名）| 真实评论摘录2（用户名）</social_proof>\n';
+    p0+='  <hijack>ENABLE或DISABLE</hijack>\n';
+    p0+='  <seeds>【'+lang+'语言】根词1, 根词2, 根词3</seeds>\n';
+    p0+='  <verified_pain_points>\n';
+    p0+='    <point status="✅">具体痛点描述（英文）| 对应产品功能：[功能名]</point>\n';
+    p0+='    <point status="⚠️">具体痛点描述 | 部分改善：[说明限定语]</point>\n';
+    p0+='  </verified_pain_points>\n';
+    p0+='  <raw_user_voice>用户原话摘录1（来源：amazon）| 用户原话摘录2（来源：reddit）</raw_user_voice>\n';
+    p0+='  <competitor_weaknesses>竞品最大差评点1 | 竞品差评点2</competitor_weaknesses>\n';
+    p0+='  <amazon_qa>Q: 买家问题1? A: 回答1 | Q: 买家问题2? A: 回答2</amazon_qa>\n';
+    p0+='</state_payload>';
+  } else {
+    var priceTask = type==='surface'
+      ? '访问【'+url+'】推算核心套餐价格及中位数AOV，计算price_save和discount_pct，换算为'+country+'货币。'
+      : '访问【'+url+'】提取真实原价(price_original)和折后售价(price_sale)，计算节省金额(price_save)和折扣%(discount_pct)，换算为'+country+'货币。';
+    g('s0desc').innerText='Perplexity联网搜索 · 独立站模式 · 语言:'+lang+' · 抓取价格全字段+信任背书+seeds+三层漏斗用户声音+痛点匹配验证';
+    p0 ='【Perplexity指令：产品情报深扫 + 价格全字段抓取 + 三层漏斗用户声音采集】\n';
+    p0+='（请开启联网搜索模式）\n\n';
+    p0+='目标网址：'+url+' | 品牌：'+brand+' | 市场：'+country+' | 广告投放语言：'+lang+' | 佣金CPA：'+cpa+'\n';
+    p0+=seedNote+'\n\n';
+    p0+='任务A：联网深度扫描目标URL，完成以下全部任务\n\n';
+    p0+='1.【价格全字段抓取】'+priceTask+'\n\n';
+    p0+='2.【CPA绝对继承】用price_sale和CPA('+cpa+')计算绝对佣金(final_cpa)。严禁自行推算。\n\n';
+    p0+='3.【产品核心特性】提取最核心3-5个功能卖点，每条一句话，使用【'+lang+'】。\n\n';
+    p0+='4.【用户痛点】提炼3个最强烈购买痛点，使用【'+lang+'】。\n\n';
+    p0+='5.【社会认可信号】找出真实信任背书（评价/媒体/评分/销量）。\n\n';
+    p0+='6.【截流判断】'+hijack+'\n\n';
+    p0+='7.【宏观种子词】提取最核心品类，输出3个最宽泛根词(1-2词)。\n   '+seedNote+'\n\n';
+    p0+='【任务X：三层漏斗用户声音采集（按优先级逐层搜索，找到数据即停止降级）】\n\n';
+    p0+='第一层（精确）：搜索 "site:reddit.com '+brand+' review" 和 "'+brand+' complaints trustpilot"\n';
+    p0+='第二层（品类）：搜索 "site:reddit.com [品类关键词] problems" 和 "[品类关键词] common issues"\n';
+    p0+='第三层（竞品）：'+(comp?'搜索竞品"'+comp+'"品牌的用户差评和吐槽':'如已提供竞品名，搜索竞品品牌的用户差评和吐槽')+'\n';
+    p0+='第四层（兜底）：搜索 "[品类关键词] what to look for" 等购买决策类讨论\n\n';
+    p0+='【任务Y：痛点匹配验证】\n';
+    p0+='对任务X中找到的每一条用户痛点，逐条对照目标网站的官方功能页（Features/How it works页面）和第三方测评网站，打上标签：\n';
+    p0+='✅ 本产品明确能解决（有官网声明或第三方验证）\n';
+    p0+='⚠️ 本产品部分能解决（需加限定语，如"大幅改善"而非"彻底解决"）\n';
+    p0+='❌ 本产品无法解决（不纳入XML输出，直接丢弃）\n';
+    p0+='只将 ✅ 和 ⚠️ 的条目输出到 XML。\n\n';
+    p0+='输出格式：极简纯净XML，标签内禁止注释，所有标签完全闭合：\n\n';
+    p0+='<state_payload>\n';
+    p0+='  <mode>indie</mode>\n';
+    p0+='  <market>'+country+'</market>\n';
+    p0+='  <ad_language>'+lang+'</ad_language>\n';
+    p0+='  <url>'+url+'</url>\n';
+    p0+='  <brand>'+brand+'</brand>\n';
+    p0+='  <price_original>产品原价（'+country+'货币）</price_original>\n';
+    p0+='  <price_sale>折后现价（'+country+'货币）</price_sale>\n';
+    p0+='  <price_save>节省金额（'+country+'货币）</price_save>\n';
+    p0+='  <discount_pct>折扣百分比（纯数字，如50）</discount_pct>\n';
+    p0+='  <price_aov>客单价/套餐均价（全站推广用）</price_aov>\n';
+    p0+='  <final_cpa>绝对佣金（'+country+'货币）</final_cpa>\n';
+    p0+='  <product_name>产品/网站准确名称（'+lang+'）</product_name>\n';
+    p0+='  <features>Feature1（'+lang+'）| Feature2 | Feature3 | Feature4</features>\n';
+    p0+='  <pain_points>Painpoint1（'+lang+'）| Painpoint2 | Painpoint3</pain_points>\n';
+    p0+='  <social_proof>真实评价或信任背书摘录1 | 真实评价或信任背书摘录2</social_proof>\n';
+    p0+='  <hijack>ENABLE或DISABLE</hijack>\n';
+    p0+='  <seeds>【'+lang+'语言】根词1, 根词2, 根词3</seeds>\n';
+    p0+='  <verified_pain_points>\n';
+    p0+='    <point status="✅">具体痛点描述（英文）| 对应产品功能：[功能名]</point>\n';
+    p0+='    <point status="⚠️">具体痛点描述 | 部分改善：[说明限定语]</point>\n';
+    p0+='  </verified_pain_points>\n';
+    p0+='  <raw_user_voice>用户原话摘录1（来源：reddit/trustpilot）| 用户原话摘录2（来源：reddit）</raw_user_voice>\n';
+    p0+='  <competitor_weaknesses>竞品最大差评点1 | 竞品差评点2</competitor_weaknesses>\n';
+    p0+='  <amazon_qa>Q: 买家问题1? A: 回答1 | Q: 买家问题2? A: 回答2</amazon_qa>\n';
+    p0+='</state_payload>';
+  }
+  g('p0').value=p0;
+
+  // ───── STEP 1 (ChatGPT) ─────
+  var p1='【系统注入】：'+payload+'\n';
+  p1+='【广告投放语言】：'+lang+' | 【身份】：我是Affiliate，基于final_cpa计算盈亏平衡Max CPC。\n\n';
+  p1+='以下是我导出的最多200行关键词数据（SEMRush+GKP合并）：\n[在此处粘贴原始关键词数据]\n\n';
+  p1+='任务：\n';
+  p1+='1. 清洗数据，提取Keyword / Volume / CPC，智能去重，过滤Volume<50。\n';
+  p1+='2.【意图双轨建议】分别评估泛意图和强意图，给出数据支撑的选择建议。\n';
+  p1+='3.【双轨输出】分两组输出供我选择。\n\n';
+  p1+='### 数据建议\n(此处输出分析与推荐)\n\n';
+  p1+='### 选项A：泛意图矩阵（对比型落地页）\n';
+  p1+='核心主投词: [词A] [泛意图-比较]\n[词1] [泛意图-比较]\n\n';
+  p1+='### 选项B：强意图矩阵（直购型落地页）\n';
+  p1+='核心主投词: [词B] [强意图-下单]\n[词1] [强意图-下单]';
+  g('p1').value=p1;
+
+  // ───── STEP 2 (ChatGPT) ─────
+  var p2='【系统注入】：'+payload+'\n\n';
+  p2+='为 '+url+' 生成先验否定词库（使用'+lang+'语言输出）。\n';
+  if(comp) p2+='注意：hijack=ENABLE时，绝不能把竞品词"'+comp+'"加入否定列表。\n';
+  p2+='重点排除：品牌投诉词 / 退款词 / 无关行业词 / 竞品品牌词（hijack=DISABLE时加入）。\n\n';
+  p2+='竞品截流可行性判断：\n';
+  p2+='若hijack=ENABLE，输出专门的竞品截流Ad Group建议（标题框架+关键词策略）。\n';
+  p2+='若hijack=DISABLE，简单说明原因，跳过截流部分。';
+  g('p2').value=p2;
+
+  // ───── STEP 3A (Claude) ─────
+  var priceF=mode==='amazon'
+    ?'price_list(原价) / price_sale(现价) / price_save(节省额) / discount_pct(折扣%)'
+    :'price_original(原价) / price_sale(现价) / price_save(节省额) / discount_pct(折扣%)';
+  var disc=mode==='amazon'
+    ?'"Disclosure: This is an independent review. We may earn a commission from purchases made through our links."'
+    :'"Disclosure: This is an advertorial. We may earn an affiliate commission if you purchase through our links."';
+  var intentNote=intent==='泛意图(需对比)'
+    ?'侧重对比教育+产品特性深度说明，适当减少直接促销压力'
+    :'砍冗余，Hero直击用户痛点+快速引导CTA，弱化教育内容';
+  var coreSlug=core.replace(/\s+/g,'-').toLowerCase().replace(/[^a-z0-9-]/g,'')||'landing-page';
+
+  // V34：差异化注入块
+  var templateLabel = template==='T1' ? 'T1深度测评型 · 按T1结构顺序生成'
+                    : template==='T2' ? 'T2叙事Advertorial型 · 按T2结构顺序生成'
+                    : 'T3对比裁判型 · 按T3结构顺序生成';
+  var styleLabel    = style==='minimal'   ? '极简白底黑字 · 按minimal风格CSS规范实施'
+                    : style==='dark'      ? '深色系+荧光强调 · 按dark风格CSS规范实施'
+                    : style==='warm'      ? '暖色调生活化 · 按warm风格CSS规范实施'
+                    : '报纸杂志排版 · 按editorial风格CSS规范实施';
+
+  var p3a  = '【差异化指令】\n';
+  p3a += '落地页结构模板：' + template + '（' + templateLabel + '）\n';
+  p3a += '视觉风格标签：' + style + '（' + styleLabel + '）\n\n';
+
+  p3a+='【分段生成指令 — 第1段/共2段 · Claude专属】\n';
+  p3a+='推广模式：'+(mode==='amazon'?'Amazon联盟(第三方广告联盟)':'独立站')+' | 核心词：'+core+' | 意图：'+intent+' | 页面语言：'+lang+'\n\n';
+  p3a+='【系统注入数据（来自Perplexity Step 0）】：\n'+payload+'\n\n';
+  p3a+='【架构约定 · 3A+3B共同遵守】\n';
+  p3a+='- HTML5 + Tailwind CDN单页，全响应式\n';
+  p3a+='- 所有图片：<img src="" alt="[含核心词]" data-prompt="[完整英文Gemini Imagen生成提示词]">\n';
+  p3a+='  （用户将复制data-prompt内容粘贴到 gemini.google.com 生成图片）\n';
+  p3a+='- 底部JS解析?kw=参数替换H1（Fallback为默认标题）\n';
+  p3a+='- 关键词【'+core+'】必须出现在：H1、核心文案、至少一张图片alt属性\n';
+  p3a+='- 意图路由：'+intentNote+'\n';
+  p3a+='- 页面语言：'+lang+'（所有用户可见文字必须使用'+lang+'，包括按钮、标签、说明）\n\n';
+  p3a+='【视觉风格CSS实施规范】\n\n';
+  p3a+='minimal（极简白底黑字）：\n';
+  p3a+='  背景 #ffffff，文字 #111827，字体 Inter/DM Sans（Google Fonts）\n';
+  p3a+='  强调色：单一深色，避免多彩\n';
+  p3a+='  按钮：纯黑背景，无渐变，border-radius: 4px\n';
+  p3a+='  卡片：白底+细灰边框（1px solid #e5e7eb），无阴影\n\n';
+  p3a+='dark（深色系+荧光强调）：\n';
+  p3a+='  背景 #0f0f13，卡片 #1a1a22，文字 #e2e8f0，字体 Inter/Geist\n';
+  p3a+='  强调色：#22d3ee（青）或 #a78bfa（紫）\n';
+  p3a+='  按钮：强调色背景，轻微发光（box-shadow: 0 0 12px currentColor）\n\n';
+  p3a+='warm（暖色调生活化）：\n';
+  p3a+='  背景 #faf8f5，卡片 #ffffff，文字 #1c1917，字体 Lato/Nunito\n';
+  p3a+='  强调色：#f97316（橙）或 #16a34a（绿）\n';
+  p3a+='  按钮：圆润大圆角（border-radius: 24px），暖色背景\n';
+  p3a+='  data-prompt图片描述末尾追加："warm lifestyle photography, natural light, cozy atmosphere"\n\n';
+  p3a+='editorial（报纸杂志排版）：\n';
+  p3a+='  背景 #f5f5f0，文字 #1a1a1a，字体 Playfair Display（标题）+ Lora/Georgia（正文）\n';
+  p3a+='  强调色：#b91c1c（深红）或 #1d4ed8（深蓝）\n';
+  p3a+='  布局：模仿杂志排版，大量文字，少量卡片，CSS columns分栏\n';
+  p3a+='  按钮：文字链接风格或细边框按钮，不用大色块\n\n';
+
+  // V34：结构模板动态切换
+  if(template==='T1'){
+    p3a+='【T1结构指令 · 深度测评型】\n';
+    p3a+='上半段结构顺序：\n';
+    p3a+='① 完整 <!DOCTYPE html>...<head>（Tailwind CDN，字体：Inter 或 DM Sans，sans-serif专业感）\n';
+    p3a+='② 合规声明横幅（顶部）\n';
+    p3a+='   文案：'+disc+'\n';
+    p3a+='③ 【评测背书条】小横幅，例："This review is based on aggregated data from 1,200+ verified buyers and 15 professional review sources."\n';
+    p3a+='④ H1："[产品名] Review [年份]: Is It Worth It?"（含核心词【'+core+'】）\n';
+    p3a+='⑤ 【快速结论框】编辑推荐卡片：总体评分（如4.7/5）、3条最强卖点、价格区间、CTA按钮\n';
+    p3a+='⑥ 【价格模块】完整（数据来源：XML中的 '+priceF+'）\n';
+    p3a+='   A. 原价：大字划线删除显示（灰色）\n';
+    p3a+='   B. 现价：醒目大字（红色或品牌主色）\n';
+    p3a+='   C. 节省徽章：「You save: [price_save] ([discount_pct]% OFF)」绿色\n';
+    p3a+='   D. CTA主按钮（大号，强对比色，链接到'+url+'）\n';
+    p3a+='   E. 时间戳免责声明：<p>Price verified as of <span id="priceTs"></span>. Price may change at any time. Click to confirm current price on merchant\'s site.</p>\n';
+    p3a+='   ★ 如price_list标记为estimated，在原价旁加注 *Estimated retail price\n';
+    p3a+='⑦ 【产品特性深度说明】每个Feature独立小节（图+文），不用图标卡片\n';
+    p3a+='   ★ 内容必须来自XML的features字段，不得编造\n';
+    p3a+='⑧ 内容在产品特性末尾停止，不输出</body>或</html>\n';
+  } else if(template==='T2'){
+    p3a+='【T2结构指令 · 叙事Advertorial型】\n';
+    p3a+='上半段结构顺序：\n';
+    p3a+='① 完整 <!DOCTYPE html>...<head>（字体：Playfair Display标题 + Lora或Georgia正文，强化文章质感）\n';
+    p3a+='② 合规声明横幅（比T1更低调，字号更小）\n';
+    p3a+='   文案：'+disc+'\n';
+    p3a+='③ 【钩子开头段落】以用户痛点场景开头，不以产品名开头\n';
+    p3a+='   例："Last year, I spent three months trying to fix a problem most people silently deal with every day..."\n';
+    p3a+='   ★ 使用XML的verified_pain_points和raw_user_voice构建，不得编造痛点\n';
+    p3a+='④ H1：问题导向，例："Why [品类用户群] Are Switching to [产品名] in [年份]"\n';
+    p3a+='   含核心词【'+core+'】\n';
+    p3a+='⑤ 【问题放大段落】2-3段，描述此问题的普遍性，引用XML的raw_user_voice原话（blockquote样式）\n';
+    p3a+='⑥ 【转折发现段落】自然过渡，例："Then I came across [产品名]..."\n';
+    p3a+='⑦ 【价格模块】完整（包装成"当前优惠"风格，而非纯价格展示）\n';
+    p3a+='   数据来源：XML中的 '+priceF+'\n';
+    p3a+='   时间戳免责声明：<p>Price verified as of <span id="priceTs"></span>. Price may change at any time.</p>\n';
+    p3a+='   CTA主按钮链接到'+url+'\n';
+    p3a+='⑧ 【产品特性叙事化展开】连续段落+小标题叙述，不用卡片\n';
+    p3a+='   ★ Feature内容必须来自XML，不得编造\n';
+    p3a+='⑨ 内容在产品特性叙事末尾停止，不输出</body>或</html>\n';
+  } else {
+    p3a+='【T3结构指令 · 对比裁判型】\n';
+    p3a+='上半段结构顺序：\n';
+    p3a+='① 完整 <!DOCTYPE html>...<head>（字体：Inter，清晰对比感）\n';
+    p3a+='② 合规声明横幅（顶部）\n';
+    p3a+='   文案：'+disc+'\n';
+    p3a+=(comp
+      ?'③ H1："[产品名] vs '+comp+': Which Is Better? [年份] Honest Comparison"\n'
+      :'③ H1："[产品名] vs The Competition: Here\'s What Others Won\'t Tell You"\n');
+    p3a+='   含核心词【'+core+'】\n';
+    p3a+='④ 【裁判摘要框】醒目卡片，显示"Our Verdict: [产品名] wins in X out of Y categories"\n';
+    p3a+='⑤ 【竞品痛点披露区】列出竞品最常见用户差评\n';
+    p3a+='   ★ 数据来自XML的competitor_weaknesses字段\n';
+    p3a+='   ★ 必须注明来源（如"Based on Amazon reviews"/"Based on Reddit discussions"），不得凭空编造\n';
+    p3a+='⑥ 【对比维度表格】关键维度横向对比（产品 vs 竞品），数据来自XML的features字段\n';
+    p3a+='⑦ 【价格对比区】本产品完整价格模块（数据来源：XML中的 '+priceF+'）\n';
+    p3a+='   A. 原价划线 + 现价大字 + 节省徽章\n';
+    p3a+='   B. CTA主按钮链接到'+url+'\n';
+    p3a+='   C. 时间戳免责声明：<p>Price verified as of <span id="priceTs"></span>. Price may change at any time.</p>\n';
+    p3a+='   '+(comp?'D. 竞品"'+comp+'"参考价（如Perplexity有找到）\n':'D. 竞品参考价（如Perplexity有找到）\n');
+    p3a+='⑧ 内容在价格对比区末尾停止，不输出</body>或</html>\n';
+  }
+  p3a+='\n（视觉风格实施规范见上方差异化指令）\n\n';
+  p3a+='⚠️ 第1段输出到上述模块末尾即停止。不要输出</body>或</html>。等待第2段指令。';
+  g('p3a').value=p3a;
+
+  // ───── STEP 3B (Claude) ─────
+  var socialB=mode==='amazon'
+    ?'使用XML rating+social_proof渲染真实UGC评价卡片（含★星级、Verified Purchase标识、评论者用户名）。顶部显示：「X.X ★ out of 5 — verified by X,XXX Amazon customers」'
+    :'使用XML social_proof渲染评价卡片（含星级评分）或媒体报道徽章。信任背书模块必须存在，不得为空。';
+
+  var p3b='【分段生成指令 — 第2段/共2段 · Claude专属】\n';
+  p3b+='请紧接第1段继续输出，不要重复<!DOCTYPE>或<head>。直接从第1段停止的位置继续。\n\n';
+  p3b+='【第2段输出范围】\n\n';
+  p3b+='⑥ 【信任背书/用户评价模块】\n';
+  p3b+='   '+socialB+'\n\n';
+  p3b+='【V34新增 · 用户真实声音强化】\n';
+  p3b+='A. 若XML的raw_user_voice字段有数据：\n';
+  p3b+='   插入1-2条用户原话引用块（<blockquote>样式）\n';
+  p3b+='   标注来源："— Verified Amazon Buyer" 或 "— Reddit user"\n';
+  p3b+='   不得修改原话，保留真实口语感\n\n';
+  p3b+='B. 若XML的amazon_qa字段有数据：\n';
+  p3b+='   整合进⑦FAQ模块，标注 "Q: From a verified Amazon buyer"\n\n';
+  p3b+=(template==='T3'
+    ?'C. XML的competitor_weaknesses字段有数据（T3模板）：\n   在评价模块中加入 "Why buyers chose [产品名] over alternatives" 小节\n   用竞品差评作为反向背书\n\n'
+    :'C. 若XML的competitor_weaknesses字段有数据：\n   可在评价模块中加入 "Why buyers chose [产品名] over alternatives" 小节\n\n');
+  p3b+='★ 以上全部内容必须来自XML字段，严禁AI编造任何用户评价。\n\n';
+  p3b+='⑦ 【FAQ模块】\n';
+  p3b+='   根据XML features和pain_points生成4-5个Q&A，语言：'+lang+'\n';
+  p3b+='   使用accordion或简单列表展示\n';
+  p3b+='   若XML的amazon_qa字段有数据，将真实买家提问整合进来，标注 "Q: From a verified Amazon buyer"\n\n';
+  p3b+='⑧ 【Footer】\n';
+  p3b+='   - 非官方声明（显著位置）："This is an independent review site and is NOT the official website of this product or brand."\n';
+  p3b+='   - 链接占位：Privacy Policy | Terms of Service | Contact Us | Disclaimer\n\n';
+  p3b+='⑨ 【底部JS块（<script>标签）】\n';
+  p3b+='   - ?kw=参数解析替换H1：\n';
+  p3b+='     var kw=new URLSearchParams(window.location.search).get("kw");\n';
+  p3b+='     if(kw)document.querySelector("h1").innerText=decodeURIComponent(kw);\n';
+  p3b+='   - 价格时间戳：document.getElementById("priceTs").innerText=new Date().toLocaleString();\n';
+  p3b+='   - 其他必要交互JS\n\n';
+  p3b+='⑩ </body></html> 结束标签\n\n';
+  p3b+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+  p3b+='【★★★ 强制最终动作：输出完整可下载HTML文件 ★★★】\n';
+  p3b+='将第1段和第2段HTML完整合并（不得有任何省略、截断或"省略相似代码"）：\n\n';
+  p3b+='方式A（优先）：使用Claude的create_document功能创建文件\n';
+  p3b+='   文件名：landing-page-'+coreSlug+'.html\n\n';
+  p3b+='方式B（备用）：将完整HTML放入一个单独的连续代码块：\n';
+  p3b+='   ```html\n   [完整HTML，从<!DOCTYPE html>到</html>，无省略]\n   ```\n';
+  p3b+='   并告知用户："以上是完整代码，全选复制后保存为.html文件"\n\n';
+  p3b+='硬性约束：严禁分多个代码块 · 严禁使用"...（省略）..."或"此处同上"\n\n';
+  p3b+='━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+  p3b+='【代码外部汇报（在文件/代码块之后单独输出）】\n';
+  p3b+='1. 所有id锚点列表（格式：/#xxx），确保至少6个\n';
+  p3b+='2. 落地页核心摘要：H1标题 / 3条核心卖点 / CTA文案 / 价格文案（如"Was $109.90, Now $54.95, Save $54.95 (50% OFF)"）\n';
+  p3b+='3. 【Gemini配图任务清单】列出所有data-prompt字段内容，供用户逐一粘贴到Gemini生成配图\n';
+  p3b+='   【V34新增】每条 data-prompt 末尾请追加对应风格描述词：\n';
+  p3b+='   - minimal → 末尾加："clean minimal white background, product photography style"\n';
+  p3b+='   - dark    → 末尾加："dark moody lighting, high contrast, tech aesthetic"\n';
+  p3b+='   - warm    → 末尾加："warm lifestyle photography, natural light, cozy atmosphere"\n';
+  p3b+='   - editorial → 末尾加："editorial magazine style, high contrast, muted tones"\n';
+  p3b+='   本次风格为【'+style+'】，请在所有data-prompt末尾追加对应描述词。\n';
+  p3b+='4. 《合规自检表》：\n';
+  p3b+='   ☐ A.联盟声明横幅（顶部）\n';
+  p3b+='   ☐ B.非官方声明（页脚）\n';
+  p3b+='   ☐ C.价格模块（原价+现价+折扣+时间戳免责）\n';
+  p3b+='   ☐ D.产品特性（来自XML，未编造）\n';
+  p3b+='   ☐ E.信任背书（真实评价/背书，非空）\n';
+  p3b+='   ☐ F.合规底线（无Fake Countdowns，页脚法律链接完整）';
+  g('p3b').value=p3b;
+
+  // ───── STEP 4 (ChatGPT) ─────
+  var p4='【角色指令：你现在是Google Ads广告文案专家。本步骤唯一任务是生成广告素材。】\n\n';
+  p4+='【背景注入】\n';
+  p4+='落地页URL：'+url+' | 模式：'+(mode==='amazon'?'Amazon联盟':'独立站')+' | 语言：'+lang+'\n';
+  p4+='核心词：'+core+' | 意图：'+intent+'\n\n';
+  p4+='【落地页核心摘要（来自Claude Step 3B代码外汇报）】\n';
+  p4+=lpSum+'\n\n';
+  p4+='【价格在广告素材中的使用规则】\n';
+  p4+='1. Headlines可包含折扣信息（如"Save 50% Today"），与落地页价格文案保持一致，标注【价格敏感型】\n';
+  p4+='2. Descriptions可用折扣幅度作为卖点\n';
+  p4+='3. Sitelink标题不写具体价格数字（字符限制，易产生误导）\n';
+  p4+='4. 所有广告文案使用【'+lang+'】语言\n';
+  p4+='5. 带价格的Headlines建议每周检查一次目标产品价格，如有变化及时更新\n\n';
+  p4+='【落地页锚点ID列表（Sitelink URL必须从此列表选取）】\n'+anchors+'\n\n';
+  p4+='【最终选定词库】\n'+kwRaw+'\n\n';
+  p4+='═════════════════════════════════\n';
+  p4+='任务1：全局RSA广告素材（语言：'+lang+'）\n';
+  p4+='Headlines：10条，每条≤30字符，至少2条含价格/折扣信息（标注【价格敏感型】）\n';
+  p4+='Descriptions：2条，每条≤90字符，至少1条体现折扣优势\n\n';
+  p4+='任务2：★ Sitelinks（严格约束：恰好6条，不多不少）\n';
+  p4+='每条格式：\n';
+  p4+='  标题（≤25字符，'+lang+'，不含具体价格数字）\n';
+  p4+='  描述行1（≤35字符）\n';
+  p4+='  描述行2（≤35字符）\n';
+  p4+='  目标URL：'+url+'[锚点]\n';
+  p4+='硬性约束：6条URL各不相同 · 锚点来自上方列表 · 不得重复或自行编造\n\n';
+  p4+='任务3：Callouts（4条，≤25字符，'+lang+'，可含折扣幅度）\n\n';
+  p4+='任务4：Structured Snippets（最合适的Header + 5 Values，'+lang+'）\n\n';
+  p4+='任务5：Ad Groups逐一输出\n';
+  p4+='────────────────────────────────\n';
+  p4+='Ad Group: [关键词]\n';
+  p4+='Keyword (Exact Match): [关键词]\n';
+  p4+='意图类型: [泛意图-比较/强意图-下单]\n';
+  p4+='Group Headlines（5条，≤30字符，'+lang+'）\n';
+  p4+='Group Descriptions（2条，≤90字符，'+lang+'）\n';
+  p4+='────────────────────────────────';
+  if(comp){
+    p4+='\n\n任务6：竞品截流Ad Group（仅hijack=ENABLE时激活）\n';
+    p4+='Keyword: "alternative to '+comp+'"\n';
+    p4+='框架：产品简介 + 是'+comp+'的平替 + 核心优势\n';
+    p4+='输出5 Headlines + 2 Descriptions + 6条Sitelink（绑定不同锚点）';
+  }
+  g('p4').value=p4;
+
+  // ───── STEP 5 (ChatGPT) ─────
+  var p5='【系统注入】：'+payload+'\n\n';
+  p5+='基于 '+url+' 的final_cpa，制定Day-0极限防爆基线。\n';
+  p5+='算出Max CPC上限（严禁超过盈亏平衡线），并输出：\n';
+  p5+='- 每个Ad Group的建议初始出价\n';
+  p5+='- 每个Ad Group的单日预算上限\n';
+  p5+='- 整体Portfolio每日总预算封顶\n';
+  p5+='- 首周调整节奏建议（何时可以放量）';
+  g('p5').value=p5;
+}
+
+function C(id,btn){
+  var el=g(id); if(!el)return;
+  var orig=btn.innerText;
+  var isRed=id==='p0';
+  var isCld=id==='p3a'||id==='p3b';
+  function ok(){
+    btn.innerText='✓ OK';
+    btn.classList.add('cp-ok');
+    btn.classList.remove(isRed?'cp-0':isCld?'cp-cl':'cp-p');
+    setTimeout(function(){
+      btn.innerText=orig;
+      btn.classList.remove('cp-ok');
+      btn.classList.add(isRed?'cp-0':isCld?'cp-cl':'cp-p');
+    },1500);
+  }
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(el.value).then(ok).catch(fb);}
+  else{fb();}
+  function fb(){el.select();try{document.execCommand('copy');ok();}catch(e){alert('复制失败，请手动全选复制');}window.getSelection().removeAllRanges();}
+}
+R();
+</script>
+</body>
+</html>
