@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEAPETS 2K Solar Bird Feeder vs OnlyFly & BirdSnap | Independent Review</title>
+<!-- ① LCP Optimization: preload the hero image so the browser fetches it
+     at highest priority before the parser reaches the <img> tag. Swap the
+     href value to your actual production image path when deploying. -->
+<link rel="preload" as="image" href="YOUR_BIRD_PHOTO.jpg" fetchpriority="high">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FA8900;
+    --orange-dark: #e07800;
+    --orange-light: #FFF7ED;
+    --green: #10B981;
+    --red: #EF4444;
+    --bg: #F8F9FA;
+    --white: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    background: var(--text);
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+  }
+  .topbar span { color: var(--orange); }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.95);
+  }
+  .nav-brand {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .nav-brand span { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--orange-dark); }
+
+  /* ─── HERO ─── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 92vh;
+    background: var(--white);
+  }
+
+  .hero-visual {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-img-container {
+    aspect-ratio: 4/3;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background: linear-gradient(135deg, #d4e8c2 0%, #8aba6a 40%, #5a8a40 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.85);
+    height: 100%;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .hero-img-placeholder svg { opacity: 0.7; }
+
+  .hero-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: var(--orange);
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .hero-content {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white);
+    position: relative;
+  }
+  .hero-content::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--orange) 0%, transparent 100%);
+  }
+
+  .over-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .subheadline {
+    font-size: 16px;
+    color: #374151;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .subheadline strong { color: var(--text); font-weight: 600; }
+
+  .stars-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    background: #FFF9F0;
+    border-radius: 10px;
+    border: 1px solid #FDE8C0;
+    width: fit-content;
+  }
+  .stars { color: #F59E0B; font-size: 18px; letter-spacing: 2px; }
+  .stars-label { font-size: 14px; font-weight: 600; color: #92400e; }
+
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--orange);
+    color: white;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(250,137,0,0.35);
+    width: fit-content;
+    margin-bottom: 12px;
+  }
+  .cta-primary:hover {
+    background: var(--orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(250,137,0,0.45);
+  }
+  .cta-primary svg { transition: transform 0.2s; }
+  .cta-primary:hover svg { transform: translateX(4px); }
+
+  .microcopy {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .microcopy svg { color: var(--green); flex-shrink: 0; }
+
+  /* ─── SECTION WRAPPER ─── */
+  section { padding: 80px 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    color: var(--text);
+  }
+  h2 em { font-style: italic; color: var(--orange); }
+
+  /* ─── COMPARISON TABLE ─── */
+  .comparison-section {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    min-width: 520px;
+  }
+
+  thead tr {
+    background: var(--text);
+    color: white;
+  }
+  thead th {
+    padding: 20px 24px;
+    text-align: left;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+  thead th:first-child { border-radius: 0; }
+  thead th.col-good {
+    background: #064e3b;
+    color: #6ee7b7;
+    font-size: 15px;
+  }
+  thead th.col-bad {
+    background: #7f1d1d;
+    color: #fca5a5;
+    font-size: 15px;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f9fafb; }
+
+  td {
+    padding: 18px 24px;
+    font-size: 15px;
+    vertical-align: middle;
+  }
+  td:first-child {
+    font-weight: 600;
+    color: #374151;
+    background: #f9fafb;
+    border-right: 1px solid var(--border);
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  td.col-good {
+    color: #065f46;
+    font-weight: 500;
+    background: #f0fdf4;
+    border-right: 1px solid #d1fae5;
+  }
+  td.col-bad {
+    color: #991b1b;
+    font-weight: 500;
+    background: #fff5f5;
+  }
+
+  .price-tag {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: #065f46;
+  }
+  .price-sub { font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px; font-weight: 400; }
+
+  .bad-price {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: #991b1b;
+  }
+
+  /* ─── FEATURE CARDS ─── */
+  .features-section { background: var(--bg); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange), #f59e0b);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  }
+  .feature-card:hover::after { transform: scaleX(1); }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--orange-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .feature-card h3 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .feature-card p {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.7;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-section {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .review-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 28px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: box-shadow 0.2s;
+  }
+  .review-card:hover { box-shadow: var(--shadow); }
+
+  .review-img-wrap {
+    aspect-ratio: 1/1;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #d4e8c2 0%, #8aba6a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+  .review-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .review-stars { color: #F59E0B; font-size: 16px; letter-spacing: 2px; }
+
+  .review-text {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: #374151;
+    font-style: italic;
+    flex: 1;
+  }
+  .review-text::before { content: '"'; }
+  .review-text::after { content: '"'; }
+
+  .review-author {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .review-badge {
+    display: inline-block;
+    background: #ecfdf5;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ─── FINAL CTA ─── */
+  .final-cta-section {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
+    border-top: 1px solid #FDE8C0;
+    text-align: center;
+    padding: 96px 24px;
+  }
+
+  .final-cta-section h2 {
+    font-size: clamp(28px, 4vw, 48px);
+    margin-bottom: 20px;
+  }
+
+  .final-cta-section p {
+    font-size: 17px;
+    color: #78350f;
+    max-width: 540px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+
+  .cta-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--orange);
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 20px 36px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 6px 28px rgba(250,137,0,0.4);
+  }
+  .cta-large:hover {
+    background: var(--orange-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(250,137,0,0.5);
+  }
+
+  .trust-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #92400e;
+  }
+  .trust-item svg { color: var(--green); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #111827;
+    color: #9ca3af;
+    padding: 36px 24px;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    color: #9ca3af;
+    font-size: 12px;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: white; }
+  .footer-disclaimer {
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: #6b7280;
+    max-width: 860px;
+  }
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: #d1d5db;
+    margin-bottom: 4px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-content { padding: 40px 28px; }
+    .hero-content::before { display: none; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    section { padding: 56px 20px; }
+  }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 28px; }
+    h2 { font-size: 26px; }
+    .hero-content { padding: 32px 20px; }
+    thead th, td { padding: 14px 16px; }
+    .cta-primary { font-size: 15px; padding: 14px 22px; }
+    .cta-large { font-size: 16px; padding: 16px 28px; }
+
+    /* ② Mobile UX — sticky first column so the feature label stays visible
+       while users swipe through competitor columns horizontally. The
+       box-shadow creates a subtle right-edge depth cue. */
+    table thead th:first-child,
+    table tbody td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      /* Preserve the existing background colours set per-element above */
+      box-shadow: 4px 0 8px -2px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  /* Decorative dots */
+  .dot-pattern {
+    background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  ⚡ Independent Comparison — Not affiliated with OnlyFly, BirdSnap, or VicoHome &nbsp;|&nbsp;
+  <span>919+ Verified Amazon Reviews</span>
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-brand">Bird<span>Watch</span>Review</div>
+  <a href="https://pboost.me/Q1k0Y2Dg" target="_blank" rel="noopener sponsored" class="nav-cta">View on Amazon →</a>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" style="padding:0;">
+  <div class="hero-visual">
+    <div class="hero-img-container" style="height:100%; min-height:520px;">
+      <!-- Replace <img> tag below with your high-res bird close-up photo -->
+      <img src="https://i.postimg.cc/fTY4J73D/bird-feeder-photo-01.jpg" alt="HEAPETS 2K Solar Bird Feeder with birds">
+      
+    </div>
+    <div class="hero-badge">✦ Editor's Pick</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="over-title">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Independent Smart Feeder Comparison
+    </div>
+
+    <h1>Thinking of OnlyFly or BirdSnap? <em>Read This</em> Before You Spend&nbsp;$199.</h1>
+
+    <p class="subheadline">
+      Meet the <strong>HEAPETS 2K HD Solar Feeder</strong> — an under-$80 Amazon alternative with
+      <strong>zero forced cloud subscriptions</strong>, true 2K resolution, and 100% free local storage.
+    </p>
+
+    <div class="stars-bar">
+      <span class="stars">★★★★★</span>
+      <span class="stars-label">4.4/5 | 919+ Real Amazon Reviews</span>
+    </div>
+
+    <a href="https://pboost.me/Q1k0Y2Dg" target="_blank" rel="noopener sponsored" class="cta-primary">
+      Check Availability on Amazon
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+
+    <p class="microcopy">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      Secure checkout via Amazon.com &nbsp;|&nbsp; 30-Day Free Returns
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════ COMPARISON MATRIX ══════════ -->
+<section class="comparison-section">
+  <div class="container">
+    <div class="section-label">Head-to-Head</div>
+    <h2>Why Pay for a Logo When You Can<br>Pay for <em>Hardware?</em></h2>
+
+    <div class="table-wrapper fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30%">Feature</th>
+            <th class="col-good" style="width:35%">HEAPETS (Our Pick) 🟢</th>
+            <th class="col-bad" style="width:35%">Overpriced Brands 🔴</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td class="col-good">
+              <span class="price-tag">$79.99</span>
+              <span class="price-sub">Solar Roof Included</span>
+            </td>
+            <td class="col-bad">
+              <span class="bad-price">$150 – $199.99</span>
+              <span class="price-sub" style="color:#991b1b;">Often + subscription on top</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Local Storage</td>
+            <td class="col-good">✅ 100% Free MicroSD Support</td>
+            <td class="col-bad">❌ No SD Slot / Cloud Forced</td>
+          </tr>
+          <tr>
+            <td>Winter Endurance</td>
+            <td class="col-good">✅ Survived Snowy NH Winter</td>
+            <td class="col-bad">❌ Solar panels fail in freezing cold</td>
+          </tr>
+          <tr>
+            <td>Resolution</td>
+            <td class="col-good">✅ True 2K HD Video</td>
+            <td class="col-bad">❌ 1080P or Upscaled Fake 2K</td>
+          </tr>
+          <tr>
+            <td>Hidden App Fees</td>
+            <td class="col-good">✅ $0 Monthly App Ransom</td>
+            <td class="col-bad">❌ VicoHome Subscription Paywalls</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FEATURE CARDS ══════════ -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-label">Why We Picked It</div>
+    <h2>Every Friction Point,<br><em>Eliminated.</em></h2>
+
+    <div class="cards-grid">
+      <div class="feature-card fade-in fade-in-delay-1">
+        <div class="card-icon">☀️</div>
+        <h3>Never Climb a Ladder to Charge.</h3>
+        <p>Features a 5000mAh battery paired with a built-in solar roof. Tested in blazing summers and freezing New Hampshire winters without draining once.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <div class="card-icon">💾</div>
+        <h3>Stop Paying Cloud Ransoms.</h3>
+        <p>Simply pop in an SD card. Record and save thousands of 2K HD bird visits directly to your phone for exactly $0 a month.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-3">
+        <div class="card-icon">📶</div>
+        <h3>Built for the Deep Backyard.</h3>
+        <p>Equipped with an upgraded antenna for a stable 2.4GHz WiFi connection, ensuring real-time notifications even at the edge of your property.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ TESTIMONIALS ══════════ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-label">Verified Amazon Reviews</div>
+    <h2>What Real Amazon Buyers<br>Are <em>Saying</em></h2>
+
+    <div class="reviews-grid">
+
+      <!-- Review 1 -->
+      <div class="review-card fade-in fade-in-delay-1">
+        <div class="review-img-wrap">
+          <img src="https://i.postimg.cc/65CsyV7B/Kirk-B-reviews.png" alt="Kirk B. review photo">
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          The solar panel works perfectly, haven't needed to charge it in any other way... Over a hot summer and then a very snowy New Hampshire winter the feeder has stayed in good condition.
+        </p>
+        <div>
+          <span class="review-author">Kirk B.</span>
+          <span class="review-badge">✔ Verified Purchase</span>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="review-card fade-in fade-in-delay-2">
+        <div class="review-img-wrap">
+          <img src="https://i.postimg.cc/BQ2WX583/Luis-F-reviews.png" alt="Luis F. review photo">
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          It's not just a feeder; it's like having a mini wildlife documentary playing in real time, in my own backyard... The 2K HD camera captures such incredible detail.
+        </p>
+        <div>
+          <span class="review-author">Luis F.</span>
+          <span class="review-badge">✔ Verified Purchase</span>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="review-card fade-in fade-in-delay-3">
+        <div class="review-img-wrap">
+          <img src="https://i.postimg.cc/L6jdnkJr/KT-GEMINII-reviews.png" alt="KT GEMINII review photo">
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          Camera quality is so crisp + clear... Such an easy setup, love that it comes with 3 options for mounting.
+        </p>
+        <div>
+          <span class="review-author">KT GEMINII</span>
+          <span class="review-badge">✔ Verified Purchase</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<div class="final-cta-section">
+  <div class="container">
+    <div class="section-label" style="color: #b45309;">Limited Amazon Stock</div>
+    <h2>Ready to Capture 100+ Bird Visits a Day?</h2>
+    <p>Skip the overpriced subscriptions and hidden fees. Upgrade your backyard with the top-rated HEAPETS feeder today.</p>
+
+    <a href="https://pboost.me/Q1k0Y2Dg" target="_blank" rel="noopener sponsored" class="cta-large">
+      See Current Price &amp; Availability on Amazon
+      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+
+    <div class="trust-row">
+      <span class="trust-item">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Secure Amazon Checkout
+      </span>
+      <span class="trust-item">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        30-Day Free Returns
+      </span>
+      <span class="trust-item">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        919+ Verified Reviews
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">BirdWatchReview</div>
+    <div class="footer-links">
+      <a href="https://www.maoviews.com/privacy-policy">Privacy Policy</a>
+      <a href="https://www.maoviews.com/terms-conditions">Terms of Service</a>
+      <a href="https://www.maoviews.com/contact-us">Contact Us</a>
+    </div>
+    <p class="footer-disclaimer">
+      As an Amazon Associate, we earn from qualifying purchases. This site is an independent review and comparison page. "OnlyFly", "BirdSnap", and "VicoHome" are trademarks of their respective owners and are not affiliated with this website. Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon.com at the time of purchase will apply to the purchase of this product.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+<script>
+  /* ─────────────────────────────────────────────────────────────────────────
+   * ③  DYNAMIC KEYWORD INSERTION (DKI)  — URL Parameter → H1 rewrite
+   *     Reads ?competitor=onlyfly | birdsnap and personalises the headline
+   *     for users arriving from paid / organic competitor-keyword campaigns.
+   *     Entirely additive — no change is made when the param is absent,
+   *     missing, or unrecognised, so the default H1 is always the safe fallback.
+   * ──────────────────────────────────────────────────────────────────────── */
+  (function () {
+    var params   = new URLSearchParams(window.location.search);
+    var rival    = (params.get('competitor') || '').toLowerCase().trim();
+    var headings = {
+      onlyfly:  'Thinking of <em>OnlyFly</em>? Read This Before You Spend $199.',
+      birdsnap: 'Thinking of <em>BirdSnap</em>? Read This Before You Spend $199.'
+    };
+
+    if (rival && headings[rival]) {
+      var h1 = document.querySelector('h1');
+      if (h1) { h1.innerHTML = headings[rival]; }
+    }
+  })();
+
+
+  /* ─────────────────────────────────────────────────────────────────────────
+   * ④  OUTBOUND CLICK TELEMETRY  — GA4 CTA click events
+   *     Attaches a click listener to every .cta-primary and .cta-large element.
+   *     The typeof guard prevents console errors when gtag is unavailable
+   *     (e.g. ad-blockers, privacy extensions, or GA script-load failures).
+   * ──────────────────────────────────────────────────────────────────────── */
+  (function () {
+    document.querySelectorAll('.cta-primary, .cta-large').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (typeof gtag === 'function') {
+          gtag('event', 'click_amazon_link', {
+            'event_category': 'outbound_link',
+            'event_label':    'amazon_cta'
+          });
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
