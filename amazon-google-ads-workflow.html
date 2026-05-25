@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arbitrage Command Center</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          mono: ['JetBrains Mono', 'monospace'],
+          sans: ['Sora', 'sans-serif'],
+        },
+        colors: {
+          ink: '#0a0c10',
+          panel: '#11151c',
+          panel2: '#161b24',
+          edge: '#222a36',
+          edge2: '#2d3744',
+          lime: '#c6f24e',
+          limedim: '#9bbf3a',
+          cyan: '#39d3e0',
+          amber: '#f2a93b',
+          rose: '#f2576c',
+          muted: '#7d8a9c',
+          faint: '#4a5564',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html, body { background: #0a0c10; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: #0a0c10; }
+  ::-webkit-scrollbar-thumb { background: #2d3744; border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a4658; }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(45,55,68,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(45,55,68,0.18) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  textarea, input { outline: none; }
+  textarea::-webkit-scrollbar { width: 7px; }
+  .clip-corner { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%); }
+  .step-line { transition: all .35s cubic-bezier(.4,0,.2,1); }
+  .fade-in { animation: fade .4s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .toast-in { animation: toastIn .25s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .blink { animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .scan-row:hover { background: rgba(57,211,224,0.05); }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body class="font-sans text-slate-200 min-h-screen grid-bg selection:bg-lime selection:text-ink">
+
+<!-- ============ HEADER ============ -->
+<header class="border-b border-edge bg-ink/80 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-[1400px] mx-auto px-5 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-lime text-ink flex items-center justify-center font-mono font-extrabold text-lg clip-corner">A</div>
+      <div>
+        <h1 class="font-mono font-bold text-[15px] tracking-tight leading-none">ARBITRAGE<span class="text-lime">_</span>COMMAND</h1>
+        <p class="font-mono text-[10px] text-faint tracking-[0.2em] mt-1">GOOGLE ADS × AMAZON AFFILIATE ENGINE</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-2 font-mono text-[11px]">
+        <span class="w-2 h-2 rounded-full bg-lime blink"></span>
+        <span class="text-muted">LOCAL · NO BACKEND</span>
+      </div>
+      <button id="resetBtn" class="font-mono text-[11px] text-faint hover:text-rose border border-edge hover:border-rose px-3 py-1.5 transition-colors">RESET STATE</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ STEPPER ============ -->
+<nav class="border-b border-edge bg-panel/40">
+  <div class="max-w-[1400px] mx-auto px-5">
+    <div class="flex items-stretch overflow-x-auto" id="stepper"></div>
+  </div>
+</nav>
+
+<main class="max-w-[1400px] mx-auto px-5 py-7">
+  <!-- Step panels injected per-step but pre-built and toggled -->
+
+  <!-- ===================== STEP 1 ===================== -->
+  <section data-panel="1" class="fade-in">
+    <div class="grid lg:grid-cols-2 gap-5">
+      <!-- Inputs -->
+      <div class="bg-panel border border-edge">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-lime">01 · PRODUCT ANALYSIS</h2>
+          <span class="font-mono text-[10px] text-faint">INPUT VARS</span>
+        </div>
+        <div class="p-5 space-y-4">
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">AMAZON URL</label>
+            <input id="s1_url" type="text" placeholder="https://www.amazon.com/dp/..." class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[13px] text-slate-100 placeholder:text-faint transition-colors">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">COMMISSION RATE (%)</label>
+              <input id="s1_rate" type="number" step="0.5" placeholder="e.g. 4" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[13px] text-slate-100 placeholder:text-faint transition-colors">
+            </div>
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">CONV. RATE EST (%)</label>
+              <input id="s1_cvr" type="number" step="0.5" value="3" placeholder="3" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[13px] text-slate-100 placeholder:text-faint transition-colors">
+            </div>
+          </div>
+          <button data-gen="genComet" class="w-full bg-lime text-ink font-mono font-bold text-[13px] tracking-wider py-3.5 hover:bg-limedim transition-colors clip-corner flex items-center justify-center gap-2">
+            <span>⚡ GENERATE COMET PROMPT</span>
+          </button>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">GENERATED PROMPT (auto-copied)</label>
+            <textarea id="s1_prompt" readonly rows="6" class="w-full bg-ink border border-edge px-3 py-2.5 font-mono text-[11px] leading-relaxed text-cyan/90 resize-none" placeholder="Click generate — the prompt appears here and is copied to your clipboard."></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- AI Output capture -->
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-amber">AI OUTPUT CAPTURE</h2>
+          <span class="font-mono text-[10px] text-faint">PASTE COMET RESULT</span>
+        </div>
+        <div class="p-5 space-y-4 flex-1 flex flex-col">
+          <p class="font-mono text-[11px] text-muted leading-relaxed">Paste Comet's raw output below, then fill the parsed fields so later steps inherit them. CPC_max flows into Step 2 automatically.</p>
+          <textarea id="s1_aiout" rows="5" class="w-full bg-ink border border-edge focus:border-amber px-3 py-2.5 font-mono text-[12px] text-slate-100 resize-none transition-colors flex-1" placeholder="Paste the AI analysis here for your records..."></textarea>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">PRODUCT NAME</label>
+              <input id="s1_pname" type="text" placeholder="Brand + Model" class="w-full bg-ink border border-edge focus:border-amber px-3 py-2.5 font-mono text-[12px] text-slate-100 placeholder:text-faint transition-colors">
+            </div>
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">CPC_MAX ($)</label>
+              <input id="s1_cpcmax" type="number" step="0.01" placeholder="e.g. 0.42" class="w-full bg-ink border border-lime/40 focus:border-lime px-3 py-2.5 font-mono text-[12px] text-lime placeholder:text-faint transition-colors">
+            </div>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">KEY PAIN POINTS</label>
+            <input id="s1_pain" type="text" placeholder="e.g. battery anxiety, setup complexity" class="w-full bg-ink border border-edge focus:border-amber px-3 py-2.5 font-mono text-[12px] text-slate-100 placeholder:text-faint transition-colors">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 2 ===================== -->
+  <section data-panel="2" class="hidden fade-in">
+    <div class="bg-panel border border-edge">
+      <div class="px-5 py-3 border-b border-edge flex items-center justify-between flex-wrap gap-2">
+        <h2 class="font-mono text-[12px] tracking-wider text-lime">02 · KEYWORD CSV OPTIMIZER</h2>
+        <span class="font-mono text-[10px] text-faint">100% LOCAL · NO AI</span>
+      </div>
+      <div class="p-5 grid lg:grid-cols-3 gap-5">
+        <!-- Controls -->
+        <div class="space-y-4">
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">CPC_MAX ($) — inherited, editable</label>
+            <input id="s2_cpcmax" type="number" step="0.01" placeholder="set in Step 1" class="w-full bg-ink border border-lime/40 focus:border-lime px-3 py-2.5 font-mono text-[13px] text-lime placeholder:text-faint transition-colors">
+          </div>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">BID MULTIPLIER</label>
+            <input id="s2_mult" type="number" step="0.01" value="1.15" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[13px] text-slate-100 transition-colors">
+          </div>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">UPLOAD GOOGLE KEYWORD CSV</label>
+            <label class="block border border-dashed border-edge2 hover:border-cyan bg-ink/60 cursor-pointer transition-colors p-5 text-center">
+              <input id="s2_file" type="file" accept=".csv" class="hidden">
+              <div class="font-mono text-[11px] text-muted" id="s2_filelabel">⬆ DROP / SELECT .CSV</div>
+              <div class="font-mono text-[10px] text-faint mt-1">Keyword Planner export</div>
+            </label>
+          </div>
+          <div class="border border-edge bg-ink/40 p-3 font-mono text-[10px] text-faint leading-relaxed space-y-1">
+            <div class="text-muted mb-1">ACTIVE FILTERS:</div>
+            <div>① bid &gt; CPC_max → drop</div>
+            <div>② searches &lt; 10 → drop</div>
+            <div>③ junk regex → drop</div>
+            <div>④ bid = min(bid×mult, CPC_max)</div>
+          </div>
+          <button id="s2_export" disabled class="w-full bg-edge text-faint font-mono font-bold text-[12px] tracking-wider py-3 transition-colors clip-corner disabled:cursor-not-allowed">↓ EXPORT CLEANED CSV</button>
+        </div>
+        <!-- Stats + table -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="grid grid-cols-4 gap-3" id="s2_stats">
+            <div class="bg-ink border border-edge p-3"><div class="font-mono text-[10px] text-faint">TOTAL</div><div class="font-mono text-2xl font-bold text-slate-200" data-stat="total">—</div></div>
+            <div class="bg-ink border border-edge p-3"><div class="font-mono text-[10px] text-faint">SURVIVED</div><div class="font-mono text-2xl font-bold text-lime" data-stat="kept">—</div></div>
+            <div class="bg-ink border border-edge p-3"><div class="font-mono text-[10px] text-faint">DROPPED</div><div class="font-mono text-2xl font-bold text-rose" data-stat="dropped">—</div></div>
+            <div class="bg-ink border border-edge p-3"><div class="font-mono text-[10px] text-faint">YIELD</div><div class="font-mono text-2xl font-bold text-cyan" data-stat="yield">—</div></div>
+          </div>
+          <div class="border border-edge bg-ink max-h-[440px] overflow-auto">
+            <table class="w-full text-left border-collapse" id="s2_table">
+              <thead class="sticky top-0 bg-panel2 z-10">
+                <tr class="font-mono text-[10px] text-muted tracking-wider">
+                  <th class="px-3 py-2.5 border-b border-edge">KEYWORD</th>
+                  <th class="px-3 py-2.5 border-b border-edge text-right">SEARCHES</th>
+                  <th class="px-3 py-2.5 border-b border-edge text-right">TOP BID (LOW)</th>
+                  <th class="px-3 py-2.5 border-b border-edge text-right text-lime">ACTUAL BID</th>
+                </tr>
+              </thead>
+              <tbody id="s2_tbody">
+                <tr><td colspan="4" class="px-3 py-10 text-center font-mono text-[11px] text-faint">Awaiting CSV upload<span class="blink">_</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 3 ===================== -->
+  <section data-panel="3" class="hidden fade-in">
+    <div class="grid lg:grid-cols-2 gap-5">
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-lime">03 · STAG SELECTOR</h2>
+          <span class="font-mono text-[10px] text-faint" id="s3_count">0 SELECTED</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <p class="font-mono text-[11px] text-muted">Surviving keywords from Step 2:</p>
+            <button id="s3_all" class="font-mono text-[10px] text-cyan hover:text-lime border border-edge px-2 py-1 transition-colors">TOGGLE ALL</button>
+          </div>
+          <div class="border border-edge bg-ink flex-1 max-h-[420px] overflow-auto" id="s3_list">
+            <div class="px-3 py-10 text-center font-mono text-[11px] text-faint">Complete Step 2 first<span class="blink">_</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-amber">BLUEPRINT COMPILER</h2>
+          <span class="font-mono text-[10px] text-faint">COMPLIANCE-LOCKED</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col gap-4">
+          <div class="border border-edge bg-ink/40 p-3 font-mono text-[10px] text-faint leading-relaxed">
+            <div class="text-muted mb-1">INJECTED LOCKS:</div>
+            <div>#hero-section · #compare-specs · #real-reviews · #footer-compliance · Affiliate Disclosure placeholder · NO hardcoded price</div>
+          </div>
+          <button data-gen="genBlueprint" class="w-full bg-lime text-ink font-mono font-bold text-[13px] tracking-wider py-3.5 hover:bg-limedim transition-colors clip-corner">⚡ GENERATE BLUEPRINT PROMPT</button>
+          <textarea id="s3_prompt" readonly class="w-full bg-ink border border-edge px-3 py-2.5 font-mono text-[11px] leading-relaxed text-cyan/90 resize-none flex-1 min-h-[260px]" placeholder="Select keywords, then generate. Prompt appears here and is copied."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 4 ===================== -->
+  <section data-panel="4" class="hidden fade-in">
+    <div class="grid lg:grid-cols-2 gap-5">
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-lime">04 · HTML CODE AUDIT</h2>
+          <span class="font-mono text-[10px] text-faint">PASTE GENERATED HTML</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col gap-4">
+          <textarea id="s4_html" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[11px] text-slate-100 resize-none flex-1 min-h-[300px] transition-colors" placeholder="Paste the Claude / Cursor generated landing page HTML here..."></textarea>
+          <div class="grid grid-cols-2 gap-3">
+            <button id="s4_check" class="bg-cyan text-ink font-mono font-bold text-[12px] tracking-wider py-3 hover:bg-cyan/80 transition-colors clip-corner">🔍 RUN JS QUICK CHECK</button>
+            <button data-gen="genAudit" class="bg-amber text-ink font-mono font-bold text-[12px] tracking-wider py-3 hover:bg-amber/80 transition-colors clip-corner">⚡ DEEP AUDIT PROMPT</button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge">
+          <h2 class="font-mono text-[12px] tracking-wider text-amber">LOCAL AUDIT RESULTS</h2>
+        </div>
+        <div class="p-5 flex-1 flex flex-col gap-4">
+          <div id="s4_results" class="space-y-2"></div>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">DEEP AUDIT PROMPT (auto-copied)</label>
+            <textarea id="s4_prompt" readonly class="w-full bg-ink border border-edge px-3 py-2.5 font-mono text-[11px] leading-relaxed text-cyan/90 resize-none min-h-[180px]" placeholder="Generate the deep audit prompt to send the HTML to an AI for review."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 5 ===================== -->
+  <section data-panel="5" class="hidden fade-in">
+    <div class="grid lg:grid-cols-2 gap-5">
+      <div class="bg-panel border border-edge">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-lime">05 · RSA & SITELINKS</h2>
+          <span class="font-mono text-[10px] text-faint">AD ASSETS</span>
+        </div>
+        <div class="p-5 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">TARGET COUNTRY & LANGUAGE</label>
+              <input id="s5_geo" type="text" value="US / English" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[12px] text-slate-100 transition-colors">
+            </div>
+            <div>
+              <label class="font-mono text-[11px] text-muted block mb-1.5">TARGET KEYWORD</label>
+              <input id="s5_kw" type="text" placeholder="primary keyword" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[12px] text-slate-100 placeholder:text-faint transition-colors">
+            </div>
+          </div>
+          <div>
+            <label class="font-mono text-[11px] text-muted block mb-1.5">BASE LANDING PAGE URL</label>
+            <input id="s5_url" type="text" placeholder="https://site.com/page" class="w-full bg-ink border border-edge focus:border-cyan px-3 py-2.5 font-mono text-[12px] text-slate-100 placeholder:text-faint transition-colors">
+          </div>
+          <div class="border border-edge bg-ink/40 p-3 font-mono text-[10px] text-faint leading-relaxed space-y-1">
+            <div class="text-muted mb-1">HARD LIMITS INJECTED:</div>
+            <div>Headline ≤ 30 · Description ≤ 90</div>
+            <div>Sitelink title ≤ 25 · desc ≤ 35 (incl. spaces)</div>
+            <div class="text-cyan">Sitelink dedup hack: Base URL + #anchor from Step 4</div>
+          </div>
+          <button data-gen="genRSA" class="w-full bg-lime text-ink font-mono font-bold text-[13px] tracking-wider py-3.5 hover:bg-limedim transition-colors clip-corner">⚡ GENERATE AD ASSETS PROMPT</button>
+        </div>
+      </div>
+      <div class="bg-panel border border-edge flex flex-col">
+        <div class="px-5 py-3 border-b border-edge flex items-center justify-between">
+          <h2 class="font-mono text-[12px] tracking-wider text-amber">GENERATED PROMPT</h2>
+          <span class="font-mono text-[10px] text-faint" id="s5_anchors">0 ANCHORS DETECTED</span>
+        </div>
+        <div class="p-5 flex-1">
+          <textarea id="s5_prompt" readonly class="w-full h-full bg-ink border border-edge px-3 py-2.5 font-mono text-[11px] leading-relaxed text-cyan/90 resize-none min-h-[360px]" placeholder="Generate the final ad assets prompt. Detected #anchors from your Step 4 HTML are injected for sitelink dedup."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer nav -->
+  <div class="flex items-center justify-between mt-7 pt-5 border-t border-edge">
+    <button id="prevBtn" class="font-mono text-[12px] text-muted hover:text-slate-200 border border-edge hover:border-edge2 px-5 py-2.5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">← PREV</button>
+    <div class="font-mono text-[11px] text-faint">STEP <span id="stepNow" class="text-lime">1</span> / 5</div>
+    <button id="nextBtn" class="font-mono text-[12px] text-ink bg-cyan hover:bg-cyan/80 px-5 py-2.5 transition-colors clip-corner disabled:opacity-30 disabled:cursor-not-allowed">NEXT →</button>
+  </div>
+</main>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden">
+  <div class="bg-lime text-ink font-mono font-bold text-[12px] px-5 py-3 clip-corner shadow-2xl shadow-lime/20 toast-in flex items-center gap-2">
+    <span>✓</span><span id="toastMsg">Copied!</span>
+  </div>
+</div>
+
+<footer class="border-t border-edge text-center py-5 mt-4">
+  <p class="font-mono text-[10px] text-faint tracking-wider">RUNS FULLY OFFLINE · STATE LIVES IN MEMORY ONLY · NOTHING LEAVES YOUR BROWSER</p>
+</footer>
+
+<script>
+/* ============================================================
+   STATE — single source of truth, inherited across steps
+   ============================================================ */
+const STATE = {
+  current: 1,
+  s1: { url:'', rate:'', cvr:'3', aiout:'', pname:'', cpcmax:'', pain:'' },
+  s2: { mult:'1.15', survivors: [], dropped:0, total:0 },   // survivors: [{keyword, searches, bid, actual}]
+  s3: { selected: [] },                                      // selected keyword strings
+  s4: { html:'', anchors: [] },
+  s5: { geo:'US / English', kw:'', url:'' },
+};
+
+const STEPS = [
+  { n:1, label:'PRODUCT ANALYSIS', short:'ANALYSIS' },
+  { n:2, label:'CSV OPTIMIZER',    short:'CSV' },
+  { n:3, label:'BLUEPRINT',        short:'BLUEPRINT' },
+  { n:4, label:'CODE AUDIT',       short:'AUDIT' },
+  { n:5, label:'RSA & SITELINKS',  short:'ADS' },
+];
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+/* ============================================================
+   TOAST + CLIPBOARD
+   ============================================================ */
+function toast(msg='Copied!'){
+  const t = $('#toast'); $('#toastMsg').textContent = msg;
+  t.classList.remove('hidden');
+  // re-trigger animation
+  const inner = t.firstElementChild;
+  inner.classList.remove('toast-in'); void inner.offsetWidth; inner.classList.add('toast-in');
+  clearTimeout(t._tm); t._tm = setTimeout(()=>t.classList.add('hidden'), 1800);
+}
+async function copy(text){
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    toast('Copied to clipboard!');
+  } catch(e){ toast('Copy failed — select manually'); }
+}
+
+/* ============================================================
+   STEPPER RENDER + NAV
+   ============================================================ */
+function renderStepper(){
+  const el = $('#stepper');
+  el.innerHTML = STEPS.map(s=>{
+    const active = s.n === STATE.current;
+    const done = s.n < STATE.current;
+    const cls = active ? 'text-lime border-lime' : done ? 'text-cyan/70 border-transparent' : 'text-faint border-transparent';
+    const numbg = active ? 'bg-lime text-ink' : done ? 'bg-cyan/20 text-cyan' : 'bg-edge text-faint';
+    return `<button data-go="${s.n}" class="step-line flex items-center gap-2.5 px-4 py-3.5 border-b-2 ${cls} hover:text-slate-200 whitespace-nowrap">
+      <span class="w-6 h-6 flex items-center justify-center font-mono text-[11px] font-bold ${numbg} clip-corner">${done?'✓':s.n}</span>
+      <span class="font-mono text-[11px] tracking-wider">${s.label}</span>
+    </button>`;
+  }).join('<span class="self-center text-faint font-mono">·</span>');
+  el.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>goTo(+b.dataset.go));
+}
+
+function goTo(n){
+  if(n<1||n>5) return;
+  saveCurrent();
+  STATE.current = n;
+  $$('[data-panel]').forEach(p=>p.classList.toggle('hidden', +p.dataset.panel !== n));
+  $('#stepNow').textContent = n;
+  $('#prevBtn').disabled = n===1;
+  $('#nextBtn').disabled = n===5;
+  renderStepper();
+  hydrate(n);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+$('#prevBtn').onclick=()=>goTo(STATE.current-1);
+$('#nextBtn').onclick=()=>goTo(STATE.current+1);
+
+/* ============================================================
+   SAVE / HYDRATE — keep state across step switches
+   ============================================================ */
+function saveCurrent(){
+  const c = STATE.current;
+  if(c===1){
+    STATE.s1.url=$('#s1_url').value; STATE.s1.rate=$('#s1_rate').value; STATE.s1.cvr=$('#s1_cvr').value;
+    STATE.s1.aiout=$('#s1_aiout').value; STATE.s1.pname=$('#s1_pname').value;
+    STATE.s1.cpcmax=$('#s1_cpcmax').value; STATE.s1.pain=$('#s1_pain').value;
+  } else if(c===2){
+    STATE.s1.cpcmax=$('#s2_cpcmax').value; STATE.s2.mult=$('#s2_mult').value;
+  } else if(c===4){
+    STATE.s4.html=$('#s4_html').value;
+  } else if(c===5){
+    STATE.s5.geo=$('#s5_geo').value; STATE.s5.kw=$('#s5_kw').value; STATE.s5.url=$('#s5_url').value;
+  }
+}
+
+function hydrate(n){
+  if(n===1){
+    $('#s1_url').value=STATE.s1.url; $('#s1_rate').value=STATE.s1.rate; $('#s1_cvr').value=STATE.s1.cvr;
+    $('#s1_aiout').value=STATE.s1.aiout; $('#s1_pname').value=STATE.s1.pname;
+    $('#s1_cpcmax').value=STATE.s1.cpcmax; $('#s1_pain').value=STATE.s1.pain;
+  } else if(n===2){
+    $('#s2_cpcmax').value=STATE.s1.cpcmax; $('#s2_mult').value=STATE.s2.mult;
+  } else if(n===3){
+    renderStagList();
+  } else if(n===4){
+    $('#s4_html').value=STATE.s4.html;
+  } else if(n===5){
+    $('#s5_geo').value=STATE.s5.geo;
+    $('#s5_kw').value=STATE.s5.kw || (STATE.s3.selected[0]||'');
+    $('#s5_url').value=STATE.s5.url;
+    detectAnchors();
+  }
+}
+
+/* ============================================================
+   PROMPT TEMPLATES
+   ============================================================ */
+function genComet(){
+  const url=$('#s1_url').value.trim();
+  const rate=$('#s1_rate').value.trim();
+  const cvr=$('#s1_cvr').value.trim()||'3';
+  if(!url){ toast('Enter an Amazon URL first'); return; }
+  if(!rate){ toast('Enter a commission rate'); return; }
+  const p =
+`# ROLE
+You are a performance-marketing arbitrage analyst. Your job is to evaluate whether a specific Amazon product is worth running paid Google Ads traffic to as an affiliate.
+
+# TASK
+Visit and READ this exact product page: ${url}
+
+Extract and report the following, strictly grounded in what is on the page (do not invent specs):
+1. BRAND and exact MODEL / variant.
+2. Current LISTED PRICE (note currency). If multiple variants, use the default-selected one.
+3. ABSOLUTE COMMISSION = price × ${rate}%. Show the math.
+
+# HARD GO / NO-GO GATE
+- If ABSOLUTE COMMISSION < $30 USD → output exactly: "VERDICT: ABORT — commission below $30 floor." and STOP. Do not continue.
+- If ABSOLUTE COMMISSION ≥ $30 → continue to CPC_max.
+
+# CPC_MAX CALCULATION
+Assume an estimated landing-page-to-Amazon conversion rate of ${cvr}%.
+- Per-click expected revenue = ABSOLUTE COMMISSION × (${cvr} / 100).
+- To stay profitable at a 1.0 ROAS breakeven, CPC_max = per-click expected revenue.
+- Recommend a SAFE bid ceiling = CPC_max × 0.5 (50% margin buffer). Report BOTH numbers clearly, labeled "CPC_max" and "Safe ceiling".
+
+# AUDIENCE INTELLIGENCE
+- 3–5 concrete BUYER PAIN POINTS this product solves (derived from the listing's bullets / reviews framing).
+- The single strongest ANGLE to lead an ad with.
+
+# OUTPUT FORMAT (plain, copy-pasteable)
+PRODUCT: <brand model>
+PRICE: <$x>
+ABS_COMMISSION: <$x>  (math: price × rate)
+VERDICT: <PROCEED | ABORT>
+CPC_MAX: <$x.xx>
+SAFE_CEILING: <$x.xx>
+PAIN_POINTS: <comma separated>
+LEAD_ANGLE: <one line>`;
+  $('#s1_prompt').value=p; copy(p);
+}
+
+function genBlueprint(){
+  const kws=STATE.s3.selected;
+  if(!kws.length){ toast('Select at least one keyword'); return; }
+  const pname=STATE.s1.pname || '[PRODUCT NAME]';
+  const pain=STATE.s1.pain || '[pain points]';
+  const p =
+`# ROLE
+You are a senior CRO + affiliate compliance engineer. Produce a LANDING PAGE BLUEPRINT (structure + copy direction, not final code yet) for an Amazon-affiliate review/comparison page.
+
+# PRODUCT
+${pname}
+Known buyer pain points: ${pain}
+
+# TARGET STAG KEYWORDS (single-theme ad group)
+${kws.map((k,i)=>`${i+1}. ${k}`).join('\n')}
+
+# MANDATORY PAGE STRUCTURE — these exact section IDs are REQUIRED (compliance lock)
+- <section id="hero-section">   → headline matching keyword intent, lead angle, primary CTA
+- <section id="compare-specs">  → spec/feature comparison table vs 1–2 alternatives
+- <section id="real-reviews">   → synthesized review themes (NO fabricated quotes attributed to real names)
+- <footer id="footer-compliance"> → legal block
+
+# COMPLIANCE RULES (NON-NEGOTIABLE)
+1. DO NOT hardcode any price anywhere. Use the literal placeholder {{PRICE}} and a "check price on Amazon" CTA instead.
+2. The footer MUST contain an Affiliate Disclosure placeholder: {{AFFILIATE_DISCLOSURE}} plus "As an Amazon Associate I earn from qualifying purchases."
+3. Footer MUST reference: Privacy Policy and Terms of Service links.
+4. Every Amazon-bound link must be a placeholder {{AFFILIATE_LINK}} — never a raw guessed URL.
+
+# OUTPUT
+For each required section: its purpose, the headline/subhead copy, and the keyword(s) it targets. End with a one-paragraph note on how the structure maps to search intent. Keep it tight and skimmable.`;
+  $('#s3_prompt').value=p; copy(p);
+}
+
+function genAudit(){
+  const html=$('#s4_html').value.trim();
+  if(!html){ toast('Paste HTML first'); return; }
+  const clip = html.length>6000 ? html.slice(0,6000)+'\n... [truncated for prompt — audit full version in your editor]' : html;
+  const p =
+`# ROLE
+You are an adversarial QA auditor for Amazon-affiliate landing pages running on Google Ads. Be ruthless. Assume Google's policy team and Amazon's Associates compliance team are both reviewing this page.
+
+# AUDIT THIS HTML
+\`\`\`html
+${clip}
+\`\`\`
+
+# CHECKLIST — report PASS / FAIL with the exact offending line for each FAIL
+A. COMPLIANCE
+   - Affiliate Disclosure present and visible ("As an Amazon Associate...")?
+   - Privacy Policy link present?
+   - Terms of Service link present?
+   - Any hardcoded price (should be a placeholder, not a real number)?
+B. STRUCTURE / ANCHORS
+   - Contains id="hero-section", id="compare-specs", id="real-reviews", id="footer-compliance"?
+   - Are anchor IDs unique (no duplicates)?
+C. GOOGLE ADS POLICY RISK
+   - Any "bridge page" / thin-content signals?
+   - Misleading claims, fake urgency, or guaranteed-results language?
+   - Malicious / cloaking patterns, auto-redirects, or popups?
+D. AFFILIATE LINK HYGIENE
+   - All outbound Amazon links use placeholders, rel="sponsored nofollow"?
+
+# OUTPUT
+A scored table (Pass/Fail/Warn), then a prioritized FIX LIST ordered by account-suspension risk. Finish with a single verdict line: SHIP / FIX-FIRST / REBUILD.`;
+  $('#s4_prompt').value=p; copy(p);
+}
+
+function genRSA(){
+  const geo=$('#s5_geo').value.trim()||'US / English';
+  const kw=$('#s5_kw').value.trim();
+  const base=$('#s5_url').value.trim();
+  if(!kw){ toast('Enter a target keyword'); return; }
+  if(!base){ toast('Enter a base landing URL'); return; }
+  const anchors = STATE.s4.anchors.length ? STATE.s4.anchors : ['hero-section','compare-specs','real-reviews','footer-compliance'];
+  const pname=STATE.s1.pname||'[product]';
+  const pain=STATE.s1.pain||'[pain points]';
+  const sitelinkURLs = anchors.map(a=>`${base}#${a}`);
+  const p =
+`# ROLE
+You are a Google Ads RSA copywriter. Produce a full Responsive Search Ad asset set for an Amazon-affiliate page.
+
+# CONTEXT
+Market: ${geo}
+Product: ${pname}
+Primary keyword: ${kw}
+Buyer pain points: ${pain}
+Base landing URL: ${base}
+
+# ASSETS REQUIRED
+1. HEADLINES — 15 unique. Each ≤ 30 characters INCLUDING spaces. Count every one; reject any over 30. At least 3 must contain the keyword "${kw}".
+2. DESCRIPTIONS — 4 unique. Each ≤ 90 characters INCLUDING spaces.
+3. SITELINKS — 4. Each sitelink: title ≤ 25 chars, description line ≤ 35 chars (both INCLUDING spaces).
+
+# SITELINK URL DEDUP HACK (critical — avoids Google "duplicate final URL" rejection)
+Each sitelink MUST use a DIFFERENT final URL by appending a unique #anchor pulled from the landing page structure. Use exactly these final URLs, one per sitelink:
+${sitelinkURLs.map((u,i)=>`  Sitelink ${i+1}: ${u}`).join('\n')}
+
+# RULES
+- Strictly enforce every character limit; print the character count in parentheses after each line so it can be verified.
+- No price claims, no "guaranteed", no fake urgency, no superlatives that violate Google policy.
+- Match search intent of "${kw}".
+
+# OUTPUT
+Three labeled blocks (HEADLINES / DESCRIPTIONS / SITELINKS) as plain lists with character counts shown.`;
+  $('#s5_prompt').value=p; copy(p);
+}
+
+const GENERATORS = { genComet, genBlueprint, genAudit, genRSA };
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('[data-gen]');
+  if(btn){ saveCurrent(); GENERATORS[btn.dataset.gen](); }
+});
+
+/* ============================================================
+   STEP 2 — CSV PARSE / FILTER / PRICE  (local, PapaParse)
+   ============================================================ */
+const JUNK_RE = /\b(used|rent|rental|repair|parts|manual|diy|cheap|free|alternative)\b/i;
+
+function findCol(fields, candidates){
+  const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g,'');
+  const nf = fields.map(f=>({raw:f, n:norm(f)}));
+  for(const c of candidates){
+    const cn = norm(c);
+    const hit = nf.find(f=>f.n===cn) || nf.find(f=>f.n.includes(cn));
+    if(hit) return hit.raw;
+  }
+  return null;
+}
+function toNum(v){
+  if(v==null) return NaN;
+  return parseFloat(String(v).replace(/[^0-9.\-]/g,''));
+}
+
+$('#s2_file').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  $('#s2_filelabel').textContent = '⬆ '+file.name;
+  STATE.s1.cpcmax = $('#s2_cpcmax').value;  // capture any manual edit first
+  STATE.s2.mult = $('#s2_mult').value;
+  const cpcmax = toNum(STATE.s1.cpcmax);
+  const mult = toNum(STATE.s2.mult) || 1.15;
+  if(!cpcmax || cpcmax<=0){ toast('Set a valid CPC_max first'); return; }
+
+  Papa.parse(file, {
+    header:true, skipEmptyLines:true, dynamicTyping:false,
+    complete: res => {
+      const fields = res.meta.fields || [];
+      const kwCol = findCol(fields, ['Keyword','Keywords','search term']);
+      const srCol = findCol(fields, ['Avg. monthly searches','Avg monthly searches','Avg. monthly searches (exact match only)','Searches','Avg monthly volume']);
+      const bidCol = findCol(fields, ['Top of page bid (low range)','Top of page bid low range','Top of page bid low','Low top of page bid']);
+      if(!kwCol || !srCol || !bidCol){
+        toast('Missing required columns');
+        renderS2Table([], {total:res.data.length, kept:0, dropped:res.data.length});
+        $('#s2_tbody').innerHTML = `<tr><td colspan="4" class="px-3 py-6 text-center font-mono text-[11px] text-rose">Could not find columns. Need: Keyword / Avg. monthly searches / Top of page bid (low range).<br>Found: ${fields.join(' · ')||'none'}</td></tr>`;
+        return;
+      }
+      const total = res.data.length;
+      let dropped = 0;
+      const survivors = [];
+      for(const row of res.data){
+        const keyword = (row[kwCol]||'').trim();
+        if(!keyword){ dropped++; continue; }
+        const searches = toNum(row[srCol]);
+        const bid = toNum(row[bidCol]);
+        // filter 1: bid > cpcmax
+        if(!isNaN(bid) && bid > cpcmax){ dropped++; continue; }
+        // filter 2: searches < 10
+        if(isNaN(searches) || searches < 10){ dropped++; continue; }
+        // filter 3: junk regex
+        if(JUNK_RE.test(keyword)){ dropped++; continue; }
+        // compute actual bid
+        let actual = (isNaN(bid)?0:bid) * mult;
+        if(actual > cpcmax) actual = cpcmax;
+        survivors.push({ keyword, searches: isNaN(searches)?0:searches, bid: isNaN(bid)?0:bid, actual:+actual.toFixed(2) });
+      }
+      survivors.sort((a,b)=>b.searches-a.searches);
+      STATE.s2.survivors = survivors;
+      STATE.s2.total = total; STATE.s2.dropped = dropped;
+      // refresh step 3 selection: keep only still-surviving
+      const surviveSet = new Set(survivors.map(s=>s.keyword));
+      STATE.s3.selected = STATE.s3.selected.filter(k=>surviveSet.has(k));
+      renderS2Table(survivors, {total, kept:survivors.length, dropped});
+      $('#s2_export').disabled = survivors.length===0;
+      $('#s2_export').className = survivors.length
+        ? 'w-full bg-lime text-ink font-mono font-bold text-[12px] tracking-wider py-3 hover:bg-limedim transition-colors clip-corner'
+        : 'w-full bg-edge text-faint font-mono font-bold text-[12px] tracking-wider py-3 clip-corner disabled:cursor-not-allowed';
+      toast(`${survivors.length} keywords survived`);
+    },
+    error: ()=>toast('CSV parse error')
+  });
+});
+
+function renderS2Table(rows, stats){
+  $('#s2_stats').querySelector('[data-stat="total"]').textContent = stats.total;
+  $('#s2_stats').querySelector('[data-stat="kept"]').textContent = stats.kept;
+  $('#s2_stats').querySelector('[data-stat="dropped"]').textContent = stats.dropped;
+  const yld = stats.total ? Math.round(stats.kept/stats.total*100) : 0;
+  $('#s2_stats').querySelector('[data-stat="yield"]').textContent = yld+'%';
+  const tb = $('#s2_tbody');
+  if(!rows.length){
+    tb.innerHTML = `<tr><td colspan="4" class="px-3 py-10 text-center font-mono text-[11px] text-faint">No surviving keywords</td></tr>`;
+    return;
+  }
+  tb.innerHTML = rows.map(r=>{
+    const capped = r.actual>=toNum(STATE.s1.cpcmax);
+    return `<tr class="scan-row border-b border-edge/60">
+      <td class="px-3 py-2 font-mono text-[12px] text-slate-200">${escapeHtml(r.keyword)}</td>
+      <td class="px-3 py-2 font-mono text-[12px] text-muted text-right">${r.searches.toLocaleString()}</td>
+      <td class="px-3 py-2 font-mono text-[12px] text-muted text-right">$${r.bid.toFixed(2)}</td>
+      <td class="px-3 py-2 font-mono text-[12px] text-right ${capped?'text-amber':'text-lime'}">$${r.actual.toFixed(2)}${capped?' ⊤':''}</td>
+    </tr>`;
+  }).join('');
+}
+
+$('#s2_export').addEventListener('click', ()=>{
+  if(!STATE.s2.survivors.length) return;
+  const data = STATE.s2.survivors.map(r=>({
+    'Keyword': r.keyword,
+    'Avg. monthly searches': r.searches,
+    'Top of page bid (low range)': r.bid.toFixed(2),
+    'Actual Bid': r.actual.toFixed(2)
+  }));
+  const csv = Papa.unparse(data);
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cleaned_keywords.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('CSV exported');
+});
+
+/* ============================================================
+   STEP 3 — STAG selector
+   ============================================================ */
+function renderStagList(){
+  const list = $('#s3_list');
+  const rows = STATE.s2.survivors;
+  if(!rows.length){
+    list.innerHTML = `<div class="px-3 py-10 text-center font-mono text-[11px] text-faint">Complete Step 2 first<span class="blink">_</span></div>`;
+    updateStagCount(); return;
+  }
+  const sel = new Set(STATE.s3.selected);
+  list.innerHTML = rows.map((r,i)=>{
+    const checked = sel.has(r.keyword);
+    return `<label class="flex items-center gap-3 px-3 py-2.5 border-b border-edge/50 hover:bg-cyan/5 cursor-pointer transition-colors">
+      <input type="checkbox" data-kw="${escapeAttr(r.keyword)}" ${checked?'checked':''} class="accent-lime w-4 h-4 bg-ink">
+      <span class="font-mono text-[12px] text-slate-200 flex-1">${escapeHtml(r.keyword)}</span>
+      <span class="font-mono text-[10px] text-faint">${r.searches.toLocaleString()} · $${r.actual.toFixed(2)}</span>
+    </label>`;
+  }).join('');
+  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.onchange = ()=>{
+      const kw = cb.dataset.kw;
+      const s = new Set(STATE.s3.selected);
+      if(cb.checked) s.add(kw); else s.delete(kw);
+      STATE.s3.selected = [...s];
+      updateStagCount();
+    };
+  });
+  updateStagCount();
+}
+function updateStagCount(){
+  $('#s3_count').textContent = `${STATE.s3.selected.length} SELECTED`;
+}
+$('#s3_all').addEventListener('click', ()=>{
+  const rows = STATE.s2.survivors;
+  if(!rows.length) return;
+  const allSelected = STATE.s3.selected.length === rows.length;
+  STATE.s3.selected = allSelected ? [] : rows.map(r=>r.keyword);
+  renderStagList();
+});
+
+/* ============================================================
+   STEP 4 — local regex audit + anchor detection
+   ============================================================ */
+const AUDIT_CHECKS = [
+  { key:'Privacy Policy',           test:h=>/privacy\s*policy/i.test(h),        label:'Privacy Policy present' },
+  { key:'Terms of Service',         test:h=>/terms\s*of\s*service/i.test(h),    label:'Terms of Service present' },
+  { key:'As an Amazon Associate',   test:h=>/as an amazon associate/i.test(h),  label:'Affiliate Disclosure present' },
+  { key:'#hero-section',            test:h=>/id\s*=\s*["']hero-section["']/i.test(h),       label:'#hero-section anchor' },
+  { key:'#compare-specs',           test:h=>/id\s*=\s*["']compare-specs["']/i.test(h),      label:'#compare-specs anchor' },
+  { key:'#real-reviews',            test:h=>/id\s*=\s*["']real-reviews["']/i.test(h),       label:'#real-reviews anchor' },
+  { key:'#footer-compliance',       test:h=>/id\s*=\s*["']footer-compliance["']/i.test(h),  label:'#footer-compliance anchor' },
+  { key:'No hardcoded price',       test:h=>!/\$\s?\d{1,4}(\.\d{2})?/.test(h),   label:'No hardcoded price ($)' , invertNote:true},
+];
+
+$('#s4_check').addEventListener('click', ()=>{
+  const html = $('#s4_html').value;
+  STATE.s4.html = html;
+  if(!html.trim()){ toast('Paste HTML first'); $('#s4_results').innerHTML=''; return; }
+  detectAnchors();
+  const out = AUDIT_CHECKS.map(c=>{
+    const pass = c.test(html);
+    return `<div class="flex items-center justify-between px-3 py-2.5 border ${pass?'border-lime/30 bg-lime/5':'border-rose/30 bg-rose/5'}">
+      <span class="font-mono text-[12px] ${pass?'text-slate-200':'text-rose'}">${c.label}</span>
+      <span class="font-mono text-[12px] font-bold ${pass?'text-lime':'text-rose'}">${pass?'✅ PASS':'❌ FAIL'}</span>
+    </div>`;
+  }).join('');
+  const passCount = AUDIT_CHECKS.filter(c=>c.test(html)).length;
+  $('#s4_results').innerHTML =
+    `<div class="font-mono text-[11px] text-muted mb-1">${passCount}/${AUDIT_CHECKS.length} CHECKS PASSED</div>` + out;
+});
+
+function detectAnchors(){
+  const html = STATE.s4.html || $('#s4_html').value;
+  const found = [];
+  const re = /id\s*=\s*["']([^"']+)["']/gi;
+  let m;
+  while((m=re.exec(html))!==null){ if(!found.includes(m[1])) found.push(m[1]); }
+  STATE.s4.anchors = found;
+  const lbl = $('#s5_anchors');
+  if(lbl) lbl.textContent = `${found.length} ANCHORS DETECTED`;
+}
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return String(s).replace(/"/g,'&quot;'); }
+
+/* ============================================================
+   RESET
+   ============================================================ */
+$('#resetBtn').addEventListener('click', ()=>{
+  if(!confirm('Clear all state and start over?')) return;
+  STATE.s1={url:'',rate:'',cvr:'3',aiout:'',pname:'',cpcmax:'',pain:''};
+  STATE.s2={mult:'1.15',survivors:[],dropped:0,total:0};
+  STATE.s3={selected:[]};
+  STATE.s4={html:'',anchors:[]};
+  STATE.s5={geo:'US / English',kw:'',url:''};
+  $$('input').forEach(i=>{ if(i.type==='file') return; });
+  $('#s1_prompt').value=''; $('#s3_prompt').value=''; $('#s4_prompt').value=''; $('#s5_prompt').value='';
+  $('#s4_results').innerHTML=''; $('#s2_filelabel').textContent='⬆ DROP / SELECT .CSV';
+  $('#s2_export').disabled=true;
+  renderS2Table([], {total:'—',kept:'—',dropped:'—'});
+  $('#s2_stats').querySelector('[data-stat="yield"]').textContent='—';
+  goTo(1);
+  hydrate(1);
+  toast('State cleared');
+});
+
+/* live keyword sync into s5 default when typing in s1 pname not needed; init */
+renderStepper();
+hydrate(1);
+$('#prevBtn').disabled = true;
+</script>
+</body>
+</html>
