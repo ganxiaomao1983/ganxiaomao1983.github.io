@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="The WOLFBOX G900 PRO is a mirror dash cam with 4K front + 2.5K rear recording, a 12-inch rear view mirror camera display, Sony STARVIS 2 sensor, voice control, GPS, 5.8GHz Wi-Fi, and 128GB card included. Shop on Amazon." />
+<title>WOLFBOX G900 PRO Mirror Dash Cam | 4K Front + 2.5K Rear View Mirror Camera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#15171b;
+    --surface:#1d2025;
+    --surface-2:#23272d;
+    --surface-3:#2a2f36;
+    --line:#34393f;
+    --ink:#f3f1ec;
+    --ink-soft:#bfc3c9;
+    --ink-mute:#8b9097;
+    --graphite:#0f1114;
+    --warm:#f5f1e8;
+    --warm-ink:#1a1c20;
+    --warm-soft:#5b5e64;
+    --accent:#e8743b;
+    --accent-hi:#f2864e;
+    --accent-ink:#1a0f08;
+    --radius:14px;
+    --radius-sm:10px;
+    --maxw:1180px;
+    --shadow:0 1px 0 rgba(255,255,255,.03), 0 18px 40px -24px rgba(0,0,0,.7);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
+  }
+  body{
+    margin:0;
+    font-family:"Inter Tight",system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3,h4{font-family:"Sora",system-ui,sans-serif;line-height:1.1;letter-spacing:-.02em;margin:0;font-weight:700;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;height:auto;}
+  ul{margin:0;padding:0;list-style:none;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+  .eyebrow{font-family:"Sora";font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  .section{padding:96px 0;scroll-margin-top:84px;position:relative;}
+  .section--alt{background:var(--surface);}
+  .section--warm{background:var(--warm);color:var(--warm-ink);}
+  .section--warm .lead,.section--warm .eyebrow ~ p{color:var(--warm-soft);}
+  .section--dark{background:var(--graphite);}
+  .lead{color:var(--ink-soft);font-size:1.08rem;max-width:60ch;}
+  .section--warm .lead{color:var(--warm-soft);}
+
+  h2.h{font-size:clamp(1.7rem,3.6vw,2.6rem);margin-bottom:16px;max-width:18ch;}
+
+  :focus-visible{outline:2px solid var(--accent-hi);outline-offset:3px;border-radius:4px;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-family:"Sora";font-weight:700;font-size:.96rem;letter-spacing:-.01em;
+    padding:14px 26px;border-radius:var(--radius-sm);border:1px solid transparent;
+    cursor:pointer;transition:transform .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);
+    white-space:nowrap;
+  }
+  .btn--primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 10px 26px -12px rgba(232,116,59,.7);}
+  .btn--primary:hover{background:var(--accent-hi);transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(232,116,59,.75);}
+  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  .section--warm .btn--ghost{color:var(--warm-ink);border-color:#cfc9bb;}
+  .btn--ghost:hover{border-color:var(--ink-mute);transform:translateY(-2px);}
+  .btn--lg{padding:17px 32px;font-size:1.02rem;}
+  .btn .arr{transition:transform .2s var(--ease);}
+  .btn--primary:hover .arr{transform:translateX(3px);}
+
+  .cta-cluster{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(21,23,27,.78);
+    backdrop-filter:saturate(160%) blur(14px);
+    -webkit-backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav__inner{display:flex;align-items:center;gap:18px;height:64px;}
+  .brand{font-family:"Sora";font-weight:800;font-size:1.02rem;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--accent);box-shadow:0 0 0 3px rgba(232,116,59,.18);}
+  .nav__links{display:flex;gap:4px;margin-left:auto;}
+  .nav__links a{
+    font-size:.9rem;color:var(--ink-soft);padding:9px 13px;border-radius:8px;
+    transition:color .15s var(--ease),background .15s var(--ease);font-weight:500;
+  }
+  .nav__links a:hover{color:var(--ink);background:var(--surface-2);}
+  .nav__links a.active{color:var(--ink);background:var(--surface-3);}
+  .nav__cta{margin-left:6px;}
+  .nav__cta .btn{padding:10px 20px;font-size:.9rem;}
+  .nav__toggle{display:none;margin-left:auto;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);width:42px;height:42px;border-radius:9px;cursor:pointer;align-items:center;justify-content:center;}
+  .nav__toggle svg{width:20px;height:20px;}
+
+  @media (max-width:920px){
+    .nav__links,.nav__cta{display:none;}
+    .nav__toggle{display:inline-flex;}
+    .nav__inner{height:58px;}
+    .nav--open .nav__links{
+      display:flex;flex-direction:column;position:absolute;top:58px;left:0;right:0;
+      background:var(--surface);border-bottom:1px solid var(--line);padding:12px;gap:4px;margin:0;
+    }
+    .nav--open .nav__links a{padding:13px 14px;font-size:1rem;}
+    .nav--open .nav__cta{display:block;position:absolute;top:calc(58px + 268px);left:12px;right:12px;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(1100px 600px at 78% -8%, rgba(232,116,59,.13), transparent 60%),
+      linear-gradient(180deg,#101216 0%, #15171b 70%);
+    padding:74px 0 90px;position:relative;overflow:hidden;
+    scroll-margin-top:84px;
+  }
+  .hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;}
+  .hero__grid{display:grid;grid-template-columns:1.05fr 1fr;gap:54px;align-items:center;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(2.05rem,5vw,3.35rem);font-weight:800;margin-bottom:20px;max-width:16ch;}
+  .hero h1 em{font-style:normal;color:var(--accent);}
+  .hero__sub{color:var(--ink-soft);font-size:1.1rem;max-width:54ch;}
+  .hero__bullets{margin:26px 0 4px;display:grid;gap:11px;}
+  .hero__bullets li{display:flex;gap:11px;align-items:flex-start;font-size:.98rem;color:var(--ink-soft);}
+  .check{flex:none;width:20px;height:20px;margin-top:3px;border-radius:6px;background:rgba(232,116,59,.14);color:var(--accent-hi);display:flex;align-items:center;justify-content:center;}
+  .check svg{width:12px;height:12px;}
+  .badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px;}
+  .badge{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:600;color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);padding:7px 13px;border-radius:30px;}
+  .badge .b-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  .hero__media{position:relative;}
+  .hero__media .main{
+    border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;
+    box-shadow:var(--shadow);background:var(--surface-2);aspect-ratio:4/3;
+  }
+  .hero__media .main img{width:100%;height:100%;object-fit:cover;}
+  .hero__media .float{
+    position:absolute;bottom:-28px;left:-22px;width:46%;border-radius:var(--radius-sm);
+    overflow:hidden;border:1px solid var(--line);box-shadow:0 24px 40px -22px rgba(0,0,0,.8);background:var(--surface-3);aspect-ratio:4/3;
+  }
+  .hero__media .float img{width:100%;height:100%;object-fit:cover;}
+
+  /* ---------- Generic image frame ---------- */
+  .frame{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--surface-2);box-shadow:var(--shadow);}
+  .section--warm .frame{border-color:#e1dccf;background:#efeadd;box-shadow:0 20px 44px -26px rgba(0,0,0,.25);}
+  .frame img{width:100%;height:100%;object-fit:cover;}
+
+  /* ---------- Two-col layout ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+  .split--rev .split__text{order:2;}
+  .split--rev .split__media{order:1;}
+
+  /* ---------- Why upgrade ---------- */
+  .why-list{display:grid;gap:14px;margin-top:24px;}
+  .why-list li{display:flex;gap:13px;align-items:flex-start;color:var(--ink-soft);}
+  .why-list .n{flex:none;font-family:"Sora";font-weight:700;font-size:.8rem;color:var(--accent);width:26px;height:26px;border-radius:7px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .compare__col{padding:20px;background:var(--surface-2);}
+  .compare__col + .compare__col{border-left:1px solid var(--line);background:var(--surface-3);}
+  .compare__tag{font-family:"Sora";font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:12px;}
+  .compare__col:last-child .compare__tag{color:var(--accent);}
+  .compare__img{aspect-ratio:1/1;border-radius:8px;overflow:hidden;background:var(--surface);}
+  .compare__full{grid-column:1 / -1;border-top:1px solid var(--line);}
+  .compare__full img{width:100%;aspect-ratio:16/7;object-fit:cover;}
+
+  /* ---------- Cards ---------- */
+  .cards{display:grid;gap:18px;margin-top:42px;}
+  .cards--4{grid-template-columns:repeat(4,1fr);}
+  .cards--6{grid-template-columns:repeat(3,1fr);}
+  .card{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    transition:transform .22s var(--ease),border-color .22s var(--ease),background .22s var(--ease);
+    display:flex;flex-direction:column;gap:9px;
+  }
+  .section--warm .card{background:#fff;border-color:#e6e1d4;}
+  .card:hover{transform:translateY(-4px);border-color:var(--ink-mute);}
+  .card h3{font-size:1.12rem;}
+  .card p{color:var(--ink-soft);font-size:.94rem;}
+  .section--warm .card p{color:var(--warm-soft);}
+  .card__ix{width:34px;height:34px;border-radius:9px;background:var(--surface-3);color:var(--accent-hi);display:flex;align-items:center;justify-content:center;margin-bottom:6px;}
+  .section--warm .card__ix{background:#f3eee0;}
+  .card__ix svg{width:18px;height:18px;}
+  .card__num{font-family:"Sora";font-weight:700;font-size:.78rem;color:var(--accent);letter-spacing:.04em;}
+
+  /* ---------- Video quality gallery ---------- */
+  .vq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .vq-cell{border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface-3);position:relative;}
+  .vq-cell img{width:100%;aspect-ratio:16/10;object-fit:cover;}
+  .vq-cap{position:absolute;left:10px;bottom:10px;font-family:"Sora";font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(15,17,20,.78);backdrop-filter:blur(4px);color:var(--ink);padding:5px 11px;border-radius:30px;border:1px solid rgba(255,255,255,.08);}
+  .highlight{
+    margin-top:30px;border:1px solid var(--line);border-left:3px solid var(--accent);
+    background:linear-gradient(180deg,var(--surface-2),var(--surface));border-radius:var(--radius-sm);
+    padding:22px 24px;display:flex;gap:16px;align-items:flex-start;
+  }
+  .highlight .hi-ix{flex:none;color:var(--accent-hi);}
+  .highlight p{color:var(--ink-soft);font-size:1rem;}
+  .highlight strong{color:var(--ink);font-weight:600;}
+
+  .vq-bullets{display:grid;gap:13px;margin-top:8px;}
+  .vq-bullets li{display:flex;gap:12px;color:var(--ink-soft);font-size:.98rem;align-items:flex-start;}
+  .vq-bullets .check{margin-top:2px;}
+
+  /* ---------- Installation ---------- */
+  .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  .box-panel{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
+  .box-panel h3{font-size:1.15rem;margin-bottom:16px;}
+  .box-panel li{display:flex;gap:11px;color:var(--ink-soft);padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem;align-items:flex-start;}
+  .box-panel li:last-child{border-bottom:none;}
+  .box-panel .check{margin-top:2px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;}
+  .step{background:var(--surface-3);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px;}
+  .step .s-n{font-family:"Sora";font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1;margin-bottom:10px;}
+  .step h4{font-size:.98rem;}
+  .install-imgs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px;}
+  .install-imgs .frame{aspect-ratio:16/10;}
+
+  /* ---------- Reviews ---------- */
+  .rev-card .r-label{font-family:"Sora";font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+  .rev-card h3{font-size:1.05rem;margin-bottom:6px;}
+  .stars{display:flex;gap:2px;margin-top:auto;padding-top:14px;color:var(--accent-hi);}
+  .stars svg{width:14px;height:14px;}
+  .honesty{
+    margin-top:42px;background:var(--surface-3);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 26px;display:flex;gap:16px;align-items:flex-start;
+  }
+  .honesty .h-ix{flex:none;color:var(--ink-mute);margin-top:2px;}
+  .honesty h3{font-size:1.05rem;margin-bottom:6px;}
+  .honesty p{color:var(--ink-soft);font-size:.95rem;}
+  .reviews-img{margin-top:36px;}
+  .reviews-img .frame{aspect-ratio:21/8;}
+
+  /* ---------- Specs ---------- */
+  .spec-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;}
+  .spec-table{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .spec-row{display:flex;justify-content:space-between;gap:16px;padding:14px 20px;background:var(--surface-2);border-bottom:1px solid var(--line);font-size:.95rem;}
+  .spec-row:nth-child(even){background:var(--surface);}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{color:var(--ink-mute);font-weight:500;}
+  .spec-row .v{font-family:"Sora";font-weight:600;color:var(--ink);text-align:right;}
+  .spec-media .frame{aspect-ratio:3/4;}
+  .disclaimer{margin-top:26px;font-size:.84rem;color:var(--ink-mute);max-width:80ch;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{margin-top:34px;display:grid;gap:12px;max-width:860px;}
+  .faq-item{border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface-2);overflow:hidden;}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--ink);
+    font-family:"Sora";font-weight:600;font-size:1.02rem;padding:19px 22px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .faq-q .ico{flex:none;width:24px;height:24px;border-radius:6px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;transition:transform .25s var(--ease),background .2s var(--ease);}
+  .faq-q .ico svg{width:14px;height:14px;color:var(--accent-hi);}
+  .faq-item[aria-expanded="true"] .faq-q .ico{transform:rotate(45deg);background:var(--accent);}
+  .faq-item[aria-expanded="true"] .faq-q .ico svg{color:var(--accent-ink);}
+  .faq-a{overflow:hidden;max-height:0;transition:max-height .3s var(--ease);}
+  .faq-a__inner{padding:0 22px 20px;color:var(--ink-soft);font-size:.97rem;max-width:70ch;}
+
+  /* ---------- Final CTA ---------- */
+  .final{
+    background:
+      radial-gradient(900px 480px at 50% -10%, rgba(232,116,59,.16), transparent 60%),
+      var(--graphite);
+    text-align:center;padding:100px 0;scroll-margin-top:84px;
+  }
+  .final h2{font-size:clamp(1.9rem,4.4vw,3rem);max-width:20ch;margin:0 auto 18px;}
+  .final .lead{margin:0 auto;}
+  .final-bullets{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin:30px 0 8px;}
+  .final-bullets li{display:flex;gap:8px;align-items:center;color:var(--ink-soft);font-size:.92rem;font-weight:500;}
+  .final-bullets .check{width:18px;height:18px;}
+  .final .cta-cluster{justify-content:center;}
+  .final__img{max-width:560px;margin:42px auto 0;}
+  .final__img .frame{aspect-ratio:16/9;}
+
+  /* ---------- CTA microcopy ---------- */
+  .cta-micro{margin-top:11px;font-size:.8rem;color:var(--ink-mute);text-align:center;}
+
+  /* ---------- Disclaimer strip ---------- */
+  .disclaimer-strip{background:var(--surface);border-top:1px solid var(--line);padding:18px 0;}
+  .disclaimer-strip p{font-size:.8rem;color:var(--ink-mute);line-height:1.65;max-width:90ch;}
+
+  /* ---------- Footer ---------- */
+  .footer{background:var(--bg);border-top:1px solid var(--line);padding:36px 0 28px;}
+  .footer__top{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;margin-bottom:22px;}
+  .footer .brand{font-size:.98rem;}
+  .footer__nav{display:flex;flex-wrap:wrap;gap:5px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .footer__nav a{font-size:.79rem;color:var(--ink-mute);padding:5px 12px;border-radius:6px;border:1px solid var(--line);transition:color .15s,border-color .15s,background .15s;}
+  .footer__nav a:hover{color:var(--ink-soft);border-color:var(--ink-mute);background:var(--surface-2);}
+  .footer__disclosure{padding:18px 0 0;display:flex;flex-wrap:wrap;gap:6px 28px;align-items:baseline;}
+  .footer__disclosure p{font-size:.8rem;color:var(--ink-mute);line-height:1.6;}
+  .footer__contact-line a{color:var(--ink-mute);text-decoration:underline;text-underline-offset:2px;transition:color .15s;}
+  .footer__contact-line a:hover{color:var(--ink-soft);}
+  .footer__bottom{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-size:.78rem;color:var(--ink-mute);}
+  @media (max-width:560px){
+    .footer__top{flex-direction:column;align-items:flex-start;}
+    .footer__disclosure{flex-direction:column;gap:6px;}
+  }
+
+  /* ---------- Sticky mobile CTA ---------- */
+  .mcta{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:rgba(21,23,27,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);padding:11px 16px;padding-bottom:max(11px,env(safe-area-inset-bottom));
+    align-items:center;gap:14px;
+  }
+  .mcta__txt{display:flex;flex-direction:column;line-height:1.15;}
+  .mcta__txt .t1{font-family:"Sora";font-weight:700;font-size:.92rem;}
+  .mcta__txt .t2{font-size:.74rem;color:var(--ink-mute);}
+  .mcta .btn{margin-left:auto;padding:13px 22px;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:920px){
+    .section{padding:72px 0;}
+    .hero__grid,.split,.spec-layout{grid-template-columns:1fr;gap:38px;}
+    .split--rev .split__text{order:1;}
+    .split--rev .split__media{order:2;}
+    .cards--4{grid-template-columns:1fr 1fr;}
+    .cards--6{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .box-grid{grid-template-columns:1fr;}
+    .hero__media .float{display:none;}
+    .mcta{display:flex;}
+    body{padding-bottom:74px;}
+    .final{padding:80px 0;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 18px;}
+    .cards--4,.cards--6,.vq-grid,.install-imgs,.steps,.compare{grid-template-columns:1fr;}
+    .compare__col + .compare__col{border-left:none;border-top:1px solid var(--line);}
+    .footer__inner{flex-direction:column;align-items:flex-start;}
+    .hero{padding:54px 0 70px;}
+    .mcta__txt .t2{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== NAV =================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a href="#overview" class="brand"><span class="dot" aria-hidden="true"></span>WOLFBOX G900 PRO</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#overview">Overview</a>
+      <a href="#video-quality">Video Quality</a>
+      <a href="#features">Key Features</a>
+      <a href="#installation">Installation</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop Now</a>
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- =================== HERO / OVERVIEW =================== -->
+<section class="hero" id="overview" aria-labelledby="hero-h">
+  <div class="wrap hero__grid">
+    <div class="hero__text">
+      <p class="eyebrow">WOLFBOX Mirror Dash Cam &amp; Rear View Mirror Camera</p>
+      <h1 id="hero-h">Upgrade Your Rear View With <em>4K Front + 2.5K Rear</em> Recording</h1>
+      <p class="hero__sub">The WOLFBOX G900 PRO is a 4K dash cam and rear view mirror camera in one — combining a 12-inch mirror display, Sony STARVIS 2 front sensor, voice control, 5.8GHz Wi-Fi, GPS, and dual-channel recording into one cleaner driving setup.</p>
+
+      <ul class="hero__bullets">
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>4K front + 2.5K rear recording for sharper everyday evidence</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Sony STARVIS 2 IMX678 front sensor for stronger low-light detail</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>12-inch mirror display that doubles as a live digital rear view</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Voice control, GPS, and 5.8GHz Wi-Fi built in</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>128GB card included right in the box</li>
+      </ul>
+
+      <div class="cta-cluster">
+        <a class="btn btn--primary btn--lg" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop Now on Amazon <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost btn--lg" href="#why-upgrade">See Why Drivers Upgrade</a>
+      </div>
+
+      <ul class="badges" aria-label="Highlights">
+        <li class="badge"><span class="b-dot" aria-hidden="true"></span>Amazon's Choice</li>
+        <li class="badge"><span class="b-dot" aria-hidden="true"></span>128GB Included</li>
+        <li class="badge"><span class="b-dot" aria-hidden="true"></span>GPS Built In</li>
+        <li class="badge"><span class="b-dot" aria-hidden="true"></span>Voice Control</li>
+      </ul>
+    </div>
+
+    <div class="hero__media">
+      <div class="main">
+        <img src="https://i.postimg.cc/CL2W7D6w/HERO-IMAGE-URL.png" alt="WOLFBOX G900 PRO mirror dash cam installed over the rear view mirror in a vehicle interior" width="640" height="480" />
+      </div>
+      <div class="float">
+        <img src="https://i.postimg.cc/0N7RbQn5/HERO-SECONDARY-IMAGE-URL.png" alt="WOLFBOX G900 PRO rear view mirror camera display showing live rear camera feed" width="320" height="240" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== PROBLEM / WHY UPGRADE =================== -->
+<section class="section section--alt" id="why-upgrade" aria-labelledby="why-h">
+  <div class="wrap split">
+    <div class="split__text">
+      <p class="eyebrow">Why Upgrade</p>
+      <h2 class="h" id="why-h">Your Factory Mirror Was Never Built for This</h2>
+      <p class="lead">Traditional mirrors lose visibility when passengers, cargo, tinted glass, darkness, glare, or weather get in the way. A standard dash cam records footage, but doesn't improve what you actually see. The WOLFBOX G900 PRO acts as both a mirror dash cam and a rear view mirror camera — giving you a live, wide-angle rear feed right where you're already looking.</p>
+      <ul class="why-list">
+        <li><span class="n">01</span>Rear visibility gets worse when your cabin is full</li>
+        <li><span class="n">02</span>Dark tint and nighttime conditions can reduce mirror usefulness</li>
+        <li><span class="n">03</span>Basic dash cams often record without improving the daily drive</li>
+        <li><span class="n">04</span>Hands-free camera switching is more useful than most drivers expect</li>
+        <li><span class="n">05</span>A smarter mirror can improve both visibility and evidence capture</li>
+      </ul>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Upgrade Your Rear View <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="split__media">
+      <div class="compare">
+        <div class="compare__col">
+          <p class="compare__tag">Standard Mirror</p>
+          <div class="compare__img"><img src="https://i.postimg.cc/Kzr2sz33/Standard-Mirror-version.png" alt="Traditional rear view mirror with obstructed visibility" loading="lazy" width="300" height="300" /></div>
+        </div>
+        <div class="compare__col">
+          <p class="compare__tag">G900 PRO Digital View</p>
+          <div class="compare__img"><img src="https://i.postimg.cc/fTsKNbtt/G900-PRO-Digital-View-version.png" alt="WOLFBOX G900 PRO rear view mirror camera showing a clear wide-angle digital rear view" loading="lazy" width="300" height="300" /></div>
+        </div>
+        <div class="compare__full">
+          <img src="https://i.postimg.cc/nzYJwz92/PROBLEM-COMPARISON-IMAGE-URL.png" alt="Side-by-side comparison of a standard mirror versus the WOLFBOX G900 PRO rear view mirror camera display" loading="lazy" width="600" height="262" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== BENEFITS OVERVIEW =================== -->
+<section class="section" id="benefits" aria-labelledby="ben-h">
+  <div class="wrap">
+    <p class="eyebrow">Benefits Overview</p>
+    <h2 class="h" id="ben-h">A Smarter Mirror. A Better Dash Cam. One Clean Upgrade.</h2>
+    <p class="lead">The WOLFBOX G900 PRO mirror dash cam is built for drivers who want better forward footage, a clearer rear-facing live view, and fewer compromises in one integrated setup — combining 4K front + 2.5K rear recording with a 12-inch rear view mirror camera display.</p>
+
+    <div class="cards cards--4">
+      <article class="card">
+        <span class="card__ix" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <h3>See More Behind You</h3>
+        <p>The live rear camera feed works like an always-on backup camera display, offering a wider and more consistent rear view than a conventional mirror in many everyday driving setups.</p>
+      </article>
+      <article class="card">
+        <span class="card__ix" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+        <h3>Capture Better Evidence</h3>
+        <p>4K front recording and upgraded imaging hardware make the Pro model a clear step forward from older mirror dash cams.</p>
+      </article>
+      <article class="card">
+        <span class="card__ix" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></span>
+        <h3>Stay Hands on the Wheel</h3>
+        <p>Voice commands for switching views are often described as one of the most practical real-world upgrades.</p>
+      </article>
+      <article class="card">
+        <span class="card__ix" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+        <h3>Keep the Setup Cleaner</h3>
+        <p>By combining smart mirror display, dual-camera recording, GPS, Wi-Fi, and storage, the G900 PRO feels more integrated than a basic windshield-mounted dash cam.</p>
+      </article>
+    </div>
+
+    <div class="frame" style="margin-top:42px;aspect-ratio:21/8;">
+      <img src="https://i.postimg.cc/HLwRTNWy/BENEFITS-IMAGE-URL.png" alt="WOLFBOX G900 PRO mirror dash cam installed over the rear view mirror with live rear camera active" loading="lazy" width="1180" height="449" />
+    </div>
+  </div>
+</section>
+
+<!-- =================== VIDEO QUALITY =================== -->
+<section class="section section--alt" id="video-quality" aria-labelledby="vq-h">
+  <div class="wrap split">
+    <div class="split__text">
+      <p class="eyebrow">Video Quality</p>
+      <h2 class="h" id="vq-h">Strong Day Detail. Better Low-Light Confidence.</h2>
+      <p class="lead" style="margin-bottom:8px;">User reviews and enthusiast testing consistently describe the WOLFBOX G900 PRO's front camera as the standout feature of this 4K dash cam, with cleaner detail and stronger low-light performance than older versions.</p>
+      <ul class="vq-bullets">
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Front footage is repeatedly described as crisp and sharp</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>The Pro version shows a clear front image improvement over older G900 models</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Low-light performance is one of the biggest reasons buyers step up to the Pro</li>
+        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Rear quality is improved, though the front camera is generally seen as the stronger performer overall</li>
+      </ul>
+      <div class="highlight">
+        <span class="hi-ix" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        <p><strong>The front camera is the hero feature here.</strong> If image quality is the reason you're upgrading, this is the section that should win the click.</p>
+      </div>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">See It on Amazon <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="split__media">
+      <div class="vq-grid">
+        <figure class="vq-cell" style="margin:0;">
+          <img src="https://i.postimg.cc/MG2g2wSr/DAY-FRONT-IMAGE-URL.png" alt="WOLFBOX G900 PRO 4K dash cam daytime front camera footage sample" loading="lazy" width="400" height="250" />
+          <figcaption class="vq-cap">Day Front</figcaption>
+        </figure>
+        <figure class="vq-cell" style="margin:0;">
+          <img src="https://i.postimg.cc/xdDBDQ2K/DAY-REAR-IMAGE-URL.png" alt="WOLFBOX G900 PRO 2.5K rear camera daytime footage sample on mirror display" loading="lazy" width="400" height="250" />
+          <figcaption class="vq-cap">Day Rear</figcaption>
+        </figure>
+        <figure class="vq-cell" style="margin:0;">
+          <img src="https://i.postimg.cc/sgZbNXtY/NIGHT-FRONT-IMAGE-URL.png" alt="WOLFBOX G900 PRO 4K dash cam nighttime front camera footage with STARVIS 2 low-light performance" loading="lazy" width="400" height="250" />
+          <figcaption class="vq-cap">Night Front</figcaption>
+        </figure>
+        <figure class="vq-cell" style="margin:0;">
+          <img src="https://i.postimg.cc/d3sYMY8V/NIGHT-REAR-IMAGE-URL.png" alt="WOLFBOX G900 PRO 2.5K rear view mirror camera nighttime rear footage sample" loading="lazy" width="400" height="250" />
+          <figcaption class="vq-cap">Night Rear</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FEATURE GRID =================== -->
+<section class="section" id="features" aria-labelledby="feat-h">
+  <div class="wrap">
+    <p class="eyebrow">Key Features</p>
+    <h2 class="h" id="feat-h">Built Around the Features Drivers Actually Use</h2>
+    <p class="lead">The WOLFBOX G900 PRO mirror dash cam focuses on the features buyers mention most: stronger front footage from a 4K front + 2.5K rear recording setup, a useful digital rear view, voice control, Wi-Fi transfer, GPS, and included storage.</p>
+
+    <div class="cards cards--6">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3>Sharper Front Footage</h3>
+        <p>The 4K front camera uses a Sony STARVIS 2 IMX678 sensor, which is central to the Pro model's image quality upgrade.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3>Clearer Rear Awareness</h3>
+        <p>The 2.5K rear camera feeds a live rear image to the mirror display, giving drivers a more modern rear-view experience.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3>Voice Control</h3>
+        <p>Commands like switching front and rear views are repeatedly described as practical in real driving situations.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">04</span>
+        <h3>Fast 5.8GHz Wi-Fi</h3>
+        <p>Users report easier clip access and smoother browsing compared with older or more awkward dash cam workflows.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">05</span>
+        <h3>GPS Tracking</h3>
+        <p>GPS adds useful route and location context to recordings.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">06</span>
+        <h3>128GB Included</h3>
+        <p>You can start recording without buying separate storage first.</p>
+      </article>
+    </div>
+
+    <div class="install-imgs" style="grid-template-columns:repeat(3,1fr);margin-top:42px;">
+      <div class="frame" style="aspect-ratio:4/3;"><img src="https://i.postimg.cc/d1KFBd3j/FEATURE-IMAGE1-URL.png" alt="WOLFBOX G900 PRO 4K dash cam front camera module close-up" loading="lazy" width="380" height="285" /></div>
+      <div class="frame" style="aspect-ratio:4/3;"><img src="https://i.postimg.cc/xCSQRH8j/FEATURE-IMAGE2-URL.png" alt="WOLFBOX G900 PRO rear camera installed on vehicle showing live backup camera view" loading="lazy" width="380" height="285" /></div>
+      <div class="frame" style="aspect-ratio:4/3;"><img src="https://i.postimg.cc/N0XYmbsQ/FEATURE-IMAGE3-URL.png" alt="WOLFBOX G900 PRO mirror dash cam voice control and smart display in use" loading="lazy" width="380" height="285" /></div>
+    </div>
+
+    <div class="cta-cluster">
+      <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Get the G900 PRO <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== INSTALLATION =================== -->
+<section class="section section--alt" id="installation" aria-labelledby="inst-h">
+  <div class="wrap">
+    <p class="eyebrow">Installation</p>
+    <h2 class="h" id="inst-h">Install It Once. Drive With It Every Day.</h2>
+    <p class="lead">Setting up the WOLFBOX G900 PRO dash cam is described by most users as straightforward, with enough cable length for clean routing in many vehicles, plus included accessories that make first-time mirror dash cam installation easier.</p>
+
+    <div class="box-grid" style="margin-top:38px;">
+      <div class="box-panel">
+        <h3>What's in the Box</h3>
+        <ul>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>G900 PRO mirror unit</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Rear camera with cable</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>GPS antenna</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>128GB microSD card</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Mounting straps and wiring clips</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Power cable</li>
+        </ul>
+      </div>
+      <div class="box-panel">
+        <h3>Installation Notes</h3>
+        <ul>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Many users describe setup as easier than expected</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Some installs can be done in about an hour, though first-timers may take longer</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Clean cable routing is possible in many vehicles with included cable length</li>
+          <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Parking monitoring requires a separate hardwire kit</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><div class="s-n">1</div><h4>Mount the Mirror</h4></div>
+      <div class="step"><div class="s-n">2</div><h4>Route the Rear Cable</h4></div>
+      <div class="step"><div class="s-n">3</div><h4>Connect Power</h4></div>
+      <div class="step"><div class="s-n">4</div><h4>Drive and Record</h4></div>
+    </div>
+
+    <div class="install-imgs">
+      <div class="frame"><img src="https://i.postimg.cc/ZYxbwf6Q/INTHEBOX-IMAGE-URL.jpg" alt="WOLFBOX G900 PRO mirror dash cam kit contents including rear camera, GPS antenna, and 128GB card" loading="lazy" width="560" height="350" /></div>
+      <div class="frame"><img src="https://i.postimg.cc/VNt1n4Y7/INSTALLATION-IMAGE-URL.png" alt="WOLFBOX G900 PRO rear view mirror camera installed in a vehicle with clean cable routing" loading="lazy" width="560" height="350" /></div>
+    </div>
+
+    <div class="cta-cluster">
+      <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">See What's Included <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== REVIEWS =================== -->
+<section class="section" id="reviews" aria-labelledby="rev-h">
+  <div class="wrap">
+    <p class="eyebrow">Reviews</p>
+    <h2 class="h" id="rev-h">Why Drivers Step Up to the Pro</h2>
+    <p class="lead">Across Amazon and enthusiast communities, the same themes come up for the WOLFBOX G900 PRO: better front image quality from this 4K dash cam, practical voice control, a genuinely useful rear camera display, and a more premium experience than older mirror dash cams.</p>
+
+    <div class="cards cards--4">
+      <article class="card rev-card">
+        <p class="r-label">Review Highlight</p>
+        <h3>Front footage looks sharper</h3>
+        <p>Drivers often mention that the front image quality feels noticeably improved over older mirror-style dash cams.</p>
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg></div>
+      </article>
+      <article class="card rev-card">
+        <p class="r-label">Review Highlight</p>
+        <h3>Voice control is genuinely useful</h3>
+        <p>Switching views by voice is repeatedly described as more practical than expected in everyday driving.</p>
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg></div>
+      </article>
+      <article class="card rev-card">
+        <p class="r-label">Review Highlight</p>
+        <h3>The digital rear view matters</h3>
+        <p>Many users like the always-available rear camera view, especially in vehicles with limited rear visibility.</p>
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg></div>
+      </article>
+      <article class="card rev-card">
+        <p class="r-label">Review Highlight</p>
+        <h3>Setup feels manageable</h3>
+        <p>Installation is often described as straightforward for drivers willing to spend time routing cables cleanly.</p>
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 22 12 17 5 22 7 14 2 9 9 9"/></svg></div>
+      </article>
+    </div>
+
+    <div class="honesty">
+      <span class="h-ix" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+      <div>
+        <h3>What to Know Before You Buy</h3>
+        <p>Some users also mention night brightness, reduced rear performance behind heavy tint, and a few app or Wi-Fi workflow frustrations, so present this as a strong upgrade rather than a perfect OEM replacement.</p>
+      </div>
+    </div>
+
+    <div class="reviews-img">
+      <div class="frame"><img src="https://i.postimg.cc/K8RmvxCT/REVIEWS-IMAGE-URL.png" alt="WOLFBOX G900 PRO mirror dash cam shown in real vehicle installations and driver-use scenarios" loading="lazy" width="1180" height="450" /></div>
+    </div>
+
+    <div class="cta-cluster">
+      <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop Now on Amazon <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SPECS =================== -->
+<section class="section section--alt" id="specs" aria-labelledby="spec-h">
+  <div class="wrap">
+    <p class="eyebrow">Specs</p>
+    <h2 class="h" id="spec-h">Specs That Actually Matter</h2>
+    <p class="lead">A compact, clean look at what's inside the WOLFBOX G900 PRO mirror dash cam.</p>
+
+    <div class="spec-layout" style="margin-top:38px;">
+      <div class="spec-table">
+        <div class="spec-row"><span class="k">Front Recording</span><span class="v">4K</span></div>
+        <div class="spec-row"><span class="k">Rear Recording</span><span class="v">2.5K</span></div>
+        <div class="spec-row"><span class="k">Front Sensor</span><span class="v">Sony STARVIS 2 IMX678</span></div>
+        <div class="spec-row"><span class="k">Display</span><span class="v">12-inch mirror screen</span></div>
+        <div class="spec-row"><span class="k">Connectivity</span><span class="v">5.8GHz Wi-Fi</span></div>
+        <div class="spec-row"><span class="k">GPS</span><span class="v">Yes</span></div>
+        <div class="spec-row"><span class="k">Voice Control</span><span class="v">Yes</span></div>
+        <div class="spec-row"><span class="k">Included Storage</span><span class="v">128GB card</span></div>
+        <div class="spec-row"><span class="k">Parking Monitor</span><span class="v">Separate hardwire kit</span></div>
+      </div>
+      <div class="spec-media">
+        <div class="frame"><img src="https://i.postimg.cc/HkhsQVbT/SPEC-IMAGE-URL.png" alt="WOLFBOX G900 PRO rear view mirror camera and 4K dash cam hardware close-up showing display and camera modules" loading="lazy" width="420" height="560" /></div>
+      </div>
+    </div>
+
+    <p class="disclaimer">The WOLFBOX G900 PRO — part of the WOLFBOX G900 series — is a mirror dash cam with 4K front + 2.5K rear recording and a built-in rear view mirror camera display. Parking monitor requires a separate hardwire kit. Real-world performance may vary depending on vehicle setup, tint, lighting, and installation method.</p>
+  </div>
+</section>
+
+<!-- =================== FAQ =================== -->
+<section class="section" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="h" id="faq-h">Frequently Asked Questions</h2>
+
+    <div class="faq-list">
+      <div class="faq-item" aria-expanded="true">
+        <button class="faq-q" aria-expanded="true">Is the WOLFBOX G900 PRO a mirror dash cam or a rear view mirror camera?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">It's both. The WOLFBOX G900 PRO is a mirror dash cam that mounts over your existing rear view mirror. The 12-inch display doubles as a live rear view mirror camera, so you can see a wide-angle rear feed while driving — and it records front and rear footage at the same time.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">Does the WOLFBOX G900 PRO record both front and rear video?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">Yes. The WOLFBOX G900 PRO records 4K from the front camera and 2.5K from the rear camera simultaneously, storing both channels to the included 128GB microSD card.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">Can the WOLFBOX rear view mirror camera work like a backup camera?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">The rear camera feed is always live on the mirror display while driving, which many users treat as a continuous backup camera view. It is not a dedicated parking-assist system, but it does give a wide, clear rear view that's especially useful when reversing or in low-visibility conditions.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">What makes the WOLFBOX G900 PRO different from a standard dash cam?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">A standard windshield-mounted dash cam only records — it doesn't improve what you see. The WOLFBOX G900 PRO is a mirror dash cam that combines 4K front recording, a live rear view mirror camera display, voice control, GPS, 5.8GHz Wi-Fi, and 128GB storage into one integrated unit that replaces your existing mirror.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">Does it come with a memory card?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">Yes. A 128GB microSD card is included in the box, so you can start recording immediately after installation.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">Does parking mode work out of the box?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">Parking monitor mode requires a separate hardwire kit, which is not included. Standard recording from the car's 12V power works straight out of the box.</div></div>
+      </div>
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-expanded="false">Are there any downsides to the WOLFBOX dash cam?<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a__inner">Some users mention night display brightness, reduced rear camera performance behind heavy window tint, and occasional app or Wi-Fi workflow quirks. It's best approached as a strong all-in-one WOLFBOX mirror dash cam upgrade rather than a flawless OEM replacement.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FINAL CTA =================== -->
+<section class="final" id="final-cta" aria-labelledby="final-h">
+  <div class="wrap">
+    <p class="eyebrow" style="text-align:center;">The Upgrade Drivers Notice</p>
+    <h2 id="final-h">See More. Record More. Upgrade Once.</h2>
+    <p class="lead">If you want sharper front footage, a smarter rear view, and a cleaner mirror-style setup with voice control, Wi-Fi, GPS, and included storage, the WOLFBOX G900 PRO is the upgrade most drivers actually notice every day.</p>
+
+    <ul class="final-bullets">
+      <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>4K front + 2.5K rear</li>
+      <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>STARVIS 2 front sensor</li>
+      <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>12-inch mirror display</li>
+      <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Voice control + 5.8GHz Wi-Fi + GPS</li>
+      <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>128GB card included</li>
+    </ul>
+
+    <div class="cta-cluster">
+      <a class="btn btn--primary btn--lg" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Get the G900 PRO <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost btn--lg" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop Now on Amazon</a>
+    </div>
+    <p class="cta-micro">We may earn a commission from qualifying purchases made through our links.</p>
+
+    <div class="final__img">
+      <div class="frame"><img src="https://i.postimg.cc/jSLRdtBN/FINALCTA-IMAGE-URL.png" alt="WOLFBOX G900 PRO mirror dash cam and rear view mirror camera — premium product beauty shot" loading="lazy" width="560" height="315" /></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =================== DISCLAIMER STRIP =================== -->
+<div class="disclaimer-strip" aria-label="Product disclaimer">
+  <div class="wrap">
+    <p>Product information, pricing, and availability may change over time — check Amazon for the latest details. Parking monitor requires a separate hardwire kit. Real-world performance may vary depending on vehicle setup, tint, lighting, and installation.</p>
+  </div>
+</div>
+
+<!-- =================== FOOTER =================== -->
+<footer class="footer" id="affiliate-disclosure">
+  <div class="wrap">
+
+    <div class="footer__top">
+      <p class="brand"><span class="dot" aria-hidden="true"></span>WOLFBOX G900 PRO</p>
+      <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop on Amazon</a>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer links">
+      <a href="https://www.maoviews.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      <a href="https://www.maoviews.com/terms-conditions" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+      <a href="https://www.maoviews.com/affiliate-disclosure" target="_blank" rel="noopener noreferrer">Affiliate Disclosure</a>
+      <a href="https://www.maoviews.com/contact-us" target="_blank" rel="noopener noreferrer">Contact</a>
+      <a href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Amazon Product Page ↗</a>
+    </nav>
+
+    <div class="footer__disclosure">
+      <p>This page may contain affiliate links. If you purchase through our links, we may earn a commission at no extra cost to you.</p>
+      <p class="footer__contact-line">Questions or corrections: <a href="mailto:ganxiaomao@gmail.com">ganxiaomao@gmail.com</a></p>
+    </div>
+
+    <p class="footer__bottom">&copy; <span id="yr"></span> MaoViews. All rights reserved.</p>
+
+  </div>
+</footer>
+
+<!-- =================== STICKY MOBILE CTA =================== -->
+<div class="mcta" aria-label="Quick purchase">
+  <div class="mcta__txt">
+    <span class="t1">Get 4K Front + 2.5K Rear</span>
+    <span class="t2">WOLFBOX G900 PRO Mirror Dash Cam</span>
+  </div>
+  <a class="btn btn--primary" href="https://pboost.me/r1AGtjgRd" target="_blank" rel="noopener noreferrer">Shop Now</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Year
+  var yr = document.getElementById("yr");
+  if (yr) yr.textContent = new Date().getFullYear();
+
+  // Mobile nav toggle
+  var nav = document.getElementById("nav");
+  var toggle = document.getElementById("navToggle");
+  if (toggle) {
+    toggle.addEventListener("click", function(){
+      var open = nav.classList.toggle("nav--open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    nav.querySelectorAll(".nav__links a, .nav__cta a").forEach(function(a){
+      a.addEventListener("click", function(){
+        nav.classList.remove("nav--open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  // FAQ accordion
+  var items = document.querySelectorAll(".faq-item");
+  function setOpen(item, open){
+    var ans = item.querySelector(".faq-a");
+    var btn = item.querySelector(".faq-q");
+    item.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    ans.style.maxHeight = open ? (ans.scrollHeight + "px") : "0px";
+  }
+  items.forEach(function(item){
+    var btn = item.querySelector(".faq-q");
+    // init
+    setOpen(item, item.getAttribute("aria-expanded") === "true");
+    btn.addEventListener("click", function(){
+      var willOpen = item.getAttribute("aria-expanded") !== "true";
+      items.forEach(function(other){ if (other !== item) setOpen(other, false); });
+      setOpen(item, willOpen);
+    });
+  });
+  // Recalculate open item height on resize
+  window.addEventListener("resize", function(){
+    items.forEach(function(item){
+      if (item.getAttribute("aria-expanded") === "true") {
+        var ans = item.querySelector(".faq-a");
+        ans.style.maxHeight = "none";
+        var h = ans.scrollHeight;
+        ans.style.maxHeight = h + "px";
+      }
+    });
+  });
+
+  // Active nav state on scroll
+  var sections = ["overview","video-quality","features","installation","reviews","faq"];
+  var linkMap = {};
+  document.querySelectorAll(".nav__links a").forEach(function(a){
+    var id = a.getAttribute("href").replace("#","");
+    linkMap[id] = a;
+  });
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          var id = e.target.id;
+          Object.keys(linkMap).forEach(function(k){ linkMap[k].classList.remove("active"); });
+          if (linkMap[id]) linkMap[id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    sections.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+  }
+})();
+</script>
+</body>
+</html>
