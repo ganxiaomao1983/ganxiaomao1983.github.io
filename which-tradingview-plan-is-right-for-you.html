@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which TradingView Plan Is Right for You? Independent Guide to Pricing and Subscriptions</title>
+<meta name="description" content="Compare TradingView Essential, Plus, Premium, and Ultimate plans. Find the right subscription for your trading workflow, understand billing options, and go to the official pricing page with confidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-bg:#F8FAFC;
+    --color-surface:#FFFFFF;
+    --color-text-primary:#0F172A;
+    --color-text-secondary:#475569;
+    --color-border:#E2E8F0;
+    --color-accent:#0F6CBD;
+    --color-accent-hover:#0D5CA8;
+    --color-success:#16A34A;
+    --color-warning:#F59E0B;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--color-bg);
+    color:var(--color-text-primary);
+    font-weight:400;
+    line-height:1.55;
+  }
+  h1,h2,h3{margin:0 0 0.5em 0;}
+  h1{font-weight:800;font-size:2.5rem;line-height:1.15;}
+  h2{font-weight:700;font-size:1.75rem;}
+  h3{font-weight:700;font-size:1.15rem;}
+  p{margin:0 0 1em 0;color:var(--color-text-secondary);}
+  a{color:var(--color-accent);}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px;}
+  section{padding:64px 0;}
+
+  /* Header */
+  header.site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(248,250,252,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--color-border);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;max-width:1120px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;color:var(--color-text-primary);text-decoration:none;}
+  .brand-mark{width:28px;height:28px;border-radius:8px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;}
+  .brand-mark svg{width:16px;height:16px;}
+  .brand-tag{font-size:0.7rem;font-weight:500;color:var(--color-text-secondary);display:block;}
+  .header-links{display:flex;gap:20px;align-items:center;font-size:0.85rem;}
+  .header-links a{color:var(--color-text-secondary);text-decoration:none;font-weight:500;}
+  .header-links a:hover{color:var(--color-accent);}
+  .header-cta{
+    background:var(--color-accent);color:#fff;padding:10px 16px;border-radius:8px;
+    font-weight:600;font-size:0.85rem;text-decoration:none;white-space:nowrap;
+  }
+  .header-cta:hover{background:var(--color-accent-hover);}
+  @media (max-width:760px){
+    .header-links{display:none;}
+  }
+
+  /* Hero */
+  .hero{
+    position:relative;overflow:hidden;padding:56px 0 48px 0;
+    max-height:none;
+  }
+  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;}
+  .hero-bg svg{width:100%;height:100%;}
+  .hero-inner{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;
+  }
+  .eyebrow{
+    display:inline-block;font-size:0.78rem;font-weight:600;color:var(--color-accent);
+    background:#EAF3FB;border:1px solid #D6E9F8;border-radius:999px;padding:6px 12px;margin-bottom:16px;
+  }
+  .hero p.lead{font-size:1.05rem;max-width:520px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:44px;padding:0 22px;border-radius:8px;font-weight:600;font-size:0.95rem;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;
+  }
+  .btn-primary{background:var(--color-accent);color:#fff;}
+  .btn-primary:hover{background:var(--color-accent-hover);}
+  .btn-secondary{background:#fff;color:var(--color-text-primary);border-color:var(--color-border);}
+  .btn-secondary:hover{border-color:var(--color-accent);color:var(--color-accent);}
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .hero-visual img {
+    max-width: 100%;
+    height: auto;
+    max-height: 600px; /* 防止过长的竖图撑爆首屏，你可以根据需要调整这个数值 */
+    object-fit: contain;
+    display: block;
+    border-radius: 14px; /* 可选：增加一点圆角以契合你整个页面的卡片 UI 风格 */
+    /* 新增：提示可点击 */
+    cursor: zoom-in; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  /* 新增：鼠标悬停时稍微浮起一点 */
+  .hero-visual img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;}
+    h1{font-size:2rem;}
+  }
+
+  /* Disclosure strip */
+  .disclosure-strip{
+    background:#FFF8EC;border-top:1px solid #F3E3BE;border-bottom:1px solid #F3E3BE;
+    padding:16px 0;
+  }
+  .disclosure-strip .container{
+    display:flex;gap:12px;align-items:flex-start;font-size:0.88rem;color:#7A5A16;
+  }
+  .disclosure-strip svg{flex-shrink:0;margin-top:2px;}
+  .disclosure-strip strong{color:#5C4310;}
+
+  /* Cards / generic */
+  .card{
+    background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);padding:24px;
+  }
+  .section-head{max-width:640px;margin-bottom:36px;}
+  .section-head .eyebrow{margin-bottom:12px;}
+
+  /* Diagnostic module */
+  .diagnostic-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+  .diagnostic-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .diagnostic-list li{
+    display:flex;gap:12px;background:var(--color-surface);border:1px solid var(--color-border);
+    border-radius:12px;padding:16px 18px;font-size:0.95rem;color:var(--color-text-primary);
+  }
+  .diagnostic-list li .qmark{
+    flex-shrink:0;width:24px;height:24px;border-radius:6px;background:#EAF3FB;color:var(--color-accent);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;
+  }
+  .diagnostic-note{margin-top:20px;font-size:0.9rem;}
+  @media (max-width:900px){.diagnostic-grid{grid-template-columns:1fr;}}
+
+  /* User type cards */
+  .type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .type-card{position:relative;}
+  .type-card .icon-slot{margin-bottom:14px;}
+  .type-card .icon-slot svg{width:44px;height:44px;}
+  .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;}
+  .tag{
+    font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:999px;
+  }
+  .tag-recommend{background:#E9F7EF;color:var(--color-success);}
+  .mini-list{margin:12px 0 0 0;padding-left:18px;font-size:0.88rem;}
+  .mini-list li{margin-bottom:6px;color:var(--color-text-secondary);}
+  @media (max-width:900px){.type-grid{grid-template-columns:1fr;}}
+
+  /* Feature comparison */
+  .ladder-wrap{margin-bottom:40px;}
+  .ladder-wrap svg{width:100%;height:auto;display:block;}
+  .table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--color-border);}
+  table.compare{
+    width:100%;border-collapse:collapse;background:var(--color-surface);min-width:760px;
+  }
+  table.compare th, table.compare td{
+    padding:14px 16px;text-align:left;font-size:0.88rem;border-bottom:1px solid var(--color-border);
+  }
+  table.compare thead th{
+    font-weight:600;background:#F1F5F9;color:var(--color-text-primary);position:sticky;top:0;
+  }
+  table.compare tbody th{font-weight:500;color:var(--color-text-secondary);white-space:nowrap;}
+  table.compare td{color:var(--color-text-primary);}
+  table.compare tbody tr:last-child td, table.compare tbody tr:last-child th{border-bottom:none;}
+  .plan-col-essential{border-left:1px solid var(--color-border);}
+  .price-caveat{
+    margin-top:16px;font-size:0.82rem;color:var(--color-text-secondary);
+    background:#F8FAFC;border:1px solid var(--color-border);border-radius:10px;padding:14px 16px;
+  }
+  .col-highlight{background:#F5F9FD;}
+
+  /* Billing clarity */
+  .billing-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  .billing-grid .card h3{margin-bottom:10px;}
+  .savings-table{width:100%;border-collapse:collapse;font-size:0.88rem;margin-top:12px;}
+  .savings-table th,.savings-table td{padding:8px 10px;border-bottom:1px solid var(--color-border);text-align:left;}
+  .step-list{margin:0;padding-left:20px;font-size:0.9rem;}
+  .step-list li{margin-bottom:8px;color:var(--color-text-secondary);}
+  .warning-box{
+    background:#FFF8EC;border:1px solid #F3E3BE;border-radius:10px;padding:14px 16px;font-size:0.85rem;
+    color:#7A5A16;margin-top:16px;
+  }
+  @media (max-width:900px){.billing-grid{grid-template-columns:1fr;}}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--color-border);padding:18px 0;}
+  .faq-item:first-child{padding-top:0;}
+  .faq-item h3{margin-bottom:8px;font-size:1rem;}
+  .faq-item p{margin-bottom:6px;font-size:0.92rem;}
+
+  /* Final CTA */
+  .final-cta{
+    position:relative;overflow:hidden;background:var(--color-surface);border:1px solid var(--color-border);
+    border-radius:20px;padding:56px 40px;text-align:left;
+  }
+  .final-cta-bg{position:absolute;inset:0;z-index:0;}
+  .final-cta-content{position:relative;z-index:1;max-width:640px;}
+  .final-cta .hero-ctas{margin-top:24px;}
+
+  /* Footer */
+  footer.compliance-footer{
+    background:#F1F5F9;border-top:1px solid var(--color-border);padding:48px 0 32px 0;
+    font-size:0.85rem;color:var(--color-text-secondary);
+  }
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;margin-bottom:32px;}
+  .footer-grid h4{color:var(--color-text-primary);font-size:0.85rem;font-weight:600;margin:0 0 12px 0;}
+  .footer-links{list-style:none;margin:0;padding:0;}
+  .footer-links li{margin-bottom:8px;}
+  .footer-links a{color:var(--color-text-secondary);text-decoration:none;}
+  .footer-links a:hover{color:var(--color-accent);}
+  .footer-disclaimer{
+    border-top:1px solid var(--color-border);padding-top:20px;line-height:1.6;
+  }
+  @media (max-width:760px){.footer-grid{grid-template-columns:1fr;}}
+/* 放大弹窗背景层 */
+  .img-lightbox {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 9999; /* 确保在最顶层 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.9); /* 使用你主色调的深色半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊效果，更显高级 */
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out; /* 提示点击即可缩小/关闭 */
+  }
+
+  /* 弹窗中的放大图片 */
+  .img-lightbox img {
+    max-width: 95%;
+    max-height: 95vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); /* 流畅的弹出动画 */
+  }
+
+  @keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/tradingview-plans" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18L9 11L13 14L20 5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>
+        PlanScope
+        <span class="brand-tag">Independent TradingView plan guide</span>
+      </span>
+    </a>
+    <nav class="header-links" aria-label="Compliance and section navigation">
+      <a href="#user-types">Which plan fits me</a>
+      <a href="#feature-comparison">Compare features</a>
+      <a href="#billing-clarity">Billing &amp; trials</a>
+      <a href="#disclosures">Disclosures</a>
+    </nav>
+    <a class="header-cta" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">Compare Official Plans</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <title>Faint background grid texture</title>
+      <defs>
+        <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M40 0H0V40" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="1440" height="900" fill="url(#grid-pattern)" opacity="0.06"/>
+    </svg>
+  </div>
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow">Independent plan guide &middot; Not affiliated with TradingView</span>
+      <h1>Which TradingView plan actually fits how you trade?</h1>
+      <p class="lead">Basic, Essential, Plus, Premium, and Ultimate solve different problems. This guide compares chart limits, alert capacity, automation support, and billing terms so you can pick a plan based on your real workflow, not guesswork.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">Compare Official Plans</a>
+        <a class="btn btn-secondary" href="#need-paid-plan">Do I need a paid plan?</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+     <img src="https://i.postimg.cc/255nDpq7/tradingview-plan-price.png" alt="TradingView plan comparison preview"/>
+    </div>
+  </div>
+</section>
+
+<div class="disclosure-strip" id="disclosure-strip-top">
+  <div class="container">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#B45309" stroke-width="1.6"/><path d="M12 8v5" stroke="#B45309" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16" r="0.9" fill="#B45309"/></svg>
+    <p style="margin:0;color:#7A5A16;"><strong>Independent site notice:</strong> This page is independently operated and may earn affiliate commissions if you subscribe through links on this page. It does not provide investment advice. Pricing, features, and billing terms should always be confirmed on TradingView's official site at <a href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener" style="color:#7A5A16;text-decoration:underline;">tradingview.com/pricing</a>.</p>
+  </div>
+</div>
+
+<section id="need-paid-plan">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Diagnostic</span>
+      <h2>Do you need a paid plan?</h2>
+      <p>TradingView's free Basic plan is genuinely functional, not just a preview. Most users should only upgrade once a specific limit gets in the way of a workflow they actually use.</p>
+    </div>
+    <div class="diagnostic-grid">
+      <ul class="diagnostic-list">
+        <li><span class="qmark">1</span><span>Are you hitting the 3-alert limit on the free plan on a regular basis?</span></li>
+        <li><span class="qmark">2</span><span>Do you need more than 2 indicators on a single chart, or more than 1 chart per tab?</span></li>
+        <li><span class="qmark">3</span><span>Would an ad-free workspace meaningfully improve your day-to-day use?</span></li>
+        <li><span class="qmark">4</span><span>Do you need webhook notifications to connect alerts to a bot or automation service?</span></li>
+        <li><span class="qmark">5</span><span>Are expiring alerts (roughly every two months on Essential and Plus) a maintenance problem for your strategy?</span></li>
+        <li><span class="qmark">6</span><span>Do you need second-based alerts, tick data, or deep backtesting for a high-frequency or institutional workflow?</span></li>
+      </ul>
+      <div>
+        <div class="card">
+          <svg viewBox="0 0 900 320" role="img" aria-label="Decision flow diagram mapping usage patterns to a recommended plan, from free Basic user through alert and chart limits, automation needs, and non-expiring alert needs, ending in Basic, Essential, Plus, or Premium">
+            <title>Plan decision flow diagram</title>
+            <g font-family="Inter, sans-serif" font-size="12" text-anchor="middle">
+              <rect x="20" y="130" width="140" height="56" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.25"/>
+              <text x="90" y="163" fill="#0F172A" font-weight="600">Free Basic user</text>
+
+              <rect x="200" y="130" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#475569" stroke-width="1.25"/>
+              <text x="275" y="158" fill="#475569">Hit alert or chart</text>
+              <text x="275" y="174" fill="#475569">limit?</text>
+
+              <rect x="390" y="130" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#475569" stroke-width="1.25"/>
+              <text x="465" y="158" fill="#475569">Need automation</text>
+              <text x="465" y="174" fill="#475569">or webhooks?</text>
+
+              <rect x="580" y="130" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#475569" stroke-width="1.25"/>
+              <text x="655" y="158" fill="#475569">Need non-expiring</text>
+              <text x="655" y="174" fill="#475569">alerts?</text>
+
+              <rect x="20" y="230" width="140" height="46" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.25"/>
+              <text x="90" y="258" fill="#475569">Stay on Basic</text>
+
+              <rect x="200" y="230" width="150" height="46" rx="8" fill="#FFFFFF" stroke="#0F6CBD" stroke-width="1.5"/>
+              <text x="275" y="258" fill="#0F6CBD" font-weight="600">Consider Essential</text>
+
+              <rect x="390" y="230" width="150" height="46" rx="8" fill="#FFFFFF" stroke="#0F6CBD" stroke-width="1.5"/>
+              <text x="465" y="258" fill="#0F6CBD" font-weight="600">Consider Plus</text>
+
+              <rect x="580" y="230" width="150" height="46" rx="8" fill="#0F6CBD" stroke="#0F6CBD" stroke-width="1.5"/>
+              <text x="655" y="258" fill="#FFFFFF" font-weight="600">Consider Premium</text>
+            </g>
+            <g stroke="#475569" stroke-width="1.25" fill="none" marker-end="url(#arrow)">
+              <line x1="160" y1="158" x2="196" y2="158"/>
+              <line x1="350" y1="158" x2="386" y2="158"/>
+              <line x1="540" y1="158" x2="576" y2="158"/>
+              <line x1="90" y1="186" x2="90" y2="226"/>
+              <line x1="275" y1="186" x2="275" y2="226"/>
+              <line x1="465" y1="186" x2="465" y2="226"/>
+              <line x1="655" y1="186" x2="655" y2="226"/>
+            </g>
+            <defs>
+              <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        <p class="diagnostic-note">If you answered "no" to all of these, the free Basic plan is likely sufficient. If you answered "yes" to one or more, the sections below map each answer to a specific plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="user-types" style="background:#F1F5F9;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Plan fit</span>
+      <h2>Which plan fits your workflow?</h2>
+      <p>Third-party reviewers consistently map plan recommendations to how a person actually uses the platform, not to a single "best plan" answer.</p>
+    </div>
+    <div class="type-grid">
+
+      <div class="card type-card">
+        <div class="icon-slot">
+          <svg viewBox="0 0 48 48" role="img" aria-label="Single chart window icon representing a casual learner or light investor">
+            <rect x="6" y="8" width="36" height="32" rx="4" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <polyline points="12,32 18,26 24,29 34,16" fill="none" stroke="#0F6CBD" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Casual learner / light investor</h3>
+        <p>Checks charts occasionally, uses one or two indicators, and does not rely on alerts as part of an active trading process.</p>
+        <div class="tag-row"><span class="tag tag-recommend">Fits: Basic or Essential</span></div>
+        <p style="font-size:0.88rem;">Best fit for traders who need more alerts and layouts than the free plan offers, but nothing beyond that. If you have not hit any Basic-plan limits, staying free is a reasonable choice.</p>
+        <ul class="mini-list">
+          <li>Upgrade trigger: ads become disruptive to daily use.</li>
+          <li>Upgrade trigger: you start hitting the 3-alert limit.</li>
+        </ul>
+      </div>
+
+      <div class="card type-card">
+        <div class="icon-slot">
+          <svg viewBox="0 0 48 48" role="img" aria-label="Multi-chart grid icon representing an active day trader or swing trader">
+            <rect x="6" y="6" width="36" height="36" rx="4" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <line x1="24" y1="6" x2="24" y2="42" stroke="#475569" stroke-width="1.5"/>
+            <line x1="6" y1="24" x2="42" y2="24" stroke="#475569" stroke-width="1.5"/>
+            <rect x="24" y="6" width="18" height="18" fill="none" stroke="#0F6CBD" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>Active day trader or swing trader</h3>
+        <p>Runs multiple chart layouts daily, monitors several instruments at once, and depends on alerts for trade signals.</p>
+        <div class="tag-row"><span class="tag tag-recommend">Often chosen: Plus</span></div>
+        <p style="font-size:0.88rem;">Often chosen by active traders who have outgrown the free plan. Plus supports 4 charts per tab, 100 alerts, and priority support.</p>
+        <ul class="mini-list">
+          <li>Upgrade trigger: Essential's 20-alert limit feels restrictive.</li>
+          <li>Upgrade trigger: you need to monitor 4 instruments at once.</li>
+        </ul>
+      </div>
+
+      <div class="card type-card">
+        <div class="icon-slot">
+          <svg viewBox="0 0 48 48" role="img" aria-label="Alert bell connected to a webhook endpoint, representing an algorithmic trader or automation user">
+            <path d="M18 30V19c0-6 4-10 6-10s6 4 6 10v11l3 4H15z" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <path d="M21 34a3 3 0 0 0 6 0" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <line x1="33" y1="24" x2="42" y2="24" stroke="#0F6CBD" stroke-width="1.6"/>
+            <circle cx="43" cy="24" r="2.4" fill="#0F6CBD"/>
+          </svg>
+        </div>
+        <h3>Algorithmic trader / automation user</h3>
+        <p>Connects alerts to webhooks that trigger bots or third-party execution services. Alert reliability and expiry behavior are the deciding factors.</p>
+        <div class="tag-row"><span class="tag tag-recommend">Fits: Essential to start, Premium for scale</span></div>
+        <p style="font-size:0.88rem;">Essential includes webhook support and 20 alerts, sufficient for many starting strategies. Premium is recommended once expiring alerts (roughly every two months on Essential and Plus) become a maintenance burden, since Premium alerts never expire.</p>
+        <ul class="mini-list">
+          <li>Upgrade trigger: manually resetting expired alerts every two months.</li>
+          <li>Upgrade trigger: your strategy needs second-based alerts or deep backtesting.</li>
+        </ul>
+      </div>
+
+      <div class="card type-card">
+        <div class="icon-slot">
+          <svg viewBox="0 0 48 48" role="img" aria-label="Three-monitor array icon representing a professional, institutional, or prop firm user">
+            <rect x="4" y="18" width="12" height="16" rx="2" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <rect x="18" y="10" width="12" height="24" rx="2" fill="none" stroke="#0F6CBD" stroke-width="1.6"/>
+            <rect x="32" y="18" width="12" height="16" rx="2" fill="none" stroke="#475569" stroke-width="1.5"/>
+            <line x1="6" y1="36" x2="14" y2="36" stroke="#475569" stroke-width="1.5"/>
+            <line x1="20" y1="36" x2="28" y2="36" stroke="#0F6CBD" stroke-width="1.5"/>
+            <line x1="34" y1="36" x2="42" y2="36" stroke="#475569" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Professional / institutional / prop firm user</h3>
+        <p>Operates at high capacity with many concurrent alerts, tick-based data needs, and multi-monitor setups.</p>
+        <div class="tag-row"><span class="tag tag-recommend">Fits: Premium, Ultimate for professional accounts</span></div>
+        <p style="font-size:0.88rem;">Premium provides sufficient capacity for most individual traders, even serious ones. Ultimate is only justified for institutional users, prop firms, or accounts formally classified as professional by TradingView.</p>
+        <ul class="mini-list">
+          <li>Upgrade trigger: you qualify as a professional user under TradingView's classification.</li>
+          <li>Upgrade trigger: you need tick-based data or over 400 concurrent alerts.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="feature-comparison">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Side by side</span>
+      <h2>Compare plan features</h2>
+      <p>No subscription tier improves trading outcomes, only analysis capability. Use the table below to see exactly what each paid tier unlocks.</p>
+    </div>
+
+    <div class="ladder-wrap card">
+      <svg viewBox="0 0 800 320" role="img" aria-label="Stepped bar chart showing Essential, Plus, Premium, and Ultimate plans arranged left to right by increasing annual-billing monthly price">
+        <title>Plan value ladder</title>
+        <g font-family="Inter, sans-serif" font-size="13" text-anchor="middle">
+          <rect x="90" y="220" width="120" height="60" fill="#0F6CBD" opacity="0.25"/>
+          <rect x="250" y="180" width="120" height="100" fill="#0F6CBD" opacity="0.5"/>
+          <rect x="410" y="120" width="120" height="160" fill="#0F6CBD" opacity="0.75"/>
+          <rect x="570" y="40" width="120" height="240" fill="#0F6CBD" opacity="1"/>
+
+          <rect x="70" y="70" width="150" height="24" rx="12" fill="#16A34A"/>
+          <text x="145" y="86" fill="#FFFFFF" font-weight="600" font-size="11">Good for beginners</text>
+
+          <rect x="220" y="30" width="180" height="24" rx="12" fill="#16A34A"/>
+          <text x="310" y="46" fill="#FFFFFF" font-weight="600" font-size="11">Most popular: active traders</text>
+
+          <rect x="400" y="70" width="160" height="24" rx="12" fill="#16A34A"/>
+          <text x="480" y="86" fill="#FFFFFF" font-weight="600" font-size="11">Best for automation</text>
+
+          <rect x="580" y="10" width="150" height="24" rx="12" fill="#16A34A"/>
+          <text x="655" y="26" fill="#FFFFFF" font-weight="600" font-size="11">Institutional only</text>
+
+          <line x1="60" y1="280" x2="720" y2="280" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text x="150" y="300" fill="#475569">Essential</text>
+          <text x="310" y="300" fill="#475569">Plus</text>
+          <text x="470" y="300" fill="#475569">Premium</text>
+          <text x="630" y="300" fill="#475569">Ultimate</text>
+
+          <text x="150" y="317" fill="#0F172A" font-weight="600">$12.95/mo</text>
+          <text x="310" y="317" fill="#0F172A" font-weight="600">$29.95/mo</text>
+          <text x="470" y="317" fill="#0F172A" font-weight="600">$59.95/mo</text>
+          <text x="630" y="317" fill="#0F172A" font-weight="600">$199.95/mo</text>
+        </g>
+      </svg>
+    </div>
+
+    <div style="height:24px;"></div>
+
+    <div class="table-scroll">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Basic (Free)</th>
+            <th class="col-highlight">Essential</th>
+            <th>Plus</th>
+            <th>Premium</th>
+            <th>Ultimate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Charts per tab</th><td>1</td><td class="col-highlight">2</td><td>4</td><td>8</td><td>16</td></tr>
+          <tr><th>Indicators per chart</th><td>2</td><td class="col-highlight">5</td><td>10</td><td>25</td><td>50</td></tr>
+          <tr><th>Active price alerts</th><td>3</td><td class="col-highlight">20</td><td>100</td><td>400</td><td>1,000</td></tr>
+          <tr><th>Active technical alerts</th><td>0</td><td class="col-highlight">20</td><td>100</td><td>400</td><td>1,000</td></tr>
+          <tr><th>Alert expiry</th><td>~2 months</td><td class="col-highlight">~2 months</td><td>~2 months</td><td>Never expires</td><td>Never expires</td></tr>
+          <tr><th>Webhook notifications</th><td>No</td><td class="col-highlight">Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+          <tr><th>Second-based alerts</th><td>No</td><td class="col-highlight">No</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+          <tr><th>Historical bars</th><td>5,000</td><td class="col-highlight">10,000</td><td>10,000</td><td>20,000</td><td>40,000</td></tr>
+          <tr><th>Ad-free experience</th><td>No</td><td class="col-highlight">Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+          <tr><th>Saved chart layouts</th><td>1</td><td class="col-highlight">5</td><td>10</td><td>Unlimited</td><td>Unlimited</td></tr>
+          <tr><th>Customer support</th><td>None</td><td class="col-highlight">Regular</td><td>Priority</td><td>Priority</td><td>First priority</td></tr>
+          <tr><th>Max market data subscriptions</th><td>0</td><td class="col-highlight">2</td><td>4</td><td>6</td><td>6</td></tr>
+          <tr><th>Deep backtesting &amp; export</th><td>No</td><td class="col-highlight">No</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+          <tr><th>Annual billing, per month</th><td>$0</td><td class="col-highlight">$12.95</td><td>$29.95</td><td>$59.95</td><td>$199.95</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="price-caveat">Prices shown reflect annual billing rates as of July 2026. TradingView adjusts pricing periodically. Confirm the latest prices at <a href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">tradingview.com/pricing</a> before subscribing.</p>
+
+    <div class="hero-ctas" style="margin-top:28px;">
+      <a class="btn btn-primary" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">View Essential on TradingView</a>
+      <a class="btn btn-secondary" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">View Plus on TradingView</a>
+      <a class="btn btn-secondary" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">View Premium on TradingView</a>
+    </div>
+  </div>
+</section>
+
+<section id="billing-clarity" style="background:#F1F5F9;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Billing</span>
+      <h2>Billing, trials, and market data fees explained</h2>
+      <p>Your plan and your market data are billed separately. Understanding both, plus how trials and cancellations work, avoids billing surprises.</p>
+    </div>
+
+    <div class="billing-grid">
+      <div class="card">
+        <h3>Annual vs. monthly billing</h3>
+        <p>Annual billing is consistently cheaper than paying month-by-month across all paid plans.</p>
+        <table class="savings-table">
+          <thead><tr><th>Plan</th><th>Monthly billing (per year)</th><th>Annual billing (per year)</th><th>You save</th></tr></thead>
+          <tbody>
+            <tr><td>Essential</td><td>$179.40</td><td>$155.40</td><td>$24.00</td></tr>
+            <tr><td>Plus</td><td>$419.40</td><td>$359.40</td><td>$60.00</td></tr>
+            <tr><td>Premium</td><td>$839.40</td><td>$719.40</td><td>$120.00</td></tr>
+            <tr><td>Ultimate</td><td>$2,879.40</td><td>$2,399.40</td><td>$480.00</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.85rem;margin-top:12px;">TradingView has historically run seasonal sales during Black Friday and Cyber Week with discounts reported up to 60–70% off. Confirm any active promotions at tradingview.com/pricing.</p>
+      </div>
+
+      <div class="card">
+        <h3>Free trial details</h3>
+        <p>Essential, Plus, and Premium include a 30-day free trial. Ultimate includes a 14-day trial only. Payment details are required to start a trial, and you will not be charged until the trial ends.</p>
+        <ol class="step-list">
+          <li>Go to tradingview.com/pricing and select a plan.</li>
+          <li>Click the trial button for that plan and enter payment details.</li>
+          <li>Note your trial end date.</li>
+          <li>Cancel via Account and Billing before the trial ends if you do not want to continue.</li>
+        </ol>
+        <div class="warning-box">Cancel at least 24 hours before your renewal or trial end date to avoid being charged for the next billing period. TradingView does not typically issue refunds for subscriptions already billed.</div>
+      </div>
+
+      <div class="card">
+        <h3>Canceling a subscription</h3>
+        <ol class="step-list">
+          <li>Log into your TradingView account.</li>
+          <li>Click your profile picture and select Account and Billing.</li>
+          <li>Go to the Subscriptions tab under Billing.</li>
+          <li>Select Cancel renewal or Cancel subscription and confirm.</li>
+          <li>You retain paid features until the end of the current billing period.</li>
+        </ol>
+        <p style="font-size:0.85rem;">Paying via PayPal may offer an easier cancellation path, since PayPal subscriptions can be managed directly through the PayPal interface.</p>
+      </div>
+
+      <div class="card">
+        <h3>Plan features vs. market data costs</h3>
+        <p>Your plan controls platform features like charts, indicators, and alerts. Real-time market data from specific exchanges is a separate cost.</p>
+        <ul class="mini-list">
+          <li>Free on all plans: crypto data, major forex pairs, and delayed (~15 min) stock data.</li>
+          <li>Extra cost: real-time US stock data (~$9.95/month) and real-time CME futures data (~$13/month).</li>
+          <li>Mobile in-app purchases may cost more than web purchases due to app store platform fees.</li>
+        </ul>
+        <p style="font-size:0.85rem;">Example: an active trader on Plus with US stock and crypto data pays roughly $29.95/month for the plan plus $9.95/month for stock data, about $40/month total.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="objections-faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Questions answered</span>
+      <h2>Common questions about TradingView pricing</h2>
+    </div>
+
+    <div class="faq-item">
+      <h3>Isn't TradingView's pricing too high for casual users?</h3>
+      <p>This is a fair concern for genuinely light users. If you have not hit any limits on the free Basic plan, upgrading is not necessary — the free plan is fully functional for casual use. Essential at $12.95/month on annual billing is the lowest-cost paid option, and the right plan depends on your actual usage, not on what serious traders are assumed to need.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does the same price mean the same value everywhere?</h3>
+      <p>No. Subscription pricing represents different real value depending on region and income level, a documented and widely discussed structural issue. Annual billing and seasonal sales, particularly Black Friday, can substantially reduce the effective cost. Always confirm current pricing and any active promotions at tradingview.com/pricing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Has TradingView raised prices over time?</h3>
+      <p>Pricing has changed over time, which is a legitimate concern for long-term budget planning. Annual billing locks in the current price for one subscription year, and purchasing during major sale events is the most effective documented way to reduce long-term cost. Always verify the current price at tradingview.com/pricing before subscribing or renewing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is the free plan actually enough for most people?</h3>
+      <p>For many users, yes. The free Basic plan is not just a trial — it includes functional charting, community indicators, paper trading, screeners, and brokerage integration. The honest recommendation is to upgrade only once the free plan actively constrains something in your real workflow.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Why am I being charged extra for market data if I already pay for a plan?</h3>
+      <p>Your plan and real-time market data are billed separately. Crypto and forex real-time data are free on every plan, including Basic. Real-time US stock and futures data cost extra regardless of plan tier. Factor both costs into your budget before subscribing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How hard is it to get a refund after being charged?</h3>
+      <p>TradingView's refund policy is strict, and refunds are not routinely issued once a charge has processed. Protect yourself by canceling before your billing date, noting your exact renewal date, and considering PayPal for an easier independent cancellation path. Contact TradingView support directly before filing a bank chargeback, since direct contact may resolve the issue faster.</p>
+    </div>
+  </div>
+</section>
+
+<section id="final-cta-section">
+  <div class="container">
+    <div class="final-cta">
+      <div class="final-cta-bg">
+        <svg viewBox="0 0 1440 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" width="100%" height="100%">
+          <defs>
+            <pattern id="grid-pattern-2" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0V40" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="1440" height="400" fill="url(#grid-pattern-2)" opacity="0.06"/>
+        </svg>
+      </div>
+      <div class="final-cta-content">
+        <h2>Ready to choose the right TradingView plan?</h2>
+        <p>Go to the official TradingView pricing page to review current plan details, confirm exact prices, and subscribe. A 30-day free trial is available on Essential, Plus, and Premium as a risk-reduction option; Ultimate includes a 14-day trial.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">Go to Official TradingView Pricing</a>
+          <a class="btn btn-secondary" href="#feature-comparison">Review feature comparison</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="disclosures" style="padding-top:0;">
+  <div class="container">
+    <div class="card">
+      <h3>Affiliate and risk disclosures</h3>
+      <p>This page is independently operated and may earn affiliate commissions if you subscribe through links on this page. It does not provide investment advice. Pricing, features, and billing terms should always be confirmed on <a href="https://bbux.me/O68nCDj1" target="_blank" rel="nofollow sponsored noopener">TradingView's official site.</a></p>
+      <p>Nothing on this page constitutes investment, financial, legal, or tax advice. Trading and investing involve risk. Platform features and plan capabilities do not guarantee trading outcomes.</p>
+      <p style="margin-bottom:0;">This site is not TradingView and is not an authorized reseller. Recommendations are based on publicly available information and third-party reviews as of July 2026.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="compliance-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>PlanScope</h4>
+        <p style="max-width:360px;">An independent guide for comparing TradingView subscription plans by workflow, feature set, and billing terms. Not affiliated with or operated by TradingView, Inc.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.maoviews.com/about-us">About</a></li>
+          <li><a href="https://www.maoviews.com/contact-us">Contact</a></li>
+          <li><a href="https://www.maoviews.com/affiliate-disclosure">Affiliate Disclosure</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.maoviews.com/privacy-policy">Privacy Policy</a></li>
+          <li><a href="https://www.maoviews.com/terms-conditionss">Terms and Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <p style="margin-bottom:6px;">Nothing on this page constitutes investment, financial, legal, or tax advice. Trading and investing involve risk. Platform features and plan capabilities do not guarantee trading outcomes.</p>
+      <p style="margin-bottom:0;">&copy; 2026 PlanScope. Independent guide, not affiliated with TradingView, Inc. All trademarks belong to their respective owners.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="lightboxModal" class="img-lightbox">
+  <img id="lightboxImg" src="" alt="Enlarged view">
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const heroImg = document.querySelector('.hero-visual img');
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    // 确保找到了图片元素
+    if (heroImg && lightboxModal && lightboxImg) {
+      // 点击原图：打开弹窗并将原图的 src 赋给弹窗中的 img
+      heroImg.addEventListener('click', function() {
+        lightboxImg.src = this.src;
+        lightboxModal.style.display = 'flex'; // 使用 flex 居中
+      });
+
+      // 点击弹窗背景或放大后的图片：关闭弹窗
+      lightboxModal.addEventListener('click', function() {
+        lightboxModal.style.display = 'none';
+        // 可选：清空 src 避免下次打开时闪烁上一张图（如果你页面有多张图的话）
+        // lightboxImg.src = ''; 
+      });
+    }
+  });
+</script>
+</body>
+</html>
