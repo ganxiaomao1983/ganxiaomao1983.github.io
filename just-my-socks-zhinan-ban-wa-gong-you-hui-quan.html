@@ -541,11 +541,43 @@
     font-size:10.5px;letter-spacing:0.1em;font-family:var(--mono);color:#A3C5BE;
     text-transform:uppercase;margin-bottom:8px;display:block;
   }
-  .coupon-code{
-    font-family:var(--mono);font-size:26px;font-weight:700;letter-spacing:0.05em;
+  .promo-text{
+    font-family:var(--mono);font-weight:700;letter-spacing:0.04em;
+    background:rgba(20,52,47,0.06);
+    border-bottom:1px dashed var(--accent-soft, #A9842E);
+    padding:2px 6px;border-radius:4px;display:inline-block;
+    cursor:pointer;user-select:all;-webkit-user-select:all;-moz-user-select:all;
+    color:inherit;transition:background .12s;
+  }
+  .promo-text:hover{background:rgba(20,52,47,0.12);}
+  .coupon-box .promo-text.large{
+    font-size:26px;
     background:rgba(247,245,240,0.07);
     border:1px dashed rgba(247,245,240,0.35);
-    padding:9px 20px;border-radius:var(--radius-sm);display:inline-block;
+    border-bottom-style:dashed;
+    padding:9px 20px;border-radius:var(--radius-sm);
+    color:#F0EDE6;
+  }
+  .coupon-box .promo-text.large:hover{background:rgba(247,245,240,0.14);}
+  .discount-badge{
+    display:inline-block;margin-left:10px;font-size:12px;font-weight:700;
+    color:#F0EDE6;background:rgba(169,132,46,0.35);
+    border:1px solid rgba(169,132,46,0.55);
+    padding:5px 10px;border-radius:999px;letter-spacing:0.02em;
+    vertical-align:middle;
+  }
+  .global-toast{
+    position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(12px);
+    background:rgba(28,38,36,0.94);color:#F0EDE6;
+    font-size:13px;font-family:var(--sans);
+    padding:11px 20px;border-radius:999px;
+    box-shadow:0 8px 28px rgba(0,0,0,0.28);
+    opacity:0;pointer-events:none;
+    transition:opacity .22s ease,transform .22s ease;
+    z-index:9999;max-width:90vw;text-align:center;
+  }
+  .global-toast.show{
+    opacity:1;transform:translateX(-50%) translateY(0);
   }
   .coupon-note{font-size:12.5px;color:#A3C5BE;max-width:380px;margin-top:10px;line-height:1.65;}
   .coupon-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
@@ -876,7 +908,7 @@
       <h1>Just My Socks<br>中文<em>选购与使用</em>指南</h1>
       <p style="font-family:var(--mono);font-size:11px;color:var(--slate-soft);letter-spacing:0.06em;margin-top:6px;text-transform:uppercase;">搬瓦工机场 · 独立中文参考页</p>
       <p class="lead">
-        先了解公开套餐结构与各节点系列差异，再前往官网核实实时价格与库存，结算时可尝试输入优惠码 <strong>JMS9272283</strong>，是否生效以官网为准。
+        先了解公开套餐结构与各节点系列差异，再前往官网核实实时价格与库存，结算时可尝试输入 5.2% 循环折扣码 <span class="promo-text" data-code="JMS9272283" title="点击复制优惠码">JMS9272283</span>，是否生效以官网为准。
       </p>
       <p class="non-official-line">
         本页为独立中文指南，不代表 Just My Socks 官方站点，也不提供账户、支付或技术支持。最终套餐价格、库存、折扣是否生效与服务规则，均以官网实时显示内容为准。
@@ -1631,12 +1663,15 @@
     <div class="coupon-box">
       <div>
         <span class="coupon-label">常见优惠码 · 仅供结算页尝试</span>
-        <div class="coupon-code" id="couponCode">JMS9272283</div>
+        <div>
+          <span class="promo-text large" data-code="JMS9272283" title="点击复制优惠码">JMS9272283</span>
+          <span class="discount-badge">5.2% 循环折扣（Recurring Discount）</span>
+        </div>
         <p class="coupon-note">是否生效、折扣比例与适用范围，均以官网结算页实时显示的结果为准；优惠码不保证长期有效。本页不对其有效性作出承诺。</p>
       </div>
       <div class="coupon-actions">
         <div>
-          <button class="copy-btn" id="copyCouponBtn" type="button">复制优惠码</button>
+          <button class="copy-btn" id="copyCouponBtn" type="button">一键复制并前往购买</button>
           <div class="copy-feedback" id="copyFeedback"></div>
         </div>
         <a class="btn btn--ghost btn--sm" style="background:transparent;border-color:rgba(240,237,230,0.35);color:#E8EDE8;" href="https://justmysocks.net/members/aff.php?aff=15543" target="_blank" rel="nofollow sponsored noopener noreferrer">前往官网选择套餐 ↗</a>
@@ -2204,26 +2239,57 @@
     });
   });
 
-  // 复制优惠码
+  // ===== 优惠码复制 · 分级交互逻辑 =====
+  var AFF_LINK = 'https://justmysocks.net/members/aff.php?aff=15543';
+  var globalToast = document.getElementById('globalToast');
+  var toastHideTimer = null;
+
+  function showToast(msg){
+    if(!globalToast) return;
+    globalToast.textContent = msg;
+    globalToast.classList.add('show');
+    if(toastHideTimer) clearTimeout(toastHideTimer);
+    toastHideTimer = setTimeout(function(){
+      globalToast.classList.remove('show');
+    }, 2200);
+  }
+
+  // 通用复制函数：复制文本，成功/失败都会调用对应回调
+  function copyText(text, onDone){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        onDone(true);
+      }).catch(function(){
+        onDone(false);
+      });
+    } else {
+      onDone(false);
+    }
+  }
+
+  // 事件 A：点击 .promo-text —— 仅复制，不跳转
+  var promoTexts = document.querySelectorAll('.promo-text');
+  promoTexts.forEach(function(el){
+    el.addEventListener('click', function(){
+      var code = el.getAttribute('data-code') || el.textContent.trim();
+      copyText(code, function(success){
+        showToast(success ? '✅ 已复制 5.2% 循环折扣码' : '复制失败，请手动选择文本');
+      });
+    });
+  });
+
+  // 事件 B：点击 CTA 按钮 —— 复制 + Toast + 延迟跳转官网
   var copyBtn = document.getElementById('copyCouponBtn');
-  var couponCode = document.getElementById('couponCode');
-  var copyFeedback = document.getElementById('copyFeedback');
   if(copyBtn){
     copyBtn.addEventListener('click', function(){
-      var text = couponCode.textContent.trim();
-      function showFeedback(msg){
-        copyFeedback.textContent = msg;
-        setTimeout(function(){ copyFeedback.textContent = ''; }, 2400);
-      }
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(function(){
-          showFeedback('已复制，可前往官网下单时粘贴尝试');
-        }).catch(function(){
-          showFeedback('复制失败，请手动选择文本');
-        });
-      } else {
-        showFeedback('请手动选择并复制');
-      }
+      var promoEl = document.querySelector('.coupon-box .promo-text');
+      var code = (promoEl && promoEl.getAttribute('data-code')) || 'JMS9272283';
+      copyText(code, function(success){
+        showToast(success ? '✅ 已复制，正在前往官网...' : '复制失败，正在前往官网...');
+        setTimeout(function(){
+          window.open(AFF_LINK, '_blank', 'noopener');
+        }, 400);
+      });
     });
   }
 
@@ -2244,5 +2310,6 @@
 })();
 </script>
 
+<div id="globalToast" class="global-toast"></div>
 </body>
 </html>
