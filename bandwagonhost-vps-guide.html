@@ -128,6 +128,10 @@
   }
   .link-text{color:var(--blue); text-decoration:underline; font-size:0.95rem;}
   .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:18px;}
+  .cta-row.cta-center{
+  justify-content:center;
+  text-align:center;
+}
 
   /* Cards grid */
   .grid{display:grid; grid-template-columns:1fr; gap:20px;}
@@ -283,7 +287,7 @@
       <h1>搬瓦工 BandwagonHost VPS 选购指南</h1>
       <p>对比 Basic、E-Commerce、E-Commerce + SLA 与 Ultra VPS，按预算、网络需求、机房偏好与自主管理能力缩小选择范围。</p>
       <div class="verify-time">最后核验时间：请在发布前填写</div>
-      <div class="cta-row">
+      <div class="cta-row cta-center">
         <a class="btn" href="#choose-plan">开始选择产品线</a>
         <a class="link-text" href="#plans-compare">查看四类 VPS 对比 →</a>
       </div>
@@ -386,7 +390,7 @@
       style="margin:26px auto 0;"
       data-prompt="Create a clean abstract SVG diagram showing redundant server network paths and multiple connection routes. Use simple nodes, lines, and server blocks; white background, navy, blue, teal, light gray; editorial infrastructure explainer style; 1000x625, 16:10. No geography labels, no flags, no brand logos, no speed numbers, no latency numbers, no VPN, no proxy, no people, no text.">
 
-    <div class="cta-row" style="margin-top:20px;">
+    <div class="cta-row cta-center" style="margin-top:20px;">
       <a class="btn" target="_blank" rel="noopener sponsored" href="https://www.maoviews.com/go/bwg?aff=78948">查看官方当前方案</a>
     </div>
   </div>
@@ -439,7 +443,7 @@
       style="margin:20px auto 0;"
       data-prompt="Create an elegant SVG illustration of infrastructure redundancy and service monitoring: duplicate network paths, dual power symbols, monitoring shield, and server racks represented abstractly. Bright white background, navy #102033, blue #1677FF, teal #13A8A8, amber accent #D89614, flat vector editorial style, 1000x625, 16:10. No logos, no real control panels, no uptime percentage text, no flags, no people, no VPN imagery.">
 
-    <div class="cta-row" style="margin-top:20px;">
+    <div class="cta-row cta-center" style="margin-top:20px;">
       <a class="btn" target="_blank" rel="noopener sponsored" href="https://www.maoviews.com/go/bwg?aff=78948">查看官方当前方案</a>
     </div>
   </div>
@@ -508,7 +512,7 @@
       <p class="muted">以上仅为页面资料核验时的历史示例，不构成当前报价；以官方订单页实时显示为准。</p>
     </details>
 
-    <div class="cta-row" style="margin-top:22px;">
+    <div class="cta-row cta-center" style="margin-top:22px;">
       <a class="btn" target="_blank" rel="noopener sponsored" href="https://www.maoviews.com/go/bwg?aff=78948">查看官方当前价格与账期</a>
     </div>
   </div>
@@ -525,7 +529,7 @@
       <li><span class="num">4</span><div><strong>库存与配置</strong><p>官方页面可能随时间变化，确认当前可购买方案。</p></div></li>
       <li><span class="num">5</span><div><strong>自主管理能力</strong><p>确认你能自行部署、更新、备份并处理基础故障。</p></div></li>
     </ul>
-    <div class="cta-row" style="margin-top:20px;">
+    <div class="cta-row cta-center" style="margin-top:20px;">
       <a class="btn btn-secondary" href="#choose-plan">返回产品线选择器</a>
     </div>
   </div>
@@ -751,7 +755,7 @@
       html += '<div class="result-warn">请先阅读本页的自主管理说明。该产品属于自主管理 VPS；如果你需要代建站、代配置应用或应用级运维支持，请先核对官方支持范围。</div>';
     }
 
-    html += '<div class="cta-row" style="margin-top:14px;">';
+    html += '<div class="cta-row cta-center" style="margin-top:14px;">';
     html += '<a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948">查看官方当前方案</a>';
     html += '</div>';
     html += '</div>';
