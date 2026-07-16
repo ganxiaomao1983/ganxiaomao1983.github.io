@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搬瓦工 BandwagonHost VPS 选购指南：Basic、E-Commerce、SLA 与 Ultra 怎么选</title>
+<meta name="description" content="独立简体中文选购指南：比较搬瓦工 BandwagonHost 的 Basic、E-Commerce、E-Commerce + SLA 与 Ultra VPS，按预算、网络、机房、SLA 与自主管理能力缩小选择。">
+<meta name="robots" content="index,follow">
+<!-- 发布前将 canonical href 替换为实际页面 URL -->
+<link rel="canonical" href="https://YOUR-DOMAIN.example/bandwagonhost-vps-guide/">
+<meta property="og:title" content="搬瓦工 BandwagonHost VPS 选购指南">
+<meta property="og:description" content="独立简体中文选购指南：按预算、网络、机房、SLA 与自主管理能力缩小 VPS 产品线选择。">
+<!-- 发布前将 og:image 替换为实际部署后的图片 URL -->
+<meta property="og:image" content="https://YOUR-DOMAIN.example/assets/og-bandwagonhost-vps-guide.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "搬瓦工 BandwagonHost VPS 选购指南",
+  "description": "独立的简体中文 VPS 产品线选型与购买前核验指南，非官方网站。",
+  "inLanguage": "zh-CN"
+}
+</script>
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-alt:#F6F8FB;
+    --text:#102033;
+    --text-secondary:#526171;
+    --blue:#1677FF;
+    --teal:#13A8A8;
+    --amber:#D89614;
+    --border:#E3EAF2;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    margin:0;
+    font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+  img{max-width:100%; height:auto; display:block;}
+  a{color:var(--blue);}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 20px;}
+  section{padding:56px 0;}
+  .alt{background:var(--bg-alt);}
+  h1{font-size:clamp(1.6rem, 4vw, 2.4rem); margin:0 0 12px;}
+  h2{font-size:clamp(1.3rem, 3vw, 1.8rem); margin:0 0 16px;}
+  h3{font-size:1.1rem; margin:0 0 8px;}
+  p{color:var(--text-secondary); margin:0 0 12px;}
+  .muted{color:var(--text-secondary); font-size:0.92rem;}
+
+  /* Nav */
+  header.site-nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:saturate(180%) blur(6px);
+    border-bottom:1px solid var(--border);
+    transition:box-shadow 0.2s ease;
+  }
+  header.site-nav.scrolled{box-shadow:0 2px 10px rgba(16,32,51,0.08);}
+  .nav-inner{
+    max-width:1200px; margin:0 auto; padding:12px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{font-weight:700; font-size:1.05rem; color:var(--text);}
+  nav.desktop-links{display:none;}
+  nav.desktop-links a{
+    color:var(--text-secondary); text-decoration:none; font-size:0.92rem;
+    margin-left:22px; white-space:nowrap;
+  }
+  nav.desktop-links a:hover{color:var(--blue);}
+  .menu-btn{
+    background:var(--bg-alt); border:1px solid var(--border); border-radius:8px;
+    min-height:44px; min-width:44px; font-size:1rem; cursor:pointer;
+  }
+  .mobile-menu{
+    display:none; flex-direction:column; padding:8px 20px 16px;
+    border-bottom:1px solid var(--border); background:#fff;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    color:var(--text); text-decoration:none; padding:10px 4px;
+    border-bottom:1px solid var(--border); font-size:0.95rem;
+  }
+  @media (min-width:1024px){
+    nav.desktop-links{display:flex; flex-wrap:wrap; align-items:center;}
+    .menu-btn{display:none;}
+  }
+
+  /* Hero */
+  .hero{
+    display:flex; flex-direction:column; gap:28px; padding-top:40px;
+  }
+  @media (min-width:1024px){
+    .hero{flex-direction:row; align-items:center;}
+    .hero-text{flex:1;}
+    .hero-img{flex:1;}
+  }
+  .badge{
+    display:inline-block; background:var(--bg-alt); border:1px solid var(--border);
+    color:var(--text-secondary); font-size:0.82rem; padding:6px 12px; border-radius:999px;
+    margin-bottom:14px;
+  }
+  .verify-time{
+    font-size:0.85rem; color:var(--amber); background:#FFF8EC; border:1px solid #F1DDAF;
+    display:inline-block; padding:6px 12px; border-radius:8px; margin:10px 0;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:44px; padding:0 22px; border-radius:10px;
+    background:var(--blue); color:#fff; text-decoration:none; font-weight:600;
+    border:none; cursor:pointer; font-size:0.98rem;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(22,119,255,0.25);}
+  .btn:focus-visible, a:focus-visible, button:focus-visible{
+    outline:3px solid var(--teal); outline-offset:2px;
+  }
+  .btn-secondary{
+    background:transparent; color:var(--blue); border:1px solid var(--blue);
+  }
+  .link-text{color:var(--blue); text-decoration:underline; font-size:0.95rem;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:18px;}
+
+  /* Cards grid */
+  .grid{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media (min-width:768px){.grid.cols-2{grid-template-columns:1fr 1fr;}}
+  @media (min-width:1024px){
+    .grid.cols-4{grid-template-columns:repeat(4,1fr);}
+    .grid.cols-2-lg{grid-template-columns:1fr 1fr;}
+  }
+  .card{
+    background:#fff; border:1px solid var(--border); border-radius:14px;
+    padding:22px; display:flex; flex-direction:column; gap:8px;
+  }
+  .card h3{color:var(--text);}
+  .card .tag{
+    font-size:0.78rem; color:var(--teal); font-weight:600; text-transform:none;
+  }
+  .card .warn{
+    font-size:0.85rem; color:var(--text-secondary); border-top:1px dashed var(--border);
+    padding-top:10px; margin-top:6px;
+  }
+
+  /* Selector */
+  .selector-box{
+    background:#fff; border:1px solid var(--border); border-radius:16px;
+    padding:24px; max-width:760px; margin:0 auto;
+  }
+  .step-options{display:flex; flex-direction:column; gap:10px; margin:16px 0;}
+  .opt-btn{
+    text-align:left; padding:14px 16px; border-radius:10px; border:1px solid var(--border);
+    background:var(--bg-alt); cursor:pointer; font-size:0.95rem; color:var(--text);
+    min-height:44px;
+  }
+  .opt-btn:hover{border-color:var(--blue);}
+  .step-progress{font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;}
+  .result-card{
+    border:2px solid var(--blue); border-radius:14px; padding:22px; background:#F2F7FF;
+    margin-top:16px;
+  }
+  .result-warn{
+    background:#FFF8EC; border:1px solid #F1DDAF; color:#7A5300;
+    padding:12px 14px; border-radius:10px; font-size:0.9rem; margin:12px 0;
+  }
+  .restart-btn{
+    background:transparent; border:1px solid var(--border); color:var(--text-secondary);
+    border-radius:8px; padding:8px 14px; cursor:pointer; min-height:44px; margin-top:14px;
+  }
+
+  /* Table */
+  .table-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:12px;}
+  table{width:100%; border-collapse:collapse; min-width:640px;}
+  th,td{
+    text-align:left; padding:14px 16px; border-bottom:1px solid var(--border); font-size:0.92rem;
+    vertical-align:top;
+  }
+  th{background:var(--bg-alt); color:var(--text);}
+  td{color:var(--text-secondary);}
+
+  /* two-col */
+  .two-col{display:grid; grid-template-columns:1fr; gap:24px;}
+  @media (min-width:768px){.two-col{grid-template-columns:1fr 1fr;}}
+  .two-col ul{padding-left:20px; color:var(--text-secondary);}
+  .two-col li{margin-bottom:8px;}
+
+  /* collapsible */
+  details.collapse-box{
+    border:1px solid var(--border); border-radius:12px; padding:14px 18px; background:#fff;
+    margin-top:14px;
+  }
+  details.collapse-box summary{cursor:pointer; font-weight:600; color:var(--text);}
+  details.collapse-box[open] summary{margin-bottom:10px;}
+
+  /* pricing */
+  .pricing-card{
+    border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff;
+  }
+  .pricing-card h3{color:var(--text);}
+
+  /* checklist */
+  .checklist{list-style:none; padding:0; margin:0; display:grid; gap:16px;}
+  .checklist li{
+    display:flex; gap:14px; align-items:flex-start; border:1px solid var(--border);
+    border-radius:12px; padding:16px; background:#fff;
+  }
+  .checklist .num{
+    flex:0 0 auto; width:32px; height:32px; border-radius:50%; background:var(--blue);
+    color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700;
+    font-size:0.9rem;
+  }
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; padding:18px 4px;
+    font-size:1rem; font-weight:600; color:var(--text); cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; min-height:44px;
+  }
+  .faq-q .icon{transition:transform 0.2s ease; color:var(--blue);}
+  .faq-q[aria-expanded="true"] .icon{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height 0.25s ease;
+    padding:0 4px; color:var(--text-secondary); font-size:0.94rem;
+  }
+  .faq-a.open{max-height:400px; padding-bottom:16px;}
+
+  /* footer */
+  footer{background:var(--bg-alt); border-top:1px solid var(--border); padding:44px 0 30px;}
+  .footer-links{display:flex; flex-wrap:wrap; gap:18px; margin:16px 0;}
+  .footer-links a{color:var(--text-secondary); text-decoration:none; font-size:0.9rem;}
+  .footer-links a:hover{color:var(--blue);}
+  .disclosure-box{
+    background:#fff; border:1px solid var(--border); border-radius:12px; padding:18px;
+    font-size:0.9rem; color:var(--text-secondary); margin:16px 0;
+  }
+  .copyright{font-size:0.82rem; color:var(--text-secondary); margin-top:20px;}
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <div class="brand">VPS 选购指南</div>
+    <nav class="desktop-links" aria-label="主导航">
+      <a href="#choose-plan">选产品线</a>
+      <a href="#plans-compare">产品对比</a>
+      <a href="#network-choice">网络说明</a>
+      <a href="#location-guide">机房选择</a>
+      <a href="#sla">SLA</a>
+      <a href="#self-managed">自主管理</a>
+      <a href="#pricing-check">价格核验</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#choose-plan">选产品线</a>
+    <a href="#plans-compare">产品对比</a>
+    <a href="#network-choice">网络说明</a>
+    <a href="#location-guide">机房选择</a>
+    <a href="#sla">SLA</a>
+    <a href="#self-managed">自主管理</a>
+    <a href="#pricing-check">价格核验</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</header>
+
+<main>
+
+<!-- [1] TOP -->
+<section id="top">
+  <div class="wrap hero">
+    <div class="hero-text">
+      <span class="badge">独立简体中文选购指南，非 BandwagonHost 官方网站</span>
+      <h1>搬瓦工 BandwagonHost VPS 选购指南</h1>
+      <p>对比 Basic、E-Commerce、E-Commerce + SLA 与 Ultra VPS，按预算、网络需求、机房偏好与自主管理能力缩小选择范围。</p>
+      <div class="verify-time">最后核验时间：请在发布前填写</div>
+      <div class="cta-row">
+        <a class="btn" href="#choose-plan">开始选择产品线</a>
+        <a class="link-text" href="#plans-compare">查看四类 VPS 对比 →</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="bwgassests/hero-vps-selection.svg"
+        alt="四类 VPS 产品线的选型关系示意图"
+        width="1200" height="675"
+        data-prompt="Create a clean premium SVG editorial illustration for a Chinese VPS plan selection guide. Show four abstract server plan cards connected to a central decision node representing budget, network, SLA, and Asia location preference. White background, deep navy #102033, blue #1677FF, teal #13A8A8, subtle gray grid lines, flat vector style, 1200x675, 16:9. No logos, no people, no flags, no maps, no text, no dashboards, no VPN or proxy imagery.">
+    </div>
+  </div>
+</section>
+
+<!-- [2] CHOOSE PLAN -->
+<section id="choose-plan" class="alt">
+  <div class="wrap">
+    <h2>先选产品线，再看具体套餐</h2>
+    <p>产品线不是从"差"到"好"的线性排序。先确定你的主要约束，再缩小选择范围。</p>
+
+    <div class="selector-box">
+      <div id="selectorSteps"></div>
+      <div id="selectorResult" aria-live="polite"></div>
+    </div>
+    <p class="muted" style="text-align:center; margin-top:16px;">这是独立选型建议，不构成官方推荐。最终配置、地点、库存、账期和价格以官方订单页实时显示为准。</p>
+  </div>
+</section>
+
+<!-- [3] PLANS COMPARE -->
+<section id="plans-compare">
+  <div class="wrap">
+    <h2>四条产品线：你在为哪种差异付费？</h2>
+    <div class="grid cols-4">
+
+      <div class="card">
+        <span class="tag">Basic VPS</span>
+        <h3>成本效益优先</h3>
+        <p><strong>地点线索：</strong>温哥华、阿姆斯特丹、Fremont、洛杉矶、新泽西、纽约等地点。</p>
+        <p><strong>适合优先考虑的情况：</strong>预算与基础服务器用途优先。</p>
+        <p class="warn"><strong>不应据此推断：</strong>不等于所有地区网络体验相同。</p>
+        <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948&navigate=/order/basic">查看官方当前方案</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">E-Commerce VPS</span>
+        <h3>成本与网络平衡</h3>
+        <p><strong>地点线索：</strong>温哥华、大阪、东京、阿姆斯特丹、迪拜，以及美国多个地点。</p>
+        <p><strong>适合优先考虑的情况：</strong>更重视地点选择与中国方向网络信息。</p>
+        <p class="warn"><strong>不应据此推断：</strong>不等于任何用户都获得相同性能。</p>
+        <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948&navigate=/order/ecommerce/">查看官方当前方案</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">E-Commerce + SLA</span>
+        <h3>明确服务等级承诺</h3>
+        <p><strong>地点线索：</strong>目前为洛杉矶 USCA_5。</p>
+        <p><strong>适合优先考虑的情况：</strong>中断成本较高，需要明确服务等级承诺。</p>
+        <p class="warn"><strong>不应据此推断：</strong>不等于你的应用或第三方服务永不中断。</p>
+        <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948&navigate=/order/ecommerce-sla-elevated/">查看官方当前方案</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">Ultra VPS</span>
+        <h3>亚洲地点优先</h3>
+        <p><strong>地点线索：</strong>香港、大阪、东京、新加坡。</p>
+        <p><strong>适合优先考虑的情况：</strong>亚洲地点优先。</p>
+        <p class="warn"><strong>不应据此推断：</strong>不等于所有地区都能获得最低延迟。</p>
+        <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948&navigate=/order/ultra">查看官方当前方案</a>
+      </div>
+
+    </div>
+    <p class="muted" style="margin-top:18px;">产品线不是从低到高的绝对排名。正确选择取决于预算、业务中断成本、用户位置、网络需求和运维能力。</p>
+  </div>
+</section>
+
+<!-- [4] NETWORK CHOICE -->
+<section id="network-choice" class="alt">
+  <div class="wrap">
+    <h2>网络与线路：该为哪种差异付费？</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>官方列出的网络特征</h3>
+        <ul>
+          <li>E-Commerce 的洛杉矶 USCA_9 页面列出 China Telecom CN2 GIA、China Mobile CMIN2、China Unicom Premium，以及多个互联网和内容网络连接。</li>
+          <li>E-Commerce + SLA 的 USCA_5 页面也列出 CN2 GIA、CMIN2 与 China Unicom Premium，并说明其网络冗余与多条 100 Gbps 上联自动切换设计。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>购买前边界</h3>
+        <ul>
+          <li>网络体验会受到用户所在地、宽带运营商、访问方向、时段、机房和业务负载影响。</li>
+          <li>本页仅整理官方公开网络与产品信息，不对特定用户的延迟、速度、丢包率或业务可用性作保证。</li>
+          <li>CN2 GIA / CTGNet 的核心价值是中国方向网络质量，不应被理解为 DDoS 防护方案。官方说明该网络成本较高、容量有限；遭受攻击时，可能需要采取 IP null-routing 等措施。</li>
+        </ul>
+      </div>
+    </div>
+
+    <img src="bwgassests/network-paths.svg"
+      alt="服务器网络路径和冗余连接的抽象示意图"
+      width="1000" height="625" loading="lazy"
+      style="margin:26px auto 0;"
+      data-prompt="Create a clean abstract SVG diagram showing redundant server network paths and multiple connection routes. Use simple nodes, lines, and server blocks; white background, navy, blue, teal, light gray; editorial infrastructure explainer style; 1000x625, 16:10. No geography labels, no flags, no brand logos, no speed numbers, no latency numbers, no VPN, no proxy, no people, no text.">
+
+    <div class="cta-row" style="margin-top:20px;">
+      <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948">查看官方当前方案</a>
+    </div>
+  </div>
+</section>
+
+<!-- [5] LOCATION GUIDE -->
+<section id="location-guide">
+  <div class="wrap">
+    <h2>机房怎么选：先确定优先级，不要先看单次测速</h2>
+    <div class="grid cols-4">
+      <div class="card">
+        <h3>成本与基础用途</h3>
+        <p>可先查看 Basic VPS。官方列出多个北美与欧洲地点。</p>
+      </div>
+      <div class="card">
+        <h3>地点选择与网络平衡</h3>
+        <p>可先查看 E-Commerce VPS。官方列出北美、欧洲、亚洲和中东多个地点。</p>
+      </div>
+      <div class="card">
+        <h3>服务等级承诺</h3>
+        <p>如果你需要明确的 99.99% SLA，可查看洛杉矶 USCA_5 的 E-Commerce + SLA。</p>
+      </div>
+      <div class="card">
+        <h3>亚洲地点优先</h3>
+        <p>如果你优先考虑香港、大阪、东京或新加坡等地点，可查看 Ultra VPS。</p>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:20px;">公开测速和个人经验可以帮助理解选择变量，但不能替代你的实际网络判断。不要仅凭单次测速或"某机房最快"的说法下单；先判断用户位置、运营商、访问方向与预算约束。</p>
+
+    <details class="collapse-box">
+      <summary>机房代码说明</summary>
+      <p><strong>USCA_5：</strong>当前 E-Commerce + SLA 的洛杉矶地点，提供 99.99% SLA。</p>
+      <p><strong>USCA_9：</strong>当前 E-Commerce VPS 的洛杉矶可选数据中心之一，页面列出 CN2 GIA、CMIN2、China Unicom Premium 等网络特征。</p>
+    </details>
+  </div>
+</section>
+
+<!-- [6] SLA -->
+<section id="sla" class="alt">
+  <div class="wrap">
+    <h2>什么时候需要 E-Commerce + SLA？</h2>
+    <p>如果业务中断的成本高于产品溢价，才值得优先评估 E-Commerce + SLA。官方说明目前只有洛杉矶 USCA_5 可提供 99.99% SLA，并列出双冗余网络设备、多个 100 Gbps 上联自动故障切换、双路电力和光纤路径、24/7 NOC 监控等基础设施与网络设计。</p>
+
+    <div class="result-warn">SLA 是服务等级承诺，不等于你的应用、第三方服务、域名解析、用户本地网络或错误配置不会导致中断。即使选择 SLA 产品线，备份、监控和应用层容灾仍由用户负责。</div>
+
+    <img src="bwgassests/sla-redundancy.svg"
+      alt="冗余网络和监控机制的抽象示意图"
+      width="1000" height="625" loading="lazy"
+      style="margin:20px auto 0;"
+      data-prompt="Create an elegant SVG illustration of infrastructure redundancy and service monitoring: duplicate network paths, dual power symbols, monitoring shield, and server racks represented abstractly. Bright white background, navy #102033, blue #1677FF, teal #13A8A8, amber accent #D89614, flat vector editorial style, 1000x625, 16:10. No logos, no real control panels, no uptime percentage text, no flags, no people, no VPN imagery.">
+
+    <div class="cta-row" style="margin-top:20px;">
+      <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948">查看官方当前方案</a>
+    </div>
+  </div>
+</section>
+
+<!-- [7] SELF MANAGED -->
+<section id="self-managed">
+  <div class="wrap">
+    <h2>购买前确认：这是自主管理 VPS</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>你可以通过 KiwiVM 做什么</h3>
+        <ul>
+          <li>开机、关机与重启</li>
+          <li>重装系统</li>
+          <li>使用紧急控制台</li>
+          <li>管理 rDNS / PTR</li>
+          <li>在可用地点之间迁移</li>
+          <li>使用快照、统计与 API</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>你需要自行负责什么</h3>
+        <ul>
+          <li>Linux 系统和 SSH 基础操作</li>
+          <li>Web 服务、数据库、容器或应用部署</li>
+          <li>安全更新、权限管理和防火墙</li>
+          <li>数据备份与恢复演练</li>
+          <li>应用故障排查</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result-warn" style="margin-top:20px;">如果你希望购买后由服务商代建站、代配置应用、代维护程序或处理应用级故障，请先核对官方支持范围。不要仅因价格或网络描述购买一台你无法自行管理的 VPS。</div>
+
+    <img src="bwgassests/self-managed-boundary.svg"
+      alt="自主管理 VPS 的责任边界示意图"
+      width="900" height="560" loading="lazy"
+      style="margin:20px auto 0;"
+      data-prompt="Create a minimal SVG explainer that visually separates provider infrastructure responsibilities from user self-management responsibilities. Use abstract server icons, terminal icon, shield icon, backup icon, and a clear vertical boundary. White background, navy, blue, teal, gray, flat editorial vector, 900x560, 16:10. No brand logos, no screenshots, no people, no text embedded in the image, no VPN or proxy imagery.">
+  </div>
+</section>
+
+<!-- [8] PRICING CHECK -->
+<section id="pricing-check" class="alt">
+  <div class="wrap">
+    <h2>价格、账期与优惠：下单前只核对官方实时信息</h2>
+
+    <div class="grid cols-2">
+      <div class="pricing-card">
+        <h3>优惠状态核验</h3>
+        <p>最后核验时间：请在发布前填写</p>
+        <p>截至本页标注的核验时间，未确认有适用于当前产品线的通用优惠码。</p>
+        <p>请不要依据旧文章、论坛帖、视频或未经测试的代码下单。</p>
+      </div>
+      <div class="pricing-card">
+        <h3>账期提示</h3>
+        <p>部分配置显示的金额对应最近可购买账期，不一定是月付。进入订单页后，请同时核对总付款金额、计费周期、库存与配置。</p>
+      </div>
+    </div>
+
+    <details class="collapse-box">
+      <summary>历史示例，不构成当前报价</summary>
+      <p>E-Commerce 洛杉矶 USCA_9 页面曾显示：20 GB / 1 GB RAM / 2 CPU / 1 TB 流量档位为 49.99 美元 / 3 个月。</p>
+      <p>E-Commerce + SLA 洛杉矶 USCA_5 页面曾显示：20 GB / 1 GB RAM / 2 CPU / 1 TB 流量档位为 65.89 美元 / 3 个月。</p>
+      <p class="muted">以上仅为页面资料核验时的历史示例，不构成当前报价；以官方订单页实时显示为准。</p>
+    </details>
+
+    <div class="cta-row" style="margin-top:22px;">
+      <a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948">查看官方当前价格与账期</a>
+    </div>
+  </div>
+</section>
+
+<!-- [9] BEFORE BUYING -->
+<section id="before-buying">
+  <div class="wrap">
+    <h2>进入官方订单页前，核对这 5 件事</h2>
+    <ul class="checklist">
+      <li><span class="num">1</span><div><strong>产品线</strong><p>Basic、E-Commerce、SLA 或 Ultra 是否符合你的首要约束。</p></div></li>
+      <li><span class="num">2</span><div><strong>地点</strong><p>你选择的是成本、网络、可靠性还是亚洲地点优先。</p></div></li>
+      <li><span class="num">3</span><div><strong>账期与总价</strong><p>不要只看折算月价，确认实际需要支付的总金额。</p></div></li>
+      <li><span class="num">4</span><div><strong>库存与配置</strong><p>官方页面可能随时间变化，确认当前可购买方案。</p></div></li>
+      <li><span class="num">5</span><div><strong>自主管理能力</strong><p>确认你能自行部署、更新、备份并处理基础故障。</p></div></li>
+    </ul>
+    <div class="cta-row" style="margin-top:20px;">
+      <a class="btn btn-secondary" href="#choose-plan">返回产品线选择器</a>
+    </div>
+  </div>
+</section>
+
+<!-- [10] FAQ -->
+<section id="faq" class="alt">
+  <div class="wrap">
+    <h2>常见问题</h2>
+    <div id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-1">Basic、E-Commerce、E-Commerce + SLA、Ultra 哪个最好？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-1">
+          <p>没有对所有人都"最好"的产品线。预算优先可先比较 Basic；网络与地点平衡可看 E-Commerce；有明确 SLA 需求可看 USCA_5；亚洲地点优先可看 Ultra。最终应结合预算、用户位置、业务中断成本和运维能力判断。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-2">CN2 GIA 是否一定适合我？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-2">
+          <p>不一定。它是官方提供的中国方向网络选项之一，但实际体验仍会受到所在地、运营商、时段、访问方向和业务负载影响。本页不对具体速度或延迟作保证。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-3">为什么有些方案不能按月购买？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-3">
+          <p>官方订单页会显示当前最近可购买账期；部分配置可能以 3 个月或其他周期作为当前可购买的最短账期。下单前请确认总付款金额和账期。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-4">我需要会 Linux 吗？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-4">
+          <p>这是自主管理 KVM VPS。你应至少理解系统重装、SSH、应用配置、安全更新和备份的基本责任；KiwiVM 提供基础实例管理功能。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-5">目前有可用优惠码吗？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-5">
+          <p>截至本页顶部标注的核验时间，本页未确认当前产品线有可用通用优惠码。最终以官方订单页的实时价格和促销规则为准。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-6">本页面是 BandwagonHost 官方网站吗？<span class="icon">+</span></button>
+        <div class="faq-a" id="faq-a-6">
+          <p>不是。本页面是独立的简体中文选购指南。官方订单、服务条款、技术支持、退款、服务状态与账户管理应以 BandwagonHost 官方网站为准。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- [11] DISCLOSURE / FOOTER -->
+<footer id="disclosure">
+  <div class="wrap">
+    <h2>关于本页</h2>
+    <div class="disclosure-box">
+      本页面为独立信息与选购指南，不是 BandwagonHost 官方网站。部分外部链接可能为联盟链接；如你通过这些链接购买，页面运营者可能获得佣金，但不会因此增加你的购买价格。所有配置、价格、库存、账期、服务范围、技术支持和条款以 BandwagonHost 官方网站实时信息为准。
+    </div>
+
+    <!-- 发布前必须创建并部署对应独立页面；不要将这些链接全部指向页脚锚点 -->
+    <div class="footer-links">
+      <a href="https://www.maoviews.com/about-us">关于我们</a>
+      <a href="https://www.maoviews.com/affiliate-disclosure">联盟披露</a>
+      <a href="https://www.maoviews.com/privacy-policy">隐私政策</a>
+      <a href="https://www.maoviews.com/terms-conditions">服务条款</a>
+      <a href="https://www.maoviews.com/contact-us">联系我们</a>
+    </div>
+
+    <p class="copyright">© 2026 MaoViews。非 BandwagonHost 官方网站。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Sticky nav shadow on scroll
+  var navEl = document.getElementById('siteNav');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 8){ navEl.classList.add('scrolled'); }
+    else{ navEl.classList.remove('scrolled'); }
+  });
+
+  // Mobile menu toggle
+  var menuToggle = document.getElementById('menuToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', function(){
+    var isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mobileMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var answer = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if(expanded){ answer.classList.remove('open'); }
+      else{ answer.classList.add('open'); }
+    });
+  });
+
+  // ===== Plan selector =====
+  var steps = [
+    {
+      q: "你的首要约束是什么？",
+      key: "constraint",
+      options: [
+        {label:"A. 成本与基础用途", value:"cost"},
+        {label:"B. 网络与地点平衡", value:"network"},
+        {label:"C. 业务可靠性", value:"reliability"},
+        {label:"D. 亚洲地点优先", value:"asia"}
+      ]
+    },
+    {
+      q: "是否需要明确的 99.99% SLA？",
+      key: "sla",
+      options: [
+        {label:"A. 是", value:"yes"},
+        {label:"B. 否", value:"no"},
+        {label:"C. 还不确定", value:"unsure"}
+      ]
+    },
+    {
+      q: "是否优先考虑香港、大阪、东京或新加坡等亚洲地点？",
+      key: "asiaLoc",
+      options: [
+        {label:"A. 是", value:"yes"},
+        {label:"B. 否", value:"no"},
+        {label:"C. 还不确定", value:"unsure"}
+      ]
+    },
+    {
+      q: "你是否接受自主管理 Linux VPS？",
+      key: "selfManaged",
+      options: [
+        {label:"A. 是", value:"yes"},
+        {label:"B. 不确定", value:"unsure"},
+        {label:"C. 否", value:"no"}
+      ]
+    }
+  ];
+
+  var answers = {};
+  var currentStep = 0;
+  var stepsContainer = document.getElementById('selectorSteps');
+  var resultContainer = document.getElementById('selectorResult');
+
+  var planInfo = {
+    basic: {
+      name:"Basic VPS",
+      desc:"适合将预算与基础服务器用途放在优先级的用户。官方将 Basic 定位为成本效益导向的产品线。"
+    },
+    ecommerce: {
+      name:"E-Commerce VPS",
+      desc:"适合希望在成本、地点选择与中国方向网络之间取得平衡的用户。官方页面说明该产品线在可用地点之间支持免费迁移且不丢失数据。"
+    },
+    sla: {
+      name:"E-Commerce + SLA",
+      desc:"适合业务中断成本较高、需要明确服务等级承诺的用户。目前只有洛杉矶 USCA_5 提供 99.99% SLA。"
+    },
+    ultra: {
+      name:"Ultra VPS",
+      desc:"适合将香港、大阪、东京或新加坡等亚洲地点作为优先条件的用户。"
+    }
+  };
+
+  function renderStep(){
+    if(currentStep >= steps.length){
+      renderResult();
+      return;
+    }
+    var step = steps[currentStep];
+    var html = '<div class="step-progress">第 ' + (currentStep+1) + ' / ' + steps.length + ' 步</div>';
+    html += '<h3>' + step.q + '</h3>';
+    html += '<div class="step-options">';
+    step.options.forEach(function(opt, idx){
+      html += '<button class="opt-btn" data-key="'+step.key+'" data-value="'+opt.value+'" data-idx="'+idx+'">'+opt.label+'</button>';
+    });
+    html += '</div>';
+    stepsContainer.innerHTML = html;
+    resultContainer.innerHTML = '';
+
+    stepsContainer.querySelectorAll('.opt-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        answers[btn.getAttribute('data-key')] = btn.getAttribute('data-value');
+        currentStep++;
+        renderStep();
+      });
+    });
+  }
+
+  function decidePlan(){
+    if(answers.sla === 'yes'){ return 'sla'; }
+    if(answers.asiaLoc === 'yes'){ return 'ultra'; }
+    if(answers.constraint === 'cost'){ return 'basic'; }
+    if(answers.constraint === 'network'){ return 'ecommerce'; }
+    if(answers.constraint === 'reliability'){ return 'sla'; }
+    if(answers.constraint === 'asia'){ return 'ultra'; }
+    return 'ecommerce';
+  }
+
+  function renderResult(){
+    var planKey = decidePlan();
+    var plan = planInfo[planKey];
+    var html = '<div class="result-card">';
+    html += '<h3>建议先看：' + plan.name + '</h3>';
+    html += '<p>' + plan.desc + '</p>';
+
+    if(answers.selfManaged === 'unsure' || answers.selfManaged === 'no'){
+      html += '<div class="result-warn">请先阅读本页的自主管理说明。该产品属于自主管理 VPS；如果你需要代建站、代配置应用或应用级运维支持，请先核对官方支持范围。</div>';
+    }
+
+    html += '<div class="cta-row" style="margin-top:14px;">';
+    html += '<a class="btn" target="_blank" rel="noopener sponsored" href="https://bandwagonhost.com/aff.php?aff=78948">查看官方当前方案</a>';
+    html += '</div>';
+    html += '</div>';
+    html += '<button class="restart-btn" id="restartSelector">重新开始</button>';
+
+    stepsContainer.innerHTML = '';
+    resultContainer.innerHTML = html;
+
+    document.getElementById('restartSelector').addEventListener('click', function(){
+      answers = {};
+      currentStep = 0;
+      renderStep();
+    });
+
+    resultContainer.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  renderStep();
+})();
+</script>
+
+</body>
+</html>
