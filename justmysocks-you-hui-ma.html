@@ -769,7 +769,7 @@
 
   gtag('config', 'AW-11137331638');
 </script>
-  <!-- Event snippet for 网页浏览 conversion page
+<!-- Event snippet for 出站点击 conversion page
 In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
 <script>
 function gtag_report_conversion(url) {
@@ -779,14 +779,13 @@ function gtag_report_conversion(url) {
     }
   };
   gtag('event', 'conversion', {
-      'send_to': 'AW-11137331638/AELhCKz7qNUaELbj2L4p',
-      'value': 1.0,
-      'currency': 'USD',
+      'send_to': 'AW-11137331638/b6RYCPLc4dwcELbj2L4p',
       'event_callback': callback
   });
   return false;
 }
 </script>
+
 
 </head>
 <body>
@@ -1157,9 +1156,7 @@ function gtag_report_conversion(url) {
     </div>
     <ul class="policy-links">
       <li><a href="https://www.maoviews.com/privacy-policy">隐私政策</a></li>
-      <li><a href="/cookie-policy">Cookie 政策</a></li>
       <li><a href="https://www.maoviews.com/terms-conditions">使用条款</a></li>
-      <li><a href="/disclaimer">免责声明</a></li>
       <li><a href="#disclosure">联盟披露说明</a></li>
     </ul>
     <div class="foot-bottom">
@@ -1406,6 +1403,7 @@ function gtag_report_conversion(url) {
   if(modalGoSiteBtn){
     modalGoSiteBtn.addEventListener('click', function(){
       if(!isPlaceholder(CONFIG.affiliateUrl)){
+        gtag_report_conversion(CONFIG.affiliateUrl);
         window.open(CONFIG.affiliateUrl, '_blank', 'noopener,noreferrer');
       }
     });
@@ -1497,6 +1495,7 @@ function gtag_report_conversion(url) {
 
           var delay = 300;
           setTimeout(function(){
+            gtag_report_conversion(CONFIG.affiliateUrl);
             window.open(CONFIG.affiliateUrl, '_blank', 'noopener,noreferrer');
             btn.textContent = originalText;
             btn.disabled = false;
