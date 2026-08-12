@@ -406,12 +406,46 @@
   .decision-panel .btn { margin-top: 12px; }
 
   /* Workflow steps */
-  .workflow-image-wrap {
-    border-radius: 18px;
+  .workflow-image-wrap,
+  .team-image-wrap {
+    position: relative;
+    width: 100%;
     overflow: hidden;
-    margin: 32px 0 40px;
+    border-radius: 18px;
+    background: var(--navy);
     box-shadow: 0 20px 44px -24px rgba(11, 31, 51, 0.25);
   }
+
+  .workflow-image-wrap {
+    aspect-ratio: 16 / 10;
+    margin: 32px 0 40px;
+  }
+
+  .team-image-wrap {
+    aspect-ratio: 3 / 2;
+    margin: 32px 0 40px;
+  }
+
+  .workflow-image-wrap img,
+  .team-image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  @media (max-width: 699px) {
+    .workflow-image-wrap {
+      aspect-ratio: 4 / 3;
+    }
+
+    .team-image-wrap {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
   .steps {
     display: grid;
     gap: 20px;
@@ -495,12 +529,6 @@
   }
 
   /* For your business */
-  .team-image-wrap {
-    border-radius: 18px;
-    overflow: hidden;
-    margin: 32px 0 40px;
-    box-shadow: 0 20px 44px -24px rgba(11, 31, 51, 0.25);
-  }
   .stage-progress {
     display: grid;
     gap: 16px;
@@ -818,10 +846,10 @@
       <div class="workflow-image-wrap">
         <img
           src="asset/gusto-placeholder-workflow.png"
-          alt="Abstract illustration showing payroll, employee savings, and business planning connected by a smooth flowing line."
+          alt="A small-business owner reviewing a connected payroll and retirement planning workflow at a desk"
           width="1000" height="625"
           loading="lazy"
-          data-prompt="An elegant, abstract 3D editorial illustration showing three connected but simple elements: payroll, employee savings, and business planning, linked by a smooth flowing line. Use deep navy background, muted coral, soft peach, sage green, and warm white. Sophisticated fintech visualization, clear but not literal, no logos, no app UI screenshots, no words, no numbers, no watermark, 16:10 horizontal composition."
+          data-prompt="A photorealistic editorial business photograph of a small-business owner in a calm modern office, reviewing a connected payroll and retirement-planning workflow at a clean desk. The owner is fully clothed in understated smart-casual workwear and is looking at a laptop with an abstract non-branded dashboard made of simple shapes only, with no readable text. On the desk are three physical, minimal planning elements that visually suggest payroll, employee benefits, and business planning: a closed laptop, a neutral folder, and a small stack of blank cards connected by a subtle curved desk organizer or paper clips. The composition should communicate fewer handoffs and a more connected administrative workflow without showing logos, software interfaces, financial figures, charts, or readable documents. Use warm natural window light, deep navy accents, muted coral stationery, soft peach and off-white surfaces, realistic office materials, natural shadows, premium editorial business-magazine photography, authentic small-business atmosphere, 16:10 horizontal composition. The image must look like a real photograph, not a cartoon, not an illustration, not 3D render, not vector art, not CGI, not clay style, and not stock-photo cliché. No logos, no visible Gusto branding, no Guideline branding, no readable text, no dollar signs, no financial statements, no watermark, no medical imagery, no exaggerated facial expressions."
         >
       </div>
 
