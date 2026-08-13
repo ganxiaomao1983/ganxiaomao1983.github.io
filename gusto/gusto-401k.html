@@ -714,10 +714,13 @@ function gtag_report_conversion(url) {
       window.location = url;
     }
   };
+
   gtag('event', 'conversion', {
-      'send_to': 'AW-17077027525/TLfWCMzLguEcEMWF-84_',
-      'event_callback': callback
+    'send_to': 'AW-17077027525/TLfWCMzLguEcEMWF-84_',
+    'event_callback': callback,
+    'event_timeout': 2000
   });
+
   return false;
 }
 </script>
@@ -738,7 +741,7 @@ function gtag_report_conversion(url) {
         <li><a href="#faq">FAQ</a></li>
       </ul>
     </nav>
-    <a href="#" class="btn btn-header affiliate-cta">Explore Gusto 401(k)</a>
+    <a href="#" class="btn btn-header affiliate-cta" data-cta-id="header">Explore Gusto 401(k)</a>
   </div>
 </header>
 
@@ -1162,23 +1165,29 @@ function gtag_report_conversion(url) {
   }
 
   function initAffiliateLinks() {
-    const finalUrl = buildFinalUrl();
-    const placeholder = isPlaceholderUrl(AFFILIATE_URL);
-    const links = document.querySelectorAll(".affiliate-cta");
+  const finalUrl = buildFinalUrl();
+  const placeholder = isPlaceholderUrl(AFFILIATE_URL);
+  const links = document.querySelectorAll(".affiliate-cta");
 
-    links.forEach(function (link) {
-      if (!placeholder) {
-        link.setAttribute("href", finalUrl);
+  links.forEach(function (link) {
+
+    if (!placeholder) {
+      link.setAttribute("href", finalUrl);
+    }
+
+    link.addEventListener("click", function (event) {
+
+      if (placeholder) {
+        event.preventDefault();
+        showInlineError(link.getAttribute("data-cta-id"));
+        return;
       }
 
-      link.addEventListener("click", function (event) {
-        if (placeholder) {
-          event.preventDefault();
-          showInlineError(link.getAttribute("data-cta-id"));
-        }
-        // Otherwise, allow normal navigation to the real href in the same tab.
-      });
+      event.preventDefault();
+
+      gtag_report_conversion(finalUrl);
     });
+  });
   }
 
   function initDecisionCards() {
