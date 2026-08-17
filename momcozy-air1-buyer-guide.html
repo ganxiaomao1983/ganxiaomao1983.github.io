@@ -1114,7 +1114,8 @@ function gtag_report_conversion(url) {
         data-affiliate-link="true"
         data-affiliate-base="https://pboost.me/t3yGvR1qw"
         target="_blank"
-        rel="nofollow sponsored noopener"
+        rel="nofollow sponsored noopener" 
+        onclick="return gtag_report_conversion(this.href);"
       >View Current Air 1 Details on Amazon</a>
 
       <button
