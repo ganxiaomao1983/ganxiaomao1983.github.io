@@ -1049,14 +1049,13 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 <script>
 function gtag_report_conversion(url) {
   var callback = function () {
-    if (typeof url !== 'undefined') {
-      window.open(url, '_blank', 'noopener,noreferrer');
+    if (typeof(url) != 'undefined') {
+      window.location = url;
     }
   };
-
   gtag('event', 'conversion', {
-    'send_to': 'AW-17076995889/zB0ICKXXvdwcELGO-c4_',
-    'event_callback': callback
+      'send_to': 'AW-17076995889/Xs6eCLjnieMcELGO-c4_',
+      'event_callback': callback
   });
 
   setTimeout(function() {
