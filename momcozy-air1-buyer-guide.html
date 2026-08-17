@@ -1044,22 +1044,29 @@
   }
 }
 </style>
-<!-- Event snippet for 出站点击 (2) conversion page
+  <!-- Event snippet for 出站点击 (2) conversion page
 In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
 <script>
 function gtag_report_conversion(url) {
   var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
+    if (typeof url !== 'undefined') {
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
   };
+
   gtag('event', 'conversion', {
-      'send_to': 'AW-17076995889/zB0ICKXXvdwcELGO-c4_',
-      'event_callback': callback
+    'send_to': 'AW-17076995889/zB0ICKXXvdwcELGO-c4_',
+    'event_callback': callback
   });
+
+  setTimeout(function() {
+    if (typeof url !== 'undefined') {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  }, 300);
+
   return false;
 }
-</script>
 
 </head>
 <body>
@@ -1140,7 +1147,8 @@ function gtag_report_conversion(url) {
         data-affiliate-link="true"
         data-affiliate-base="https://pboost.me/t3yGvR1qw"
         target="_blank"
-        rel="nofollow sponsored noopener"
+        rel="nofollow sponsored noopener" 
+        onclick="return gtag_report_conversion(this.href);"
       >View Current Air 1 Details on Amazon</a>
     </div>
   </nav>
@@ -1173,7 +1181,8 @@ function gtag_report_conversion(url) {
           data-affiliate-link="true"
           data-affiliate-base="https://pboost.me/t3yGvR1qw"
           target="_blank"
-          rel="nofollow sponsored noopener"
+          rel="nofollow sponsored noopener" 
+          onclick="return gtag_report_conversion(this.href);"
         >View Current Air 1 Details on Amazon</a>
 
         <div class="hero-notes">
@@ -1314,7 +1323,8 @@ No logos added beyond what exists in the supplied reference image. No readable t
         data-affiliate-link="true"
         data-affiliate-base="https://pboost.me/t3yGvR1qw"
         target="_blank"
-        rel="nofollow sponsored noopener"
+        rel="nofollow sponsored noopener" 
+        onclick="return gtag_report_conversion(this.href);"
       >
         View Current Air 1 Details on Amazon
       </a>
@@ -1537,7 +1547,8 @@ No readable words, no fake labels, no price tags, no logo changes, no watermark,
           data-affiliate-link="true"
           data-affiliate-base="https://pboost.me/t3yGvR1qw"
           target="_blank"
-          rel="nofollow sponsored noopener"
+          rel="nofollow sponsored noopener" 
+          onclick="return gtag_report_conversion(this.href);"
         >View Current Air 1 Details on Amazon</a>
       </div>
     </div>
@@ -1659,7 +1670,8 @@ No readable words, no fake labels, no price tags, no logo changes, no watermark,
           data-affiliate-link="true"
           data-affiliate-base="https://pboost.me/t3yGvR1qw"
           target="_blank"
-          rel="nofollow sponsored noopener"
+          rel="nofollow sponsored noopener" 
+          onclick="return gtag_report_conversion(this.href);"
         >View Current Air 1 Details on Amazon</a>
       </div>
     </div>
