@@ -1067,12 +1067,6 @@ function gtag_report_conversion(url) {
       'event_callback': callback
   });
 
-  setTimeout(function() {
-    if (typeof url !== 'undefined') {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  }, 300);
-
   return false;
 }
 </script>
